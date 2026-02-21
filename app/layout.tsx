@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Nunito_Sans, Sora } from 'next/font/google';
+import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 import './globals.css';
 
 const nunitoSans = Nunito_Sans({
@@ -25,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${nunitoSans.variable} ${sora.variable}`}>
-        {children}
+        <TanStackProvider>{children}</TanStackProvider>
       </body>
     </html>
   );
