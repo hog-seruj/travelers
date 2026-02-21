@@ -7,7 +7,9 @@
   --light-bg: #f8f9fa;
   --main-bg: var(--light-bg);
   --accent-light: #e8eeff;
+  --accent-2: #7a96ea;
   --accent: #4169e1;
+  --accent-dark: #1a2a5a;
   --mainFontFamily: var(--font-nunito-sans), sans-serif;
   --soraFontFamily: var(--font-sora), sans-serif;
 }
@@ -39,6 +41,10 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+button {
+  all: unset;
 }
 
 h1,

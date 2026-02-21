@@ -10,7 +10,7 @@ export default function TravelersList() {
           <Card />
         </li>
       </ul>
-      <Button className={css.button} variant="primary">
+      <Button href="/travelers" variant="primary">
         Переглянути всі
       </Button>
     </div>

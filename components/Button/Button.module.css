@@ -1,73 +1,68 @@
 .button {
-  all: unset;
   font-family: var(--mainFontFamily);
   position: relative;
-  display: inline-block;
-  margin: 10px;
-  padding: 8px 8px;
-  font-size: 10px;
+  display: inline-flex;
+  align-items: center;
+  padding: 5px;
   line-height: 1;
-  color: var(--light-color);
-  background-color: var(--secondary-color);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: color 0.3s ease-in-out, transform 0.1s ease, box-shadow 0.2s ease;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--black);
+  font-weight: 500;
+  line-height: 1;
+  border-radius: 8px;
+  transition:
+    color 0.3s ease-in-out,
+    transform 0.1s ease,
+    box-shadow 0.2s ease;
 }
 
-.button:hover {
-  color: var(--accent-2);
+.button:hover,
+.button:focus {
+  color: var(--white);
+  background-color: var(--accent);
+  border-color: gba(255, 255, 255, 0);
   cursor: pointer;
 }
 
 .button:active {
-  top: 4px;
-  background-color: #14326d;
+  background-color: var(--accent-dark);
+  border-color: rgba(255, 255, 255, 0);
 }
 
-.button:disabled {
-  background-color: #6c757d;
+.button:disabled,
+.button[aria-disabled='true'] {
   cursor: not-allowed;
+  opacity: 0.3;
 }
 
 /* Variants */
 .button.primary {
-  background-color: var(--secondary-color);
+  border-color: var(--accent);
+  background-color: var(--accent);
+  color: var(--white);
 }
 
-.button.cancel {
-  background-color: var(--accent-1);
-  color: #fff;
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+.button.primary:hover,
+.button.primary:focus {
+  background-color: var(--accent-light);
+  color: var(--black);
 }
 
-.button.cancel:hover {
-  background-color: #bb2d3b;
-}
-
-.button.submit {
+.button.primary:active {
   background-color: var(--accent-2);
-  color: #fff;
-  transition: background-color 0.3s ease-in-out;
-}
-
-.button.submit:hover {
-  background-color: #4f65a0;
+  color: var(--black);
 }
 
 /* Size */
-
-.small {
-  font-size: 8px;
-  padding: 6px 8px;
-}
-
 .medium {
   font-size: 10px;
-  padding: 8px 12px;
+  padding: 4px 10px;
+  height: 35px;
 }
 
 .large {
-  font-size: 14px;
-  padding: 12px 20px;
+  font-size: 18px;
+  padding: 6px 12px;
+  height: 48px;
 }
