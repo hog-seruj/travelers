@@ -9,6 +9,7 @@
   --accent-light: #e8eeff;
   --accent: #4169e1;
   --mainFontFamily: var(--font-nunito-sans), sans-serif;
+  --soraFontFamily: var(--font-sora), sans-serif;
 }
 
 html,
@@ -38,4 +39,29 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: 700;
+  font-family: var(--soraFontFamily);
+}
+
+h2 {
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+
+  @media screen and (min-width: 768px) {
+    font-size: 44px;
+  }
+
+  @media screen and (min-width: 1440px) {
+    font-size: 52px;
+  }
 }
