@@ -1,5 +1,4 @@
 import css from './About.module.css';
-import Icon from '../Icon/Icon';
 
 const About = () => {
   return (
@@ -23,7 +22,9 @@ const About = () => {
           <div className={css.right}>
             <ul className={css.list}>
               <li className={css.item}>
-                <Icon name="icon-wand_stars" className={css.icon} />
+                <svg className={css.icon} aria-hidden="true">
+                  <use href="/sprite.svg#icon-wand_stars" />
+                </svg>
                 <div className={css.textBlock}>
                   <h3 className={css.itemTitle}>Наша місія</h3>
                   <p className={css.itemText}>
@@ -34,7 +35,9 @@ const About = () => {
               </li>
 
               <li className={css.item}>
-                <Icon name="icon-travel" className={css.icon} />
+                <svg className={css.icon} aria-hidden="true">
+                  <use href="/sprite.svg#icon-travel" />
+                </svg>
                 <div className={css.textBlock}>
                   <h3 className={css.itemTitle}>Автентичні історії</h3>
                   <p className={css.itemText}>
@@ -45,7 +48,9 @@ const About = () => {
               </li>
 
               <li className={css.item}>
-                <Icon name="icon-communication" className={css.icon} />
+                <svg className={css.icon} aria-hidden="true">
+                  <use href="/sprite.svg#icon-communication" />
+                </svg>
                 <div className={css.textBlock}>
                   <h3 className={css.itemTitle}>Ваша спільнота</h3>
                   <p className={css.itemText}>
