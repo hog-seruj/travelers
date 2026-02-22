@@ -7,6 +7,7 @@ import css from './RegisterForm.module.css';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { register } from '@/lib/api/api';
+import Button from '@/components/Button/Button';
 
 interface RegisterFormValues {
   name: string;
@@ -124,21 +125,21 @@ function RegisterForm() {
                 component="span"
               />
             </div>
-            <button
+            {/* <button
               className={css.submit}
               type="submit"
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Реєстрація...' : 'Зареєструватись'}
-            </button>
-            {/* <Button
+            </button> */}
+            <Button
               type="submit"
               variant="primary"
               size="large"
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Вхід...' : 'Увійти'}
-            </Button> */}
+            </Button>
             <p className={css.error}>{error}</p>
           </Form>
         );

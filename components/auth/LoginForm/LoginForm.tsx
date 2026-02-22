@@ -102,21 +102,21 @@ function LoginForm() {
                 component="span"
               />
             </div>
-            <button
+            {/* <button
               className={css.submit}
               type="submit"
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Вхід...' : 'Увійти'}
-            </button>
-            {/* <Button
+            </button> */}
+            <Button
               type="submit"
               variant="primary"
               size="large"
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Вхід...' : 'Увійти'}
-            </Button> */}
+            </Button>
             <p className={css.error}>{error}</p>
           </Form>
         );
