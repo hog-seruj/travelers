@@ -6,7 +6,10 @@ const Hero = () => {
     <section className={css.hero}>
       <div className="container">
         <div className={css.content}>
-          <h1 className={css.title}>Відкрийте світ подорожей з нами!</h1>
+          <h1 className={css.title}>
+            Відкрийте світ подорожей
+            <br /> з нами!
+          </h1>
 
           <p className={css.text}>
             Приєднуйтесь до нашої спільноти мандрівників, де ви зможете ділитися
@@ -14,9 +17,11 @@ const Hero = () => {
             для себе нові місця та знайдіть однодумців!
           </p>
 
-          <Button variant="primary" href="#join">
-            Доєднатись
-          </Button>
+          <div className={css.ctaWrap}>
+            <Button variant="primary" href="#join" size="medium">
+              Доєднатись
+            </Button>
+          </div>
         </div>
       </div>
     </section>
