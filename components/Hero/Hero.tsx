@@ -17,11 +17,14 @@ const Hero = () => {
             для себе нові місця та знайдіть однодумців!
           </p>
 
-          <div className={css.ctaWrap}>
-            <Button variant="primary" href="#join" size="medium">
-              Доєднатись
-            </Button>
-          </div>
+          <Button
+            href="#join"
+            variant="primary"
+            size="medium"
+            className={css.cta}
+          >
+            Доєднатись
+          </Button>
         </div>
       </div>
     </section>

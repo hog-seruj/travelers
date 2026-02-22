@@ -42,21 +42,19 @@
   color: #fff;
 }
 
-.ctaWrap {
+.cta {
   width: 100%;
-}
+  height: 39px;
 
-.ctaWrap :global(a) {
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-}
 
-.ctaWrap :global(a).primary {
   font-size: 16px;
+  line-height: 1.5;
+
   padding: 7.5px 12px;
-  height: auto;
+  border: none;
 }
 
 @media screen and (min-width: 768px) {
@@ -75,17 +73,15 @@
     font-size: 48px;
   }
 
-  .ctaWrap {
-    width: auto;
-  }
+  .cta {
+    width: 115px;
+    height: 39px;
 
-  .ctaWrap :global(a) {
-    width: auto;
     display: inline-flex;
-  }
 
-  .ctaWrap :global(a).primary {
     font-size: 16px;
+    line-height: 1.5;
+
     padding: 7.5px 12px;
   }
 }
@@ -119,13 +115,13 @@
     font-size: 20px;
   }
 
-  .ctaWrap :global(a) {
-    width: 115px;
+  .cta {
+    width: 126px;
     height: 39px;
-  }
 
-  .ctaWrap :global(a).primary {
     font-size: 18px;
+    line-height: 1.5;
+
     padding: 6px 12px;
   }
 }
