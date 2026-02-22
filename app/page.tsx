@@ -2,6 +2,7 @@ import styles from './page.module.css';
 import Block from '../components/Block/Block';
 import StoriesList from '../components/StoriesList/StoriesList';
 import TravelersList from '../components/TravelersList/TravelersList';
+import Join from '../components/Join/Join';
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
         <Block title="Наші Мандрівники">
           <TravelersList />
         </Block>
+        <Join />
       </main>
     </div>
   );

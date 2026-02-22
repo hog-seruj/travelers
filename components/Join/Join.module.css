@@ -1,0 +1,33 @@
+.join{
+    padding-bottom: 32px;
+    padding-top: 32px;
+}
+
+.join_image_container{
+    background-color: #e8eeff;
+    border-radius: 24px;
+    background-image: linear-gradient(rgba(0,0,0,0.2)),  url(../../public/images/join/join_mob@1x.webp);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+     @media screen and (min-resolution: 2x){
+    background-image: linear-gradient(rgba(0,0,0,0.2)), url(../../public/images/join/join_mob@2x.webp)
+ }
+}
+
+
+.joi_content_container{
+    padding: 20px;
+}
+
+.join_name{
+    color: #fff;
+    margin-bottom: 16px;
+}
+
+.join_text{
+    color: #fff;
+    line-height: 1.5;
+    font-size: 16px;
+    margin-bottom: 24px;
+}
