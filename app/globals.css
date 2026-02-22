@@ -106,3 +106,10 @@ li {
   padding: 0;
   margin: 0;
 }
+
+/* Body lock for modal */
+.bodyLock {
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
+}
