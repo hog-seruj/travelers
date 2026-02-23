@@ -1,11 +1,11 @@
 import axios from 'axios';
-import type { User } from '@/types/user';
+import { User } from '@/types/user';
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 export const api = axios.create({
   baseURL: baseURL,
-  withCredentials: true,
+  // withCredentials: true,
 });
 
 interface GetUsersProps {
@@ -33,4 +33,25 @@ export async function getUsers({
   };
   const response = await api.get('/users', options);
   return response.data;
+}
+
+export type RegisterRequest = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+export async function register(userData: RegisterRequest): Promise<User> {
+  const { data } = await api.post<User>(`/auth/register`, userData);
+  return data;
+}
+
+export type LoginRequest = {
+  email: string;
+  password: string;
+};
+
+export async function login(userData: LoginRequest): Promise<User> {
+  const { data } = await api.post<User>(`/auth/login`, userData);
+  return data;
 }
