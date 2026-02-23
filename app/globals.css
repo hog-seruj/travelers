@@ -7,7 +7,9 @@
   --light-bg: #f8f9fa;
   --main-bg: var(--light-bg);
   --accent-light: #e8eeff;
+  --accent-2: #7a96ea;
   --accent: #4169e1;
+  --accent-dark: #1a2a5a;
   --mainFontFamily: var(--font-nunito-sans), sans-serif;
   --soraFontFamily: var(--font-sora), sans-serif;
 }
@@ -41,6 +43,10 @@ a {
   text-decoration: none;
 }
 
+button {
+  all: unset;
+}
+
 h1,
 h2,
 h3,
@@ -64,4 +70,48 @@ h2 {
   @media screen and (min-width: 1440px) {
     font-size: 52px;
   }
+}
+
+.container {
+  width: 100%;
+  margin: 0px auto;
+  padding: 0 20px;
+
+  @media screen and (min-width: 375px) and (max-width: 767px) {
+    max-width: 375px;
+  }
+
+  @media screen and (min-width: 768px) {
+    max-width: 768px;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  @media screen and (min-width: 1440px) {
+    max-width: 1440px;
+    padding-left: 64px;
+    padding-right: 64px;
+  }
+}
+
+.center {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-self: center;
+}
+
+ul,
+li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Body lock for modal */
+.bodyLock {
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
 }

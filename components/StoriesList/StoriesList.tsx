@@ -10,7 +10,7 @@ export default function StoriesList() {
           <Teaser />
         </li>
       </ul>
-      <Button className={css.button} variant="primary">
+      <Button variant="primary" href="/stories">
         Переглянути всі
       </Button>
     </div>
