@@ -1,4 +1,4 @@
-export type Traveller={
+export type Story={
     _id:string;
     img:string;
     title:string;
