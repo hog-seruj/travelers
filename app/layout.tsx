@@ -7,11 +7,13 @@ import './globals.css';
 const nunitoSans = Nunito_Sans({
   variable: '--font-nunito-sans',
   subsets: ['latin'],
+  display: 'swap',
 });
 
 const sora = Sora({
   variable: '--font-sora',
   subsets: ['latin'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {

@@ -21,9 +21,9 @@ export default async function Home() {
 
   return (
     <div className={styles.page}>
-      <Hero />
-      <About />
       <main className={styles.main}>
+        <Hero />
+        <About />
         <Block title="Популярні історії">
           <StoriesList />
         </Block>
@@ -32,6 +32,7 @@ export default async function Home() {
             <TravelersList />
           </Block>
         </HydrationBoundary>
+        <Join />
       </main>
     </div>
   );
