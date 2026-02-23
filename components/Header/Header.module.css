@@ -1,11 +1,12 @@
 /* Header */
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 100;
-  background-color: transparent;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  background: transparent;
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   height: 72px;
   padding: 0 16px;
 }
