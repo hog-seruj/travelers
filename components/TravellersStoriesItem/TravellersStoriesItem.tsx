@@ -2,27 +2,27 @@
 
 import Image from 'next/image';
 import css from './TravellersStoriesItem.module.css';
-import { Traveller } from '../TravellersStories/TravellersStories';
+import { Story} from '../TravellersStories/TravellersStories';
 
 interface TravellersStoriesProps {
-  traveller: Traveller;
+ story: Story;
 }
 
-export default function TravellersStoriesItem({ traveller }: TravellersStoriesProps) {
+export default function TravellersStoriesItem({ story }: TravellersStoriesProps) {
   return (
     <li className={css.story}>
       <Image
-        src={traveller.img}
-        alt={traveller.title}
+        src={story.img}
+        alt={story.title}
         width={400}
         height={200}
         className={css.story__img}
       />
 
       <div className={css.story__content}>
-        <p className={css.story__category}>{traveller.category.name}</p>
-        <h3 className={css.story__title}>{traveller.title}</h3>
-        <p className={css.story__text}>{traveller.article}</p>
+        <p className={css.story__category}>{story.category.name}</p>
+        <h3 className={css.story__title}>{story.title}</h3>
+        <p className={css.story__text}>{story.article}</p>
 
         <div className={css.story__author}>
           <Image
