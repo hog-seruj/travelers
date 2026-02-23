@@ -6,4 +6,5 @@ export interface User {
   description: string;
   articlesAmount: number;
   savedArticles: string[];
+  _id: string;
 }
