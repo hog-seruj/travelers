@@ -12,6 +12,7 @@
   --accent-dark: #1a2a5a;
   --mainFontFamily: var(--font-nunito-sans), sans-serif;
   --soraFontFamily: var(--font-sora), sans-serif;
+  --interFontFamily: var(--font-inter), sans-serif;
 }
 
 html,
@@ -59,6 +60,7 @@ h6 {
 }
 
 h2 {
+  font-family: var(--interFontFamily);
   font-size: 28px;
   line-height: 1.2;
   letter-spacing: -0.01em;
