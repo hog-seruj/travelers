@@ -1,6 +1,8 @@
-import { nextServer } from './api';
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// import { nextServer } from './api';
 
 import { Category, Story } from '@/types/story';
+import { api } from './api';
 export type StoryListResponse = {
   page: number;
   perPage: number;
@@ -15,7 +17,8 @@ export const getStories = async (
   sort?: 'newest' | 'popular',
   category?: Category
 ) => {
-  const res = await nextServer.get<StoryListResponse>('/stories', {
+  // const res = await nextServer.get<StoryListResponse>('/stories', {
+  const res = await api.get<StoryListResponse>('/stories', {
     params: {
       page,
       perPage,
