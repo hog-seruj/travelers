@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import Image from "next/image";
-import styles from "./page.module.css";
-=======
 import styles from './page.module.css';
 import Block from '../components/Block/Block';
 import StoriesList from '../components/StoriesList/StoriesList';
@@ -9,8 +5,8 @@ import TravelersList from '../components/TravelersList/TravelersList';
 import Join from '../components/Join/Join';
 import Hero from '@/components/Hero/Hero';
 import About from '@/components/About/About';
+import StoriesPage from '@/components/StoriesPage/StoriesPage';
 
->>>>>>> main
 export default function Home() {
   return (
     <div className={styles.page}>
@@ -23,7 +19,9 @@ export default function Home() {
         <Block title="Наші Мандрівники">
           <TravelersList />
         </Block>
+
         <Join />
+       <StoriesPage />
       </main>
     </div>
   );

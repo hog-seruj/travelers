@@ -2,10 +2,11 @@
 
 import Image from 'next/image';
 import css from './TravellersStoriesItem.module.css';
-import { Story} from '../TravellersStories/TravellersStories';
+import { Story} from '../../types/story';
 
 interface TravellersStoriesProps {
- story: Story;
+  story: Story;
+  
 }
 
 export default function TravellersStoriesItem({ story }: TravellersStoriesProps) {

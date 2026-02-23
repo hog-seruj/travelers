@@ -40,3 +40,42 @@ export interface StoriesResponse {
   totalPages: number;
   data: Story[];
 }
+
+
+export interface UserSavedArticlesResponse {
+  status: number;
+  message: string;
+  data: {
+    user?: {
+      _id: string;
+      name: string;
+      avatarUrl: string;
+      description: string;
+      createdAt: string;
+    };
+    savedStories: SavedStory[];
+  };
+}
+
+export type StoryByIdResponse = {
+  status: number;
+  message: string;
+  data: {
+    _id: string;
+    img: string;
+    title: string;
+    article: string;
+    category: {
+     _id: string;
+      name: string;
+    };
+    ownerId: {
+      _id: string;
+      name: string;
+      avatarUrl: string;
+      description: string;
+    };
+    date: string;
+    favoriteCount: number;
+  };
+};
