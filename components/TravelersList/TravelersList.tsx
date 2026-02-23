@@ -20,19 +20,6 @@ export default function TravelersList() {
   });
 
   const users = response?.users;
-  console.log(users);
-
-  // const user = {
-  //   _id: '123',
-  //   name: 'Іван Іванов',
-  //   avatarUrl:
-  //     'https://ftp.goit.study/img/harmoniq/users/6881563901add19ee16fd010.webp',
-  //   description: 'Мандрівник з України, який обожнює подорожувати світом.',
-  //   email: 'test@email.com',
-  //   password: 'password',
-  //   articlesAmount: 5,
-  //   savedArticles: ['article1', 'article2'],
-  // };
 
   return (
     <div className={css.wrapper}>
