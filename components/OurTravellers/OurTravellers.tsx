@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import TravellersList from '../TravellersList/TravellersList';
+import TravelersList from '../TravelersList/TravelersList';
 
 const OurTravellers = () => {
   return (
     <section>
       <h2>Наші Мандрівники</h2>
-      <TravellersList />
+      <TravelersList mode="preview" />
       <Link href="/travellers">Переглянути всіх</Link>
     </section>
   );
