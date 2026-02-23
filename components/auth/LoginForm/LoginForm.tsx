@@ -52,7 +52,7 @@ function LoginForm() {
         setError('Invalid email or password');
       }
     } catch {
-      //тост про помилку, axios error
+      // axios error
       setError('Invalid email or password');
     }
   };
@@ -102,13 +102,6 @@ function LoginForm() {
                 component="span"
               />
             </div>
-            {/* <button
-              className={css.submit}
-              type="submit"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? 'Вхід...' : 'Увійти'}
-            </button> */}
             <Button
               type="submit"
               variant="primary"

@@ -57,7 +57,7 @@ function RegisterForm() {
         setError('Invalid email or password');
       }
     } catch (err) {
-      //тост про помилку
+      //axios error
       console.log(err);
       setError('Invalid email or password');
     }
@@ -125,20 +125,13 @@ function RegisterForm() {
                 component="span"
               />
             </div>
-            {/* <button
-              className={css.submit}
-              type="submit"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? 'Реєстрація...' : 'Зареєструватись'}
-            </button> */}
             <Button
               type="submit"
               variant="primary"
               size="large"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Вхід...' : 'Увійти'}
+              {isSubmitting ? 'Реєстрація...' : 'Зареєструватись'}
             </Button>
             <p className={css.error}>{error}</p>
           </Form>

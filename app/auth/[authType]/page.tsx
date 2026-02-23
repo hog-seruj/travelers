@@ -24,14 +24,14 @@ async function AuthPage({ params }: AuthPageProps) {
     <div className={css.auth}>
       <header className={css.header}>
         <Link href="/" className={css.brand}>
-          {/* <Image
+          <Image
             src="/logo.svg"
             width={22}
             height={22}
             alt="logo"
             aria-hidden="true"
             className={css.logo}
-          /> */}
+          />
           <span className={css.logoText}>Подорожники</span>
         </Link>
       </header>
