@@ -1,14 +1,14 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
 import css from './Button.module.css';
 
 type CommonProps = {
-  variant?: 'primary' | 'cancel' | 'submit';
+  variant?: '' | 'primary' | 'cancel' | 'submit';
   size?: 'small' | 'medium' | 'large';
   className?: string;
   children: React.ReactNode;
+  disabled?: boolean;
 };
 
 type ButtonOnlyProps = CommonProps &
@@ -23,11 +23,12 @@ type LinkOnlyProps = CommonProps & {
 type ButtonProps = ButtonOnlyProps | LinkOnlyProps;
 
 const Button = ({
-  variant = 'primary',
-  size = 'medium',
+  variant = '',
+  size = 'large',
   href,
   children,
   className,
+  disabled = false,
   ...props
 }: ButtonProps) => {
   const classes = [css.button, css[variant], css[size], className]
@@ -36,14 +37,19 @@ const Button = ({
 
   if (href) {
     return (
-      <Link href={href} prefetch={false} className={classes}>
+      <Link
+        href={href}
+        prefetch={false}
+        className={classes}
+        aria-disabled={disabled}
+      >
         {children}
       </Link>
     );
   }
 
   return (
-    <button {...props} className={classes}>
+    <button {...props} className={classes} disabled={disabled}>
       {children}
     </button>
   );

@@ -1,13 +1,14 @@
+
 export type Story = {
   _id: string;
   img: string;
   title: string;
   article: string;
-  category: {
+  category: Category; 
+  ownerId: {
     _id: string;
     name: string
   };
-  ownerId: Author;
   date: string;
   favoriteCount: number;
   isFavorite?: boolean;

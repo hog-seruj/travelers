@@ -1,0 +1,116 @@
+/* desktop */
+.desktopAuth {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.loginButton,
+.registerButton {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 8px;
+  padding-block: 4px;
+  padding-inline: 10px;
+  height: 35px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.loginButton {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #ffffff;
+  width: 58px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.loginButton:hover {
+  background: #e8eeff;
+  color: #000000;
+}
+
+.loginButton:active {
+  background: #7a96ea;
+}
+
+.registerButton {
+  width: 113px;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0);
+}
+
+.registerButton:hover {
+  border: 1px solid #fff;
+  background: #7f7f7f;
+  color: #ffffff;
+}
+
+.registerButton:active {
+  border: 1px solid #7f7f7f;
+  background: #4c4c4c;
+}
+
+/* modal */
+.modalAuth {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.modalLogin,
+.modalRegister {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 14px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  width: 100%;
+  display: block;
+}
+
+.modalLogin {
+  background-color: #f0f0f5;
+  color: #1a1a1a;
+  border: 1px solid transparent;
+}
+
+.modalLogin:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #4169e1;
+  color: #ffffff;
+}
+
+.modalLogin:active {
+  border: 1px solid #4169e1;
+  background: #7a96ea;
+  color: #000000;
+}
+
+.modalRegister {
+  background: #4169e1;
+  color: #ffffff;
+  border: 1px solid transparent;
+}
+
+.modalRegister:hover {
+  color: #000;
+  border: 1px solid #4169e1;
+  background: #e8eeff;
+}
+.modalRegister:active {
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0);
+  background: #1a2a5a;
+}
