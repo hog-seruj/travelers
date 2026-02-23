@@ -1,0 +1,22 @@
+.storiesList{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+    justify-content:flex-start;
+    align-items:center;
+}
+
+@media screen and (min-width:768px){
+    .storiesList{
+        flex-direction:row;
+        flex-wrap:wrap;
+        align-items:stretch;
+        margin-bottom: 24px;
+    }
+}
+
+@media screen and (min-width:1440px){
+    .storiesList{
+        margin-bottom: 40px;
+    }
+}
