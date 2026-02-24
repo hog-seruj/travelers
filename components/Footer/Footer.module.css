@@ -1,8 +1,9 @@
 /* Footer */
 .footer {
   width: 100%;
-  background: var(--accent-light);
+  margin-top: auto;
   padding: 48px 0;
+  background: var(--accent-light);
 }
 .footer :global(.container) {
   padding-left: 0;
@@ -148,7 +149,7 @@
   line-height: 1.5;
 
   color: var(--text-color);
-  text-align: center; 
+  text-align: center;
   padding-top: 32px;
 }
 
@@ -164,7 +165,6 @@
 
   .copyright {
     max-width: 345px;
-   
   }
 }
 
@@ -182,15 +182,13 @@
     justify-content: space-between;
     align-items: flex-start;
     row-gap: 32px;
-    }
+  }
 
-  
   .logo {
     justify-content: flex-start;
     padding-top: 8px;
   }
 
- 
   .socialNav {
     width: auto;
   }
@@ -211,7 +209,6 @@
     height: 24px;
   }
 
-  
   .nav {
     order: 3;
     width: 100%;
@@ -222,7 +219,6 @@
   .navList {
     flex-direction: row;
     gap: 32px;
-    
   }
 
   .divider {
@@ -232,11 +228,10 @@
   .copyright {
     max-width: 704px;
     padding-top: 32px;
-    }
+  }
 }
 
 @media (min-width: 1440px) {
-
   .footer {
     padding: 80px 64px;
   }
