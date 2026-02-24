@@ -49,7 +49,7 @@ const Button = ({
   }
 
   return (
-    <button {...props} className={classes}>
+    <button {...props} className={classes} disabled={disabled}>
       {children}
     </button>
   );

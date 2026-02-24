@@ -1,16 +1,19 @@
 import type { Metadata } from 'next';
 import { Nunito_Sans, Sora, Inter } from 'next/font/google';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
+import Header from '@/components/Header/Header';
 import './globals.css';
 
 const nunitoSans = Nunito_Sans({
   variable: '--font-nunito-sans',
   subsets: ['latin'],
+  display: 'swap',
 });
 
 const sora = Sora({
   variable: '--font-sora',
   subsets: ['latin'],
+  display: 'swap',
 });
 
 const inter = Inter({
@@ -31,6 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${nunitoSans.variable} ${sora.variable} ${inter.variable}`}>
+        <Header />
         <TanStackProvider>{children}</TanStackProvider>
       </body>
     </html>
