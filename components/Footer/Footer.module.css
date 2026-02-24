@@ -1,199 +1,300 @@
+/* Footer */
 .footer {
-  background-color: var(--accent-light);
-  /* фон */
+  width: 100%;
+  background: var(--accent-light);
   padding: 48px 0;
-  /* отступы */
+}
+.footer :global(.container) {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .inner {
   display: flex;
-  /* вертикальная колонка */
   flex-direction: column;
-  /* сверху вниз */
-  gap: 24px;
-  /* расстояния */
+  align-items: center;
+  justify-content: flex-start;
 }
 
+/* Top layout (mobile) */
 .top {
-  display: grid;
-  /* 3 колонки */
-  grid-template-columns: 1fr;
-  /* mobile */
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  /* выравнивание */
-  row-gap: 32px;
-  /* расстояние */
+  justify-content: flex-start;
+  gap: 40px;
+  width: 100%;
+  max-width: 345px;
 }
 
+/* Logo */
 .logo {
-  justify-self: start;
-  /* слева */
   display: inline-flex;
-  /* в строку */
   align-items: center;
-  /* центр */
-  gap: 10px;
-  /* иконка-текст */
+  justify-content: center;
+  gap: 3px;
+  text-decoration: none;
   color: var(--text-color);
-  /* цвет */
+  transition: opacity 0.2s ease;
+}
+
+.logo:hover {
+  opacity: 0.8;
 }
 
 .logoIcon {
-  font-size: 18px;
-  /* размер значка */
-  line-height: 1;
-  /* высота */
+  width: 23px;
+  height: 23px;
+  flex-shrink: 0;
 }
 
 .logoText {
   font-family: var(--soraFontFamily);
-  /* шрифт */
-  font-weight: 700;
-  /* жирность */
-  font-size: 18px;
-  /* размер */
-  line-height: 1.2;
-  /* line-height */
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: #000;
+  white-space: nowrap;
 }
 
+/* Social */
 .socialNav {
-  justify-self: center;
-  /* по центру */
+  width: 100%;
 }
 
 .socialList {
   display: flex;
-  /* в строку */
   align-items: center;
-  /* выравнивание */
   justify-content: center;
-  /* центр */
   gap: 16px;
-  /* между иконками */
 }
 
 .socialLink {
   display: inline-flex;
-  /* контейнер */
   align-items: center;
-  /* центр */
   justify-content: center;
-  /* центр */
+  width: 32px;
+  height: 32px;
   color: var(--text-color);
-  /* цвет */
   transition: opacity 0.2s ease;
-  /* hover */
 }
 
 .socialLink:hover {
-  opacity: 0.75;
-  /* hover */
+  opacity: 0.8;
 }
 
 .socialIcon {
-  width: 24px;
-  /* размер */
-  height: 24px;
-  /* размер */
+  width: 32px;
+  height: 32px;
   fill: currentColor;
-  /* цвет */
+  flex-shrink: 0;
 }
 
+/* Navigation */
 .nav {
-  justify-self: end;
-  /* справа */
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-bottom: 24px;
 }
 
 .navList {
   display: flex;
-  /* список */
   flex-direction: column;
-  /* mobile колонка */
   align-items: center;
-  /* центр */
+  justify-content: flex-start;
   gap: 16px;
-  /* между пунктами */
 }
 
 .navLink {
-  font-size: 14px;
-  /* размер */
-  line-height: 1.4;
-  /* line-height */
-  color: var(--text-color);
-  /* цвет */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #000;
+  text-decoration: none;
   transition: opacity 0.2s ease;
-  /* hover */
 }
 
 .navLink:hover {
-  opacity: 0.75;
-  /* hover */
+  opacity: 0.8;
+  /* ефект при наведенні */
 }
 
+/* Divider */
 .divider {
   width: 100%;
-  /* линия */
-  height: 1px;
-  /* толщина */
-  background-color: rgba(0, 0, 0, 0.12);
-  /* цвет */
+  max-width: 345px;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
 }
 
+/* Copyright */
 .copyright {
-  text-align: center;
-  /* центр */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  max-width: 345px;
+
+  font-family: var(--mainFontFamily);
+  font-weight: 400;
   font-size: 12px;
-  /* размер */
-  line-height: 1.4;
-  /* line-height */
+  line-height: 1.5;
+
   color: var(--text-color);
-  /* цвет */
+  text-align: center; 
+  padding-top: 32px;
 }
 
-/* >=375 */
-@media screen and (min-width: 375px) {
-  .footer {
-    padding: 48px 0;
-    /* отступы */
+/* Mobile 375px+ */
+@media (min-width: 375px) {
+  .top {
+    max-width: 345px;
+  }
+
+  .divider {
+    max-width: 345px;
+  }
+
+  .copyright {
+    max-width: 345px;
+   
   }
 }
 
-/* >=768 */
-@media screen and (min-width: 768px) {
+/* Tablet 768px+ */
+@media (min-width: 768px) {
+  .footer {
+    padding: 48px 32px;
+  }
+
   .top {
-    grid-template-columns: 1fr auto 1fr;
-    /* logo / social / nav */
-    column-gap: 24px;
-    /* расстояние колонок */
+    max-width: 704px;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    row-gap: 32px;
+    }
+
+  
+  .logo {
+    justify-content: flex-start;
+    padding-top: 8px;
+  }
+
+ 
+  .socialNav {
+    width: auto;
+  }
+
+  .socialList {
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 8px;
+  }
+
+  .socialLink {
+    width: 24px;
+    height: 24px;
+  }
+
+  .socialIcon {
+    width: 24px;
+    height: 24px;
+  }
+
+  
+  .nav {
+    order: 3;
+    width: 100%;
+    padding-bottom: 24px;
+    justify-content: center;
   }
 
   .navList {
     flex-direction: row;
-    /* навигация в строку */
-    align-items: center;
-    /* центр */
     gap: 32px;
-    /* между пунктами */
+    
   }
 
-  .socialIcon {
-    width: 20px;
-    /* размер */
-    height: 20px;
-    /* размер */
+  .divider {
+    max-width: 704px;
   }
+
+  .copyright {
+    max-width: 704px;
+    padding-top: 32px;
+    }
 }
 
-/* >=1440 */
-@media screen and (min-width: 1440px) {
+@media (min-width: 1440px) {
+
+  .footer {
+    padding: 80px 64px;
+  }
+
   .top {
-    column-gap: 48px;
-    /* расстояние */
+    max-width: 1312px;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 24px;
+  }
+
+  /* Делаем 3 равные колонки */
+  .logo,
+  .socialNav,
+  .nav {
+    flex: 1;
+  }
+
+  /* Лого слева */
+  .logo {
+    padding-top: 0;
+    justify-content: flex-start;
+  }
+
+  /* Соцсети строго по центру контейнера */
+  .socialNav {
+    display: flex;
+    justify-content: center;
+  }
+
+  .socialList {
+    padding-top: 0;
+    gap: 12px;
+  }
+
+  /* Навигация справа */
+  .nav {
+    order: 0;
+    width: auto;
+    padding-bottom: 0;
+    justify-content: flex-end;
   }
 
   .navList {
-    gap: 40px;
-    /* расстояние */
+    flex-direction: row;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .divider {
+    max-width: 1312px;
+  }
+
+  .copyright {
+    max-width: 1312px;
+    padding-top: 32px;
   }
 }

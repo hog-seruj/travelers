@@ -1,19 +1,31 @@
+'use client';
+
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './Footer.module.css';
+import { useAuthStore } from '@/lib/store/authStore';
 
 export default function Footer() {
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   return (
     <footer className={styles.footer}>
       <div className="container">
         <div className={styles.inner}>
           <div className={styles.top}>
+            {/* Логотип */}
             <Link href="/" className={styles.logo} aria-label="Подорожники">
-              <span className={styles.logoIcon} aria-hidden="true">
-                🌿
-              </span>
+              <Image
+                src="/logo.svg"
+                alt="Подорожники"
+                width={30}
+                height={30}
+                className={styles.logoIcon}
+                priority
+              />
               <span className={styles.logoText}>Подорожники</span>
             </Link>
 
+            {/* Соцсети */}
             <nav className={styles.socialNav} aria-label="Соціальні мережі">
               <ul className={styles.socialList}>
                 <li>
@@ -74,6 +86,7 @@ export default function Footer() {
               </ul>
             </nav>
 
+            {/* Навигация */}
             <nav className={styles.nav} aria-label="Навігація футера">
               <ul className={styles.navList}>
                 <li>
@@ -91,11 +104,13 @@ export default function Footer() {
                     Мандрівники
                   </Link>
                 </li>
-                <li>
-                  <Link href="/profile" className={styles.navLink}>
-                    Профіль
-                  </Link>
-                </li>
+                {!isAuthenticated && (
+                  <li>
+                    <Link href="/profile" className={styles.navLink}>
+                      Профіль
+                    </Link>
+                  </li>
+                )}
               </ul>
             </nav>
           </div>
