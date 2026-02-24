@@ -1,11 +1,20 @@
 'use client';
 
-import styles from './Loader.module.css';
+import css from './Loader.module.css';
+import  Icon  from '../Icon/Icon';
 
-interface LoaderProps {
-  className?: string;
-}
 
-export default function Loader({ className }: LoaderProps) {
-  return <span className={`${styles.loader} ${className || ''}`}></span>;
+const Loader = () => {
+  return (
+    <div className={css.spinnerContainer}>
+      <div className={css.spinner}></div>
+      <div className={css.spinnerText}>ЗаПодорожуй за мить...
+        <Icon src="/logo.svg" useSprite={false} className={css.logoIcon} />
+      </div>
+    </div>
+       
+
+  );
 }
+             
+export default Loader;

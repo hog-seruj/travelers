@@ -1,91 +1,74 @@
-/*Loader*/
-
-.loader {
-  display: block;
-  position: relative;
-  top: 45px;
-  width: 75px; /*85*/
-  height: 16px; /**50*/
-  margin: 0 auto;
-  background-repeat: no-repeat;
-  background-image:
-    linear-gradient(#9c9c9c 50px, transparent 0),
-    linear-gradient(#9c9c9c 50px, transparent 0),
-    linear-gradient(#9c9c9c 50px, transparent 0),
-    linear-gradient(#9c9c9c 50px, transparent 0),
-    linear-gradient(#9c9c9c 50px, transparent 0),
-    linear-gradient(#9c9c9c 50px, transparent 0);
-  background-position:
-    0px center,
-    15px center,
-    30px center,
-    45px center,
-    60px center,
-    75px center;
-  animation: rikSpikeRoll 0.65s linear infinite alternate;
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row; 
+  gap: 5px;
+  height: 100vh;
+  text-align: center;
 }
 
-@keyframes rikSpikeRoll {
+.spinner {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 8px solid #cce0ff; 
+  border-top: 8px solid #1e3a8a; 
+  animation: pulseEffect 2s ease-in-out infinite, rotateSpinner 1.5s linear infinite;
+}
+
+/* Текст для спінера */
+.spinnerText {
+
+  font-size: 14px;
+  font-weight: bold;
+  color: #1e3a8a;
+  animation: textAnimation 2s ease-in-out infinite;
+}
+
+/* Анімація пульсації */
+@keyframes pulseEffect {
   0% {
-    background-size: 10px 3px;
-  }
-  16% {
-    background-size:
-      10px 50px,
-      10px 3px,
-      10px 3px,
-      10px 3px,
-      10px 3px,
-      10px 3px;
-  }
-  33% {
-    background-size:
-      10px 30px,
-      10px 50px,
-      10px 3px,
-      10px 3px,
-      10px 3px,
-      10px 3px;
+    transform: scale(1);
+    border-color: #1e3a8a;
   }
   50% {
-    background-size:
-      10px 10px,
-      10px 30px,
-      10px 50px,
-      10px 3px,
-      10px 3px,
-      10px 3px;
-  }
-  66% {
-    background-size:
-      10px 3px,
-      10px 10px,
-      10px 30px,
-      10px 50px,
-      10px 3px,
-      10px 3px;
-  }
-  83% {
-    background-size:
-      10px 3px,
-      10px 3px,
-      10px 10px,
-      10px 30px,
-      10px 50px,
-      10px 3px;
+    transform: scale(1.2); /* Збільшуємо розмір */
+    border-color: #a5c9e2; /* Світліший синій колір */
   }
   100% {
-    background-size:
-      10px 3px,
-      10px 3px,
-      10px 3px,
-      10px 10px,
-      10px 30px,
-      10px 50px;
+    transform: scale(1);
+    border-color: #1e3a8a;
   }
 }
-.loader {
-  top: 0;
-  width: 65px;
-  height: 48px;
+
+/* Анімація для обертання спінера */
+@keyframes rotateSpinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Анімація для тексту */
+@keyframes textAnimation {
+  0% {
+    color: #1e3a8a;
+  }
+  50% {
+    color: #a5c9e2; /* Світліший колір для тексту */
+  }
+  100% {
+    color: #1e3a8a;
+  }
+}
+
+
+.logoIcon {
+  width: 30px;
+  height: 30px;
+  
+  
 }

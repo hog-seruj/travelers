@@ -6,10 +6,13 @@ import { Story} from '../../types/story';
 
 interface TravellersStoriesProps {
   story: Story;
+  isAuthenticated?: boolean;
+  onRemoveSavedStory?: (id: string) => void;
+  isMyStory?: boolean;
   
 }
 
-export default function TravellersStoriesItem({ story }: TravellersStoriesProps) {
+export default function TravellersStoriesItem({ story, isAuthenticated, onRemoveSavedStory, isMyStory    }: TravellersStoriesProps) {
   return (
     <li className={css.story}>
       <Image
@@ -35,6 +38,13 @@ export default function TravellersStoriesItem({ story }: TravellersStoriesProps)
           />
         </div>
       </div>
+
+        {/* Якщо історія належить користувачу і він авторизований */}
+      {isAuthenticated && isMyStory && (
+        <button onClick={() => onRemoveSavedStory?.(story._id)}>
+          Видалити збережену історію
+        </button>
+      )}
     </li>
   );
 }

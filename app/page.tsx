@@ -5,13 +5,20 @@ import TravelersList from '../components/TravelersList/TravelersList';
 import Join from '../components/Join/Join';
 import Hero from '@/components/Hero/Hero';
 import About from '@/components/About/About';
-import StoriesPage from '@/components/StoriesPage/StoriesPage';
 import {
   QueryClient,
   HydrationBoundary,
   dehydrate,
 } from '@tanstack/react-query';
 import { getUsers } from '@/lib/api/api';
+
+
+import GrassSpinner from '@/components/Loader/Loader';
+
+
+
+
+
 
 export default async function Home() {
   const queryClient = new QueryClient();
@@ -31,15 +38,18 @@ export default async function Home() {
         <Block title="Наші Мандрівники">
           <TravelersList />
         </Block>
-
         <Join />
-       <StoriesPage />
         <HydrationBoundary state={dehydrate(queryClient)}>
           <Block title="Наші Мандрівники">
             <TravelersList />
           </Block>
+          <div className="App">
+      
+      <GrassSpinner /> {/* Использование компонента */}
+    </div>
         </HydrationBoundary>
       </main>
     </div>
   );
 }
+

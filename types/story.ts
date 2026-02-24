@@ -19,6 +19,12 @@ export interface Category {
   name: string;
 }
 
+export interface CategoriesResponse{
+  status: number;
+  message: string;
+  data: Category[];
+}
+
 
 export interface SavedStory {
   _id: string;

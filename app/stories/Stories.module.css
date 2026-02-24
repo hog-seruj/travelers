@@ -1,0 +1,9 @@
+.stories {
+  padding: 32px 0 64px;
+}
+
+@media screen and (min-width: 1440px){
+  .stories{
+padding: 48px 0 72px;
+}
+  }
