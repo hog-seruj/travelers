@@ -1,6 +1,6 @@
 'use client';
 
-import style from './(site)/page.module.csst ';
+import style from './(site)/page.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect } from 'react';
