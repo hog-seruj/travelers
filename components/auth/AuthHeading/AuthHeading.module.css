@@ -17,3 +17,19 @@
   font-size: 16px;
   line-height: 150%;
 }
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 44px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .title {
+    font-size: 52px;
+  }
+
+  .subtitle {
+    font-size: 20px;
+  }
+}
