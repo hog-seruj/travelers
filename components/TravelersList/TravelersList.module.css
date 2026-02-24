@@ -1,5 +1,5 @@
 .wrapper {
-  margin-top: 48px;
+  /* margin-top: 48px; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -12,8 +12,6 @@
 }
 
 .trlBtn {
-  /* display: flex; */
-  /* justify-content: center; */
   margin-top: 48px;
   align-self: center;
   text-align: center;

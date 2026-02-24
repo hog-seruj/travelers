@@ -5,6 +5,7 @@ import TravelersList from '../components/TravelersList/TravelersList';
 import Join from '../components/Join/Join';
 import Hero from '@/components/Hero/Hero';
 import About from '@/components/About/About';
+
 import {
   QueryClient,
   HydrationBoundary,
