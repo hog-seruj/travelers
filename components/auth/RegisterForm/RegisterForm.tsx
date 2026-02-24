@@ -3,11 +3,11 @@
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { useId, useState } from 'react';
+import Button from '@/components/Button/Button';
 import css from './RegisterForm.module.css';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { register } from '@/lib/api/api';
-import Button from '@/components/Button/Button';
 
 interface RegisterFormValues {
   name: string;
@@ -128,8 +128,9 @@ function RegisterForm() {
             <Button
               type="submit"
               variant="primary"
-              size="large"
+              size="medium"
               disabled={isSubmitting}
+              className={css.btn}
             >
               {isSubmitting ? 'Реєстрація...' : 'Зареєструватись'}
             </Button>

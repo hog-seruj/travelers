@@ -105,8 +105,9 @@ function LoginForm() {
             <Button
               type="submit"
               variant="primary"
-              size="large"
+              size="medium"
               disabled={isSubmitting}
+              className={css.btn}
             >
               {isSubmitting ? 'Вхід...' : 'Увійти'}
             </Button>
