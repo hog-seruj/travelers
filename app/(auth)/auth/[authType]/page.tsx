@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
-import AuthTabs from '../../../components/auth/AuthTabs/AuthTabs';
-import AuthHeading from '../../../components/auth/AuthHeading/AuthHeading';
-import RegisterForm from '../../../components/auth/RegisterForm/RegisterForm';
-import LoginForm from '../../../components/auth/LoginForm/LoginForm';
+import AuthTabs from '@/components/auth/AuthTabs/AuthTabs';
+import AuthHeading from '@/components/auth/AuthHeading/AuthHeading';
+import RegisterForm from '@/components/auth/RegisterForm/RegisterForm';
+import LoginForm from '@/components/auth/LoginForm/LoginForm';
 import css from './AuthPage.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
