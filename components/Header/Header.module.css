@@ -16,11 +16,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  max-width: 375px; /* mobile */
   height: 100%;
-  margin: 0 auto;
-  padding: 0 16px;
 }
 
 /* ============================= */
@@ -126,7 +122,7 @@
 }
 
 .publishButton:active {
-  border: 1px solid #7f7f7f;
+  border: 1px solid #4c4c4c;
   background: #4c4c4c;
 }
 
@@ -178,45 +174,10 @@
 }
 
 /* ============================= */
-/* 375px+ */
-/* ============================= */
-
-@media (min-width: 375px) {
-  .container {
-    max-width: 375px;
-    padding: 0 20px;
-  }
-
-  .logoLink {
-    gap: 8px;
-    font-size: 16px;
-  }
-
-  .logoIcon {
-    width: 23px;
-    height: 23px;
-  }
-}
-
-/* ============================= */
-/* 768px+ (Tablet) */
+/* Media Queries */
 /* ============================= */
 
 @media (min-width: 768px) {
-  .container {
-    max-width: 768px;
-    padding: 0 32px;
-  }
-
-  .logoLink {
-    font-size: 17px;
-  }
-
-  .logoIcon {
-    width: 26px;
-    height: 26px;
-  }
-
   .tabletActions {
     display: flex;
   }
@@ -228,27 +189,18 @@
   .mobileBurger {
     display: none;
   }
-}
-
-/* ============================= */
-/* 1440px+ (Desktop) */
-/* ============================= */
-
-@media (min-width: 1440px) {
-  .container {
-    max-width: 1440px;
-    padding: 0 64px;
-  }
 
   .logoLink {
-    font-size: 18px;
+    font-size: 17px;
   }
 
   .logoIcon {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
   }
+}
 
+@media (min-width: 1440px) {
   .desktopNav {
     display: flex;
     align-items: center;
@@ -265,5 +217,14 @@
   .burgerButton,
   .mobileBurger {
     display: none;
+  }
+
+  .logoLink {
+    font-size: 18px;
+  }
+
+  .logoIcon {
+    width: 28px;
+    height: 28px;
   }
 }
