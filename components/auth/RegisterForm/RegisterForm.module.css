@@ -20,6 +20,7 @@
   border-radius: 8px;
   background-color: inherit;
   outline: none;
+  color: rgba(0, 0, 0, 0.6);
 
   transition:
     border-color 200ms ease,
@@ -38,14 +39,6 @@
   border-color: #b00101;
 }
 
-.field:focus-within .error {
-  display: none;
-}
-
-.field:focus-within .inputError {
-  border-color: #4169e1;
-}
-
 .error {
   display: block;
   margin-top: 6px;
@@ -55,31 +48,24 @@
   color: #b00101;
 }
 
-.submit {
-  width: 100%;
-  height: 44px;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  padding: 6px 12px;
-  background-color: #3f67e1;
-  color: #fff;
+.field:focus-within .error {
+  display: none;
+}
+
+.field:focus-within .inputError {
+  border-color: #4169e1;
+}
+
+.btn {
   font-size: 16px;
-  font-weight: 500;
-
-  cursor: pointer;
-  transition:
-    border-color 200ms ease,
-    background-color 200ms ease,
-    color 200ms ease;
 }
 
-.submit:hover {
-  border-color: #3f67e1;
-  background-color: #e8eeff;
-  color: #000;
-}
+@media (min-width: 1440px) {
+  .label {
+    font-size: 18px;
+  }
 
-.submit:disabled {
-  background-color: rgba(65, 105, 225, 0.3);
-  cursor: not-allowed;
+  .btn {
+    font-size: 18px;
+  }
 }
