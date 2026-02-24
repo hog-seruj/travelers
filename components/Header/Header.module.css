@@ -1,27 +1,41 @@
+/* ============================= */
 /* Header */
+/* ============================= */
+
 .header {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 10;
   width: 100%;
-  background: transparent;
-
   height: 72px;
+  background: transparent;
   padding: 0 16px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    z-index: -1;
+  }
 }
 
 .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  max-width: 375px;
   height: 100%;
-  margin: 0 auto;
 }
 
+/* ============================= */
 /* Logo */
+/* ============================= */
+
 .logoLink {
   display: flex;
   align-items: center;
@@ -50,11 +64,13 @@
   line-height: 1.1;
   letter-spacing: -0.01em;
   color: #ffffff;
-  display: inline;
   white-space: nowrap;
 }
 
-/* Desktop Nav */
+/* ============================= */
+/* Navigation */
+/* ============================= */
+
 .desktopNav {
   display: none;
 }
@@ -72,7 +88,6 @@
   font-size: 17px;
   font-weight: 500;
   padding: 10px 6px;
-  cursor: pointer;
   transition: color 0.2s ease;
 }
 
@@ -84,7 +99,10 @@
   color: #4c4c4c;
 }
 
-/* Tablet Actions */
+/* ============================= */
+/* Actions */
+/* ============================= */
+
 .tabletActions {
   display: none;
   align-items: center;
@@ -95,12 +113,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: row;
   gap: 8px;
   border: 1px solid #fff;
   border-radius: 8px;
-  padding-block: 4px;
-  padding-inline: 10px;
+  padding: 4px 10px;
   width: 182px;
   height: 32px;
   background: #fff;
@@ -114,17 +130,19 @@
 }
 
 .publishButton:hover {
-  border: 1px solid #fff;
   background: #7f7f7f;
   color: #ffffff;
 }
 
 .publishButton:active {
-  border: 1px solid #7f7f7f;
+  border: 1px solid #4c4c4c;
   background: #4c4c4c;
 }
 
-/* Burger Buttons */
+/* ============================= */
+/* Burger */
+/* ============================= */
+
 .burgerIcon {
   width: 24px;
   height: 24px;
@@ -137,13 +155,12 @@
   align-items: center;
   justify-content: center;
   background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0);
+  border: none;
   border-radius: 8px;
   padding: 4px;
   width: 32px;
   height: 32px;
   cursor: pointer;
-  color: #ffffff;
   transition: opacity 0.2s ease;
 }
 
@@ -151,19 +168,17 @@
   opacity: 0.8;
 }
 
-/* Mobile Burger */
 .mobileBurger {
   display: flex;
   align-items: center;
   justify-content: center;
   background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0);
+  border: none;
   border-radius: 8px;
   padding: 4px;
   width: 32px;
   height: 32px;
   cursor: pointer;
-  color: #ffffff;
   transition: opacity 0.2s ease;
 }
 
@@ -171,40 +186,21 @@
   opacity: 0.8;
 }
 
-/* Mobile 375px+ */
-@media (min-width: 375px) {
-  .container {
-    max-width: 375px;
-  }
+/* ============================= */
+/* Media Queries */
+/* ============================= */
 
-  .header {
-    padding: 0 20px;
-  }
-
-  .logoLink {
-    gap: 8px;
-    font-size: 16px;
-  }
-
-  .logoIcon {
-    width: 23px;
-    height: 23px;
-  }
-
-  .burgerIcon {
-    width: 24px;
-    height: 24px;
-  }
-}
-
-/* Tablet 768px+ */
 @media (min-width: 768px) {
-  .container {
-    max-width: 768px;
+  .tabletActions {
+    display: flex;
   }
 
-  .header {
-    padding: 0 32px;
+  .burgerButton {
+    display: flex;
+  }
+
+  .mobileBurger {
+    display: none;
   }
 
   .logoLink {
@@ -215,53 +211,9 @@
     width: 26px;
     height: 26px;
   }
-
-  .burgerIcon {
-    width: 26px;
-    height: 26px;
-  }
-
-  .tabletActions {
-    display: flex;
-  }
-
-  .publishButton {
-    display: block;
-  }
-
-  .burgerButton {
-    display: flex;
-  }
-
-  .mobileBurger {
-    display: none;
-  }
 }
 
-/* Desktop 1440px+ */
 @media (min-width: 1440px) {
-  .container {
-    max-width: 1440px;
-  }
-
-  .header {
-    padding: 0 64px;
-  }
-
-  .logoLink {
-    font-size: 18px;
-  }
-
-  .logoIcon {
-    width: 28px;
-    height: 28px;
-  }
-
-  .burgerIcon {
-    width: 28px;
-    height: 28px;
-  }
-
   .desktopNav {
     display: flex;
     align-items: center;
@@ -278,5 +230,14 @@
   .burgerButton,
   .mobileBurger {
     display: none;
+  }
+
+  .logoLink {
+    font-size: 18px;
+  }
+
+  .logoIcon {
+    width: 28px;
+    height: 28px;
   }
 }

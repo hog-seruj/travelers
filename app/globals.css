@@ -56,11 +56,10 @@ h5,
 h6 {
   margin: 0;
   font-weight: 700;
-  font-family: var(--soraFontFamily);
+  font-family: var(--interFontFamily);
 }
 
 h2 {
-  font-family: var(--interFontFamily);
   font-size: 28px;
   line-height: 1.2;
   letter-spacing: -0.01em;

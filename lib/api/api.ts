@@ -63,3 +63,13 @@ export async function login(userData: LoginRequest): Promise<User> {
   return data;
 }
 
+export type CreateStoryResponse = {
+  _id: string;
+};
+
+export async function createStory(formData: FormData): Promise<CreateStoryResponse> {
+  const { data } = await api.post<CreateStoryResponse>('/stories', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return data;
+}
