@@ -13,7 +13,7 @@ import {
 import { getUsers } from '@/lib/api/api';
 
 
-import GrassSpinner from '@/components/Loader/Loader';
+
 
 
 
@@ -44,8 +44,7 @@ export default async function Home() {
             <TravelersList />
           </Block>
           <div className="App">
-      
-      <GrassSpinner /> {/* Использование компонента */}
+  
     </div>
         </HydrationBoundary>
       </main>
