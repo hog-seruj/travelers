@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Nunito_Sans, Sora } from 'next/font/google';
+import { Nunito_Sans, Sora, Inter } from 'next/font/google';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 import Header from '@/components/Header/Header';
 import './globals.css';
@@ -16,6 +16,11 @@ const sora = Sora({
   display: 'swap',
 });
 
+const inter = Inter({
+  variable: '--font-inter',
+  subsets: ['latin'],
+});
+
 export const metadata: Metadata = {
   title: 'Travel App',
   description: 'App for traveling around the world',
@@ -28,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${nunitoSans.variable} ${sora.variable}`}>
+      <body className={`${nunitoSans.variable} ${sora.variable} ${inter.variable}`}>
         <Header />
         <TanStackProvider>{children}</TanStackProvider>
       </body>
