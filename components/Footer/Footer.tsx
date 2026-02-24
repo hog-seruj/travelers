@@ -7,12 +7,12 @@ import { useAuthStore } from '@/lib/store/authStore';
 
 export default function Footer() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  const year = new Date().getFullYear();
   return (
     <footer className={styles.footer}>
       <div className="container">
         <div className={styles.inner}>
           <div className={styles.top}>
-            {/* Логотип */}
             <Link href="/" className={styles.logo} aria-label="Подорожники">
               <Image
                 src="/logo.svg"
@@ -25,7 +25,6 @@ export default function Footer() {
               <span className={styles.logoText}>Подорожники</span>
             </Link>
 
-            {/* Соцсети */}
             <nav className={styles.socialNav} aria-label="Соціальні мережі">
               <ul className={styles.socialList}>
                 <li>
@@ -36,7 +35,11 @@ export default function Footer() {
                     className={styles.socialLink}
                     aria-label="Facebook"
                   >
-                    <svg className={styles.socialIcon} aria-hidden="true" viewBox="0 0 32 32">
+                    <svg
+                      className={styles.socialIcon}
+                      aria-hidden="true"
+                      viewBox="0 0 32 32"
+                    >
                       <use href="/sprite.svg#icon-Facebook" />
                     </svg>
                   </a>
@@ -50,7 +53,11 @@ export default function Footer() {
                     className={styles.socialLink}
                     aria-label="Instagram"
                   >
-                    <svg className={styles.socialIcon} aria-hidden="true" viewBox="0 0 32 32">
+                    <svg
+                      className={styles.socialIcon}
+                      aria-hidden="true"
+                      viewBox="0 0 32 32"
+                    >
                       <use href="/sprite.svg#icon-Instagram" />
                     </svg>
                   </a>
@@ -64,7 +71,11 @@ export default function Footer() {
                     className={styles.socialLink}
                     aria-label="X"
                   >
-                    <svg className={styles.socialIcon} aria-hidden="true" viewBox="0 0 32 32">
+                    <svg
+                      className={styles.socialIcon}
+                      aria-hidden="true"
+                      viewBox="0 0 32 32"
+                    >
                       <use href="/sprite.svg#icon-X" />
                     </svg>
                   </a>
@@ -78,7 +89,11 @@ export default function Footer() {
                     className={styles.socialLink}
                     aria-label="YouTube"
                   >
-                    <svg className={styles.socialIcon} aria-hidden="true" viewBox="0 0 32 32">
+                    <svg
+                      className={styles.socialIcon}
+                      aria-hidden="true"
+                      viewBox="0 0 32 32"
+                    >
                       <use href="/sprite.svg#icon-Youtube" />
                     </svg>
                   </a>
@@ -86,7 +101,6 @@ export default function Footer() {
               </ul>
             </nav>
 
-            {/* Навигация */}
             <nav className={styles.nav} aria-label="Навігація футера">
               <ul className={styles.navList}>
                 <li>
@@ -118,7 +132,7 @@ export default function Footer() {
           <div className={styles.divider} />
 
           <p className={styles.copyright}>
-            © 2025 Подорожники. Усі права захищені.
+            © {year} Подорожники. Усі права захищені.
           </p>
         </div>
       </div>
