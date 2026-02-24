@@ -34,7 +34,7 @@ export default function TravelersList() {
       <Button
         size="large"
         variant="primary"
-        href="/travelers"
+        href="/travellers"
         className={css.trlBtn}
       >
         Переглянути всі

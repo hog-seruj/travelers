@@ -1,32 +1,30 @@
-// import { Story, 
-//     StoriesResponse, 
-//     SavedStory, 
-//     UserSavedArticlesResponse,
-//      StoryByIdResponse} 
-//      from '@/types/story';
-// import { api } from './api';
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// import { nextServer } from './api';
 
+import { Category, Story } from '@/types/story';
+import { api } from './api';
+export type StoryListResponse = {
+  page: number;
+  perPage: number;
+  totalStories: number;
+  totalPages: number;
+  stories: Story[];
+};
 
-
-     
-
-
-
-// export async function fetchStoryByIdClient(storyId: string): Promise<Story> {
-//   const response = await api.get<StoryByIdResponse>(`/stories/${storyId}`);
-//   return response.data.data;
-// }
-
-// export async function fetchSavedStoriesByUserId(
-//   userId: string
-// ): Promise<SavedStory[]> {
-//   const res = await api.get<UserSavedArticlesResponse>(
-//     `/users/${userId}/saved-articles`
-//     stories/saved',
-//   );
-
-//   return res.data.data.savedStories;
-// }
-
-
-
+export const getStories = async (
+  page?: number,
+  perPage?: number,
+  sort?: 'newest' | 'popular',
+  category?: Category
+) => {
+  // const res = await nextServer.get<StoryListResponse>('/stories', {
+  const res = await api.get<StoryListResponse>('/stories', {
+    params: {
+      page,
+      perPage,
+      sort,
+      category,
+    },
+  });
+  return res.data;
+};

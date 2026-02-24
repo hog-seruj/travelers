@@ -35,3 +35,9 @@
 .tab:hover::after {
   background-color: rgba(0, 0, 0, 0.15);
 }
+
+@media (min-width: 1440px) {
+  .tab {
+    font-size: 18px;
+  }
+}

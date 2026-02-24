@@ -1,11 +1,13 @@
 import axios from 'axios';
 import { User } from '@/types/user';
 
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// const baseURL = 'http://localhost:3000/api';
 
+const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
-
-const baseURL = process.env.NEXT_PUBLIC_API_URL ;
-
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// export const nextServer = axios.create({
 export const api = axios.create({
   baseURL: baseURL,
   // withCredentials: true,
