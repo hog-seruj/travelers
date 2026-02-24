@@ -1,0 +1,199 @@
+.footer {
+  background-color: var(--accent-light);
+  /* фон */
+  padding: 48px 0;
+  /* отступы */
+}
+
+.inner {
+  display: flex;
+  /* вертикальная колонка */
+  flex-direction: column;
+  /* сверху вниз */
+  gap: 24px;
+  /* расстояния */
+}
+
+.top {
+  display: grid;
+  /* 3 колонки */
+  grid-template-columns: 1fr;
+  /* mobile */
+  align-items: center;
+  /* выравнивание */
+  row-gap: 32px;
+  /* расстояние */
+}
+
+.logo {
+  justify-self: start;
+  /* слева */
+  display: inline-flex;
+  /* в строку */
+  align-items: center;
+  /* центр */
+  gap: 10px;
+  /* иконка-текст */
+  color: var(--text-color);
+  /* цвет */
+}
+
+.logoIcon {
+  font-size: 18px;
+  /* размер значка */
+  line-height: 1;
+  /* высота */
+}
+
+.logoText {
+  font-family: var(--soraFontFamily);
+  /* шрифт */
+  font-weight: 700;
+  /* жирность */
+  font-size: 18px;
+  /* размер */
+  line-height: 1.2;
+  /* line-height */
+}
+
+.socialNav {
+  justify-self: center;
+  /* по центру */
+}
+
+.socialList {
+  display: flex;
+  /* в строку */
+  align-items: center;
+  /* выравнивание */
+  justify-content: center;
+  /* центр */
+  gap: 16px;
+  /* между иконками */
+}
+
+.socialLink {
+  display: inline-flex;
+  /* контейнер */
+  align-items: center;
+  /* центр */
+  justify-content: center;
+  /* центр */
+  color: var(--text-color);
+  /* цвет */
+  transition: opacity 0.2s ease;
+  /* hover */
+}
+
+.socialLink:hover {
+  opacity: 0.75;
+  /* hover */
+}
+
+.socialIcon {
+  width: 24px;
+  /* размер */
+  height: 24px;
+  /* размер */
+  fill: currentColor;
+  /* цвет */
+}
+
+.nav {
+  justify-self: end;
+  /* справа */
+}
+
+.navList {
+  display: flex;
+  /* список */
+  flex-direction: column;
+  /* mobile колонка */
+  align-items: center;
+  /* центр */
+  gap: 16px;
+  /* между пунктами */
+}
+
+.navLink {
+  font-size: 14px;
+  /* размер */
+  line-height: 1.4;
+  /* line-height */
+  color: var(--text-color);
+  /* цвет */
+  transition: opacity 0.2s ease;
+  /* hover */
+}
+
+.navLink:hover {
+  opacity: 0.75;
+  /* hover */
+}
+
+.divider {
+  width: 100%;
+  /* линия */
+  height: 1px;
+  /* толщина */
+  background-color: rgba(0, 0, 0, 0.12);
+  /* цвет */
+}
+
+.copyright {
+  text-align: center;
+  /* центр */
+  font-size: 12px;
+  /* размер */
+  line-height: 1.4;
+  /* line-height */
+  color: var(--text-color);
+  /* цвет */
+}
+
+/* >=375 */
+@media screen and (min-width: 375px) {
+  .footer {
+    padding: 48px 0;
+    /* отступы */
+  }
+}
+
+/* >=768 */
+@media screen and (min-width: 768px) {
+  .top {
+    grid-template-columns: 1fr auto 1fr;
+    /* logo / social / nav */
+    column-gap: 24px;
+    /* расстояние колонок */
+  }
+
+  .navList {
+    flex-direction: row;
+    /* навигация в строку */
+    align-items: center;
+    /* центр */
+    gap: 32px;
+    /* между пунктами */
+  }
+
+  .socialIcon {
+    width: 20px;
+    /* размер */
+    height: 20px;
+    /* размер */
+  }
+}
+
+/* >=1440 */
+@media screen and (min-width: 1440px) {
+  .top {
+    column-gap: 48px;
+    /* расстояние */
+  }
+
+  .navList {
+    gap: 40px;
+    /* расстояние */
+  }
+}
