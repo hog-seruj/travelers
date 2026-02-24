@@ -1,13 +1,13 @@
-.label {
+.labelCategories{
   font-family: var(--font-nunito-sans);
   font-weight: 400;
+  margin-bottom: 8px;
   font-size: 16px;
   line-height: 1.5;
   color: var(--color-text-primary);
-  margin-bottom: 8px;
 }
 
-.selectWrapper {
+.selectContainer {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -51,7 +51,7 @@
   border-color: var(--color-primary);
 }
 
-.selectText {
+.categoryText {
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;

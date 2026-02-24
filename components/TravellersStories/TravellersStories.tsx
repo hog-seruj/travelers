@@ -1,12 +1,12 @@
-import { Story } from '../../types/story';
-import TravellersStoriesItem from '../TravellersStoriesItem/TravellersStoriesItem';
+import { Story } from '@/types/story';
+import TravelersStoriesItem from '../TravelersStoriesItem/TravelersStoriesItem';;
 import css from './TravellersStories.module.css';
 
 interface TravellersStoriesProps {
   stories: Story[] | undefined;
   isAuthenticated: boolean;
-  className?: string; // додатковий проп для кастомного стилю
-  onRemoveSavedStory?: (id: string) => void; // ⬅ додаємо!
+  className?: string; 
+  onRemoveSavedStory?: (id: string) => void; 
   isMyStory?: boolean;
 }
 
@@ -21,7 +21,7 @@ export default function TravellersStories({
   return (
     <ul className={`${css.stories__list} ${className || ''}`}>
       {Array.isArray(stories) && stories.map(story => (
-        <TravellersStoriesItem
+        <TravelersStoriesItem
           key={story._id}
           story={story}
           isAuthenticated={isAuthenticated}
