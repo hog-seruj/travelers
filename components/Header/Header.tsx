@@ -48,7 +48,7 @@ export default function Header() {
   return (
     <>
       <header className={css.header}>
-        <div className={css.container}>
+        <div className={`container ${css.container}`}>
           {/* Logo */}
           <Link href="/" aria-label="Home" className={css.logoLink}>
             <Image
