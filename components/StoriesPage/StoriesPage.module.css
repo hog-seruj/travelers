@@ -9,6 +9,7 @@
   color: var(--color-text-primary);
   color: var(--color-text-primary);
   margin-bottom: 40px;
+  font-style: Bold;
 }
 
 .stories__footer {
@@ -72,4 +73,9 @@
     color: var(--color-text-primary);
     transform: translateY(0);
   }
+
+  .title {
+  font-size: 56px;
+ 
+}
 }

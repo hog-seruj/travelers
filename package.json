@@ -20,6 +20,7 @@
     "react-dom": "19.2.3",
     "react-hot-toast": "^2.6.0",
     "react-paginate": "^8.3.0",
+    "react-spinner": "^0.2.7",
     "react-spinners": "^0.17.0",
     "use-debounce": "^10.1.0",
     "yup": "^1.7.1",

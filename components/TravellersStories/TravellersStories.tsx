@@ -3,32 +3,20 @@ import TravelersStoriesItem from '../TravelersStoriesItem/TravelersStoriesItem';
 import css from './TravellersStories.module.css';
 
 interface TravellersStoriesProps {
-  stories: Story[] | undefined;
-  isAuthenticated: boolean;
-  className?: string; 
-  onRemoveSavedStory?: (id: string) => void; 
-  isMyStory?: boolean;
+  stories: Story[]
 }
 
 export default function TravellersStories({
-  stories,
-  isAuthenticated,
-  className,
-  isMyStory,
-  onRemoveSavedStory,
-}: TravellersStoriesProps) {
-  console.log(stories);
+  stories}: TravellersStoriesProps) {
+  
   return (
-    <ul className={`${css.stories__list} ${className || ''}`}>
-      {Array.isArray(stories) && stories.map(story => (
-        <TravelersStoriesItem
-          key={story._id}
-          story={story}
-          isAuthenticated={isAuthenticated}
-          onRemoveSavedStory={onRemoveSavedStory}
-          isMyStory={isMyStory}
-        />
+    <ul className={css.stories__list}>
+      {stories.map((story) => (
+        <TravelersStoriesItem key={story._id}  story={story}/>
       ))}
     </ul>
   );
 }
+
+
+

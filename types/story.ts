@@ -17,3 +17,12 @@ export interface Category {
   _id: string;
   name: string;
 }
+
+
+export type StoryListResponse = {
+  page: number;
+  perPage: number;
+  totalStories: number;
+  totalPages: number;
+  stories: Story[];
+};
