@@ -3,23 +3,34 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import css from './Header.module.css';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
 import AuthNavigation from '../AuthNavigation/AuthNavigation';
+import Button from '../Button/Button';
+import UserMenu from '../UserMenu/UserMenu';
+import { useAuthStore } from '@/lib/store/authStore';
 
 export default function Header() {
   const [isBurgerOpen, setIsBurgerOpen] = useState<boolean>(false);
-  const pathname = usePathname();
 
-  // Lock scroll when menu is open
+  const user = useAuthStore((state) => state.user);
+  const clearAuth = useAuthStore((state) => state.clearIsAuthenticated);
+
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    clearAuth();
+    router.push('/');
+    router.refresh();
+  };
+
   useEffect(() => {
     if (!isBurgerOpen) return;
-
     const scrollY = window.scrollY;
     document.body.style.top = `-${scrollY}px`;
     document.body.classList.add('bodyLock');
-
     return () => {
       document.body.classList.remove('bodyLock');
       document.body.style.top = '';
@@ -27,29 +38,26 @@ export default function Header() {
     };
   }, [isBurgerOpen]);
 
-  // Close menu on route change
   useEffect(() => {
     const timer = setTimeout(() => setIsBurgerOpen(false), 0);
     return () => clearTimeout(timer);
   }, [pathname]);
 
-  // Close menu on Escape key
   useEffect(() => {
     if (!isBurgerOpen) return;
-
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setIsBurgerOpen(false);
     };
-
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
   }, [isBurgerOpen]);
+
+  const userName = user?.name?.trim() || 'Мандрівник';
 
   return (
     <>
       <header className={css.header}>
         <div className={`container ${css.container}`}>
-          {/* Logo */}
           <Link href="/" aria-label="Home" className={css.logoLink}>
             <Image
               src="/logo.svg"
@@ -62,7 +70,6 @@ export default function Header() {
             <span className={css.logoText}>Подорожники</span>
           </Link>
 
-          {/* Desktop Navigation */}
           <nav aria-label="Main navigation" className={css.desktopNav}>
             <ul className={css.navigation}>
               <li>
@@ -80,16 +87,47 @@ export default function Header() {
                   Мандрівники
                 </Link>
               </li>
+              {user && (
+                <li>
+                  <Link href="/profile" className={css.navigationLink}>
+                    Мій Профіль
+                  </Link>
+                </li>
+              )}
             </ul>
 
-            <AuthNavigation variant="desktop" />
+            {user && (
+              <Button
+                type="button"
+                size="medium"
+                className={css.desktopPublishButton}
+                onClick={() => router.push('/stories/create')}
+              >
+                Опублікувати історію
+              </Button>
+            )}
+
+            {user ? (
+              <UserMenu
+                userName={userName}
+                onLogout={handleLogout}
+                variant="desktop"
+              />
+            ) : (
+              <AuthNavigation variant="desktop" />
+            )}
           </nav>
 
-          {/* Tablet: Publish + Burger */}
           <div className={css.tabletActions}>
-            <Link href="/stories/create" className={css.publishButton}>
+            <Button
+              type="button"
+              size="medium"
+              className={css.publishButton}
+              onClick={() => router.push('/stories/create')}
+            >
               Опублікувати історію
-            </Link>
+            </Button>
+
             <button
               type="button"
               className={css.burgerButton}
@@ -102,7 +140,6 @@ export default function Header() {
             </button>
           </div>
 
-          {/* Mobile: Burger only */}
           <button
             type="button"
             className={css.mobileBurger}
@@ -116,7 +153,6 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Burger Menu Modal */}
       {isBurgerOpen && (
         <BurgerMenu onCloseAction={() => setIsBurgerOpen(false)} />
       )}
