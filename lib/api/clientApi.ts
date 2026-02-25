@@ -48,6 +48,26 @@ export const logout = async (): Promise<void> => {
   await nextServer.post('/auth/logout');
 };
 
+export type RegisterRequest = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+export async function register(userData: RegisterRequest): Promise<User> {
+  const { data } = await nextServer.post<User>(`/auth/register`, userData);
+  return data;
+}
+
+export type LoginRequest = {
+  email: string;
+  password: string;
+};
+
+export async function login(userData: LoginRequest): Promise<User> {
+  const { data } = await nextServer.post<User>(`/auth/login`, userData);
+  return data;
+}
 // getUsers
 
 export interface GetUsersProps {
