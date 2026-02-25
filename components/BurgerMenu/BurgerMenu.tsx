@@ -2,9 +2,12 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import css from './BurgerMenu.module.css';
 import AuthNavigation from '../AuthNavigation/AuthNavigation';
+import UserMenu from '../UserMenu/UserMenu';
+import Button from '../Button/Button';
+import { useAuthStore } from '@/lib/store/authStore';
 
 interface BurgerMenuProps {
   onCloseAction: () => void;
@@ -12,10 +15,31 @@ interface BurgerMenuProps {
 
 export default function BurgerMenu({ onCloseAction }: BurgerMenuProps) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const user = useAuthStore((state) => state.user);
+  const clearIsAuthenticated = useAuthStore(
+    (state) => state.clearIsAuthenticated
+  );
 
   const handleNavClick = () => {
     onCloseAction();
   };
+
+  const handlePublishClick = () => {
+    onCloseAction();
+    router.push('/stories/create');
+  };
+
+  const handleLogout = () => {
+    clearIsAuthenticated();
+    onCloseAction();
+    router.push('/');
+    router.refresh();
+  };
+
+  const isAuthenticated = !!user;
+  const userName = user?.name?.trim() || 'Мандрівник';
 
   return (
     <div className={css.overlay} onClick={onCloseAction}>
@@ -73,9 +97,46 @@ export default function BurgerMenu({ onCloseAction }: BurgerMenuProps) {
                 Мандрівники
               </Link>
             </li>
+
+            {isAuthenticated && (
+              <li>
+                <Link
+                  href="/profile"
+                  className={`${css.navigationLink} ${pathname === '/profile' ? css.active : ''}`}
+                  onClick={handleNavClick}
+                >
+                  Мій Профіль
+                </Link>
+              </li>
+            )}
           </ul>
         </nav>
-        <AuthNavigation variant="modal" onCloseAction={onCloseAction} />
+
+        {isAuthenticated && (
+          <div className={css.publishSection}>
+            <Button
+              type="button"
+              variant="primary"
+              size="medium"
+              className={css.publishButton}
+              onClick={handlePublishClick}
+            >
+              Опублікувати історію
+            </Button>
+          </div>
+        )}
+
+        <div className={css.authSection}>
+          {isAuthenticated ? (
+            <UserMenu
+              userName={userName}
+              onLogout={handleLogout}
+              variant="modal"
+            />
+          ) : (
+            <AuthNavigation variant="modal" onCloseAction={onCloseAction} />
+          )}
+        </div>
       </div>
     </div>
   );
