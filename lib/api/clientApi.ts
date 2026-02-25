@@ -65,7 +65,7 @@ export interface GetUsersResponse {
 
 export async function getUsers({
   page = 1,
-  perPage = 4,
+  perPage,
 }: GetUsersProps): Promise<GetUsersResponse> {
   const options = {
     params: {
@@ -73,6 +73,7 @@ export async function getUsers({
       perPage,
     },
   };
+  console.log('BACKEND page =', page, 'perPage =', perPage);
   // const response = await api.get('/users', options);
   const response = await nextServer.get('/users', options);
   return response.data;

@@ -18,7 +18,7 @@ export default async function TravellersPage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <TravellersPageClient initialLimit={limit} />
+      <TravellersPageClient />
     </HydrationBoundary>
   );
 }
