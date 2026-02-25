@@ -27,13 +27,14 @@
 
 .info {
   display: flex;
-  /* align-items: flex-start; */
   justify-content: space-between;
   flex-direction: column;
-
   height: 179px;
-
   overflow: hidden;
+
+  @media screen and (min-width: 1440px) {
+    height: 200px;
+  }
 }
 
 .title {
@@ -53,16 +54,10 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   line-height: 1.5;
-  /* margin-bottom: 16px; */
-  /* align-self: stretch; */
 }
 
 .btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   align-self: stretch;
-  /* text-align: center; */
 
   @media screen and (min-width: 768px) {
     width: 292px;
