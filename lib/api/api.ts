@@ -45,7 +45,8 @@ export async function getUsers({
       perPage,
     },
   };
-  const response = await api.get('/users', options);
+  // const response = await api.get('/users', options);
+  const response = await nextServer.get('/users', options);
   return response.data;
 }
 
