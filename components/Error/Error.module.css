@@ -1,0 +1,27 @@
+.main {
+  flex: 1 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.title {
+  font-family: var(--font-nunito-sans);
+  margin-bottom: 48px;
+}
+
+.message {
+  font-weight: 400;
+  font-size: 16px;
+  font-family: var(--font-nunito-sans);
+  line-height: 1.5;
+  color: var(--dark);
+  margin-bottom: 32px;
+}
+
+.resetBtn {
+  font-family: var(--font-nunito-sans);
+  margin-bottom: 64px;
+  align-self: center;
+}

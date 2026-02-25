@@ -1,0 +1,295 @@
+/* Footer */
+.footer {
+  width: 100%;
+  margin-top: auto;
+  padding: 48px 0;
+  background: var(--accent-light);
+}
+.footer :global(.container) {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Top layout (mobile) */
+.top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 40px;
+  width: 100%;
+  max-width: 345px;
+}
+
+/* Logo */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  text-decoration: none;
+  color: var(--text-color);
+  transition: opacity 0.2s ease;
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+.logoIcon {
+  width: 23px;
+  height: 23px;
+  flex-shrink: 0;
+}
+
+.logoText {
+  font-family: var(--soraFontFamily);
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: #000;
+  white-space: nowrap;
+}
+
+/* Social */
+.socialNav {
+  width: 100%;
+}
+
+.socialList {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--text-color);
+  transition: opacity 0.2s ease;
+}
+
+.socialLink:hover {
+  opacity: 0.8;
+}
+
+.socialIcon {
+  width: 32px;
+  height: 32px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+/* Navigation */
+.nav {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-bottom: 24px;
+}
+
+.navList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #000;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.navLink:hover {
+  opacity: 0.8;
+  /* ефект при наведенні */
+}
+
+/* Divider */
+.divider {
+  width: 100%;
+  max-width: 345px;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+/* Copyright */
+.copyright {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  max-width: 345px;
+
+  font-family: var(--mainFontFamily);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.5;
+
+  color: var(--text-color);
+  text-align: center;
+  padding-top: 32px;
+}
+
+/* Mobile 375px+ */
+@media (min-width: 375px) {
+  .top {
+    max-width: 345px;
+  }
+
+  .divider {
+    max-width: 345px;
+  }
+
+  .copyright {
+    max-width: 345px;
+  }
+}
+
+/* Tablet 768px+ */
+@media (min-width: 768px) {
+  .footer {
+    padding: 48px 32px;
+  }
+
+  .top {
+    max-width: 704px;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    row-gap: 32px;
+  }
+
+  .logo {
+    justify-content: flex-start;
+    padding-top: 8px;
+  }
+
+  .socialNav {
+    width: auto;
+  }
+
+  .socialList {
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 8px;
+  }
+
+  .socialLink {
+    width: 24px;
+    height: 24px;
+  }
+
+  .socialIcon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .nav {
+    order: 3;
+    width: 100%;
+    padding-bottom: 24px;
+    justify-content: center;
+  }
+
+  .navList {
+    flex-direction: row;
+    gap: 32px;
+  }
+
+  .divider {
+    max-width: 704px;
+  }
+
+  .copyright {
+    max-width: 704px;
+    padding-top: 32px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .footer {
+    padding: 80px 64px;
+  }
+
+  .top {
+    max-width: 1312px;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 24px;
+  }
+
+  /* Делаем 3 равные колонки */
+  .logo,
+  .socialNav,
+  .nav {
+    flex: 1;
+  }
+
+  /* Лого слева */
+  .logo {
+    padding-top: 0;
+    justify-content: flex-start;
+  }
+
+  /* Соцсети строго по центру контейнера */
+  .socialNav {
+    display: flex;
+    justify-content: center;
+  }
+
+  .socialList {
+    padding-top: 0;
+    gap: 12px;
+  }
+
+  /* Навигация справа */
+  .nav {
+    order: 0;
+    width: auto;
+    padding-bottom: 0;
+    justify-content: flex-end;
+  }
+
+  .navList {
+    flex-direction: row;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .divider {
+    max-width: 1312px;
+  }
+
+  .copyright {
+    max-width: 1312px;
+    padding-top: 32px;
+  }
+}

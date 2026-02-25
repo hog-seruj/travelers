@@ -2,9 +2,14 @@
   display: flex;
   flex-direction: column;
   gap: 24px 0;
+  padding-bottom: 64px;
 
   @media screen and (min-width: 1440px) {
     padding-top: 40px;
     padding-bottom: 40px;
   }
+}
+
+.title {
+  margin-bottom: 48px;
 }
