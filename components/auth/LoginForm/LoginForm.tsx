@@ -6,7 +6,7 @@ import { useId, useState } from 'react';
 import css from './LoginForm.module.css';
 import Button from '../../Button/Button';
 import { useRouter } from 'next/navigation';
-import { login } from '@/lib/api/api';
+import { login } from '@/lib/api/clientApi';
 import { useAuthStore } from '@/lib/store/authStore';
 
 interface LoginFormValues {
@@ -49,11 +49,11 @@ function LoginForm() {
         actions.resetForm();
         router.push('/');
       } else {
-        setError('Invalid email or password');
+        setError('Не валідна електронна пошта або пароль');
       }
     } catch {
       // axios error
-      setError('Invalid email or password');
+      setError('Не валідна електронна пошта або пароль');
     }
   };
 
