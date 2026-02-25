@@ -33,9 +33,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html
+      lang="uk"
+      className={`${nunitoSans.variable} ${sora.variable} ${inter.variable}`}
+    >
       <body
-        className={`${nunitoSans.variable} ${sora.variable} ${inter.variable}`}
+      // className={`${nunitoSans.variable} ${sora.variable} ${inter.variable}`}
       >
         <TanStackProvider>
           <AuthProvider>{children}</AuthProvider>

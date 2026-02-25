@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { User } from '@/types/user';
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! використовується у тих, хто ще робить запити напряму на наш бекенд !!
 // const baseURL = 'http://localhost:3000/api';
@@ -21,33 +20,6 @@ export const nextServer = axios.create({
   withCredentials: true,
 });
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-interface GetUsersProps {
-  page?: number;
-  perPage?: number;
-}
-
-interface GetUsersResponse {
-  page: number;
-  perPage: number;
-  totalItems: number;
-  totalPages: number;
-  users: User[];
-}
-
-export async function getUsers({
-  page = 1,
-  perPage = 4,
-}: GetUsersProps): Promise<GetUsersResponse> {
-  const options = {
-    params: {
-      page,
-      perPage,
-    },
-  };
-  const response = await api.get('/users', options);
-  return response.data;
-}
 
 export type CreateStoryResponse = {
   _id: string;
