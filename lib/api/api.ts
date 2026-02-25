@@ -14,7 +14,8 @@ export const api = axios.create({
 });
 
 // axios Next Server !!!! Використовують ті, що переробляє через Next Server !!!!!!!!!!!!!!
-const baseURLT = 'http://localhost:3000/api';
+
+const baseURLT = process.env.NEXT_SERVER_URL + '/api';
 
 export const nextServer = axios.create({
   baseURL: baseURLT,
