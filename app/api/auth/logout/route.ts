@@ -14,6 +14,7 @@ export async function POST() {
   // Очищаємо токени після запиту
   cookieStore.delete('accessToken');
   cookieStore.delete('refreshToken');
+  cookieStore.delete('sessionId');
 
   return NextResponse.json({ message: 'Logged out successfully' });
 }

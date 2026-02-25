@@ -14,7 +14,7 @@ export const api = axios.create({
 });
 
 // axios Next Server !!!! Використовують ті, що переробляє через Next Server !!!!!!!!!!!!!!
-const baseURLT = 'http://localhost:3000/api';
+const baseURLT = process.env.NEXT_PUBLIC_SERVER_URL + '/api';
 
 export const nextServer = axios.create({
   baseURL: baseURLT,
@@ -47,27 +47,6 @@ export async function getUsers({
   };
   const response = await api.get('/users', options);
   return response.data;
-}
-
-export type RegisterRequest = {
-  name: string;
-  email: string;
-  password: string;
-};
-
-export async function register(userData: RegisterRequest): Promise<User> {
-  const { data } = await api.post<User>(`/auth/register`, userData);
-  return data;
-}
-
-export type LoginRequest = {
-  email: string;
-  password: string;
-};
-
-export async function login(userData: LoginRequest): Promise<User> {
-  const { data } = await api.post<User>(`/auth/login`, userData);
-  return data;
 }
 
 export type CreateStoryResponse = {
