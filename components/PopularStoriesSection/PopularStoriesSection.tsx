@@ -20,7 +20,7 @@ function PopularStoriesSection() {
     <section className={css.section}>
       <div className="container">
         <h2 className={css.title}>Популярні історії</h2>
-        {data?.stories.length > 0 && <PopularStories stories={data.stories} />}
+        {data?.stories?.length > 0 && <PopularStories stories={data.stories} />}
         <div className={css.btn}>
           <Button
             variant="primary"
