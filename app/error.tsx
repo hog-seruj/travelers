@@ -11,7 +11,7 @@ type Props = {
 const Error = ({ error, reset }: Props) => {
   return (
     <main className={css.main}>
-      <div className="container center">
+      <div className="container">
         <h2 className={css.title}>Помилка при завантаженні</h2>
         <p className={css.message}>{error.message}</p>
         <Button

@@ -1,9 +1,7 @@
 .wrapper {
-  /* margin-top: 48px; */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: 64px;
 }
 
 .list {
@@ -14,7 +12,6 @@
 }
 
 .trlBtn {
-  /* margin-top: 48px; */
   align-self: center;
   text-align: center;
 }

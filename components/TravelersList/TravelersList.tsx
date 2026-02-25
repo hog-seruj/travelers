@@ -3,7 +3,7 @@
 import css from './TravelersList.module.css';
 import Card from '../Card/Card';
 import Button from '../Button/Button';
-import { getUsers } from '@/lib/api/api';
+import { getUsers } from '@/lib/api/clientApi';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import Loading from '@/app/loading';
 export default function TravelersList() {
