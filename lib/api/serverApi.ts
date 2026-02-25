@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import { nextServer } from './api';
 import { User } from '@/types/user';
+import { GetUsersProps, GetUsersResponse } from './clientApi';
 
 export const checkServerSession = async () => {
   // Дістаємо поточні cookie
@@ -24,3 +25,23 @@ export const getServerMe = async (): Promise<User> => {
   });
   return data;
 };
+
+// getUsers
+export async function getUsers({
+  page = 1,
+  perPage = 4,
+}: GetUsersProps): Promise<GetUsersResponse> {
+  const cookieStore = await cookies();
+  const options = {
+    params: {
+      page,
+      perPage,
+    },
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  };
+  // const response = await api.get('/users', options);
+  const response = await nextServer.get('/users', options);
+  return response.data;
+}

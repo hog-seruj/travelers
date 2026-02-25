@@ -61,7 +61,11 @@
 }
 
 .large {
-  font-size: 18px;
+  font-size: 16px;
   padding: 6px 12px;
   height: 48px;
+
+  @media screen and (min-width: 1440px) {
+    font-size: 18px;
+  }
 }

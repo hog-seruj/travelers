@@ -3,7 +3,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from '@tanstack/react-query';
-import { getUsers } from '@/lib/api/api';
+import { getUsers } from '@/lib/api/serverApi';
 import TravellersPageClient from './TravellersPageClient';
 
 export default async function TravellersPage() {

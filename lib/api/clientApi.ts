@@ -47,3 +47,33 @@ export const getMe = async () => {
 export const logout = async (): Promise<void> => {
   await nextServer.post('/auth/logout');
 };
+
+// getUsers
+
+export interface GetUsersProps {
+  page?: number;
+  perPage?: number;
+}
+
+export interface GetUsersResponse {
+  page: number;
+  perPage: number;
+  totalItems: number;
+  totalPages: number;
+  users: User[];
+}
+
+export async function getUsers({
+  page = 1,
+  perPage = 4,
+}: GetUsersProps): Promise<GetUsersResponse> {
+  const options = {
+    params: {
+      page,
+      perPage,
+    },
+  };
+  // const response = await api.get('/users', options);
+  const response = await nextServer.get('/users', options);
+  return response.data;
+}
