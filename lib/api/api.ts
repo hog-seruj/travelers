@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { User } from '@/types/user';
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! використовується у тих, хто ще робить запити напряму на наш бекенд !!
 // const baseURL = 'http://localhost:3000/api';
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL;
@@ -13,7 +13,18 @@ export const api = axios.create({
   // withCredentials: true,
 });
 
+<<<<<<< HEAD
 console.log(process.env.NEXT_PUBLIC_API_URL); // Перевірте, чи це виводить правильний URL
+=======
+// axios Next Server !!!! Використовують ті, що переробляє через Next Server !!!!!!!!!!!!!!
+const baseURLT = 'http://localhost:3000/api';
+
+export const nextServer = axios.create({
+  baseURL: baseURLT,
+  withCredentials: true,
+});
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+>>>>>>> main
 
 interface GetUsersProps {
   page?: number;
@@ -67,7 +78,9 @@ export type CreateStoryResponse = {
   _id: string;
 };
 
-export async function createStory(formData: FormData): Promise<CreateStoryResponse> {
+export async function createStory(
+  formData: FormData
+): Promise<CreateStoryResponse> {
   const { data } = await api.post<CreateStoryResponse>('/stories', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });

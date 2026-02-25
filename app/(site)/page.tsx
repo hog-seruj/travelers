@@ -1,8 +1,8 @@
 import styles from './page.module.css';
-import Block from '../components/Block/Block';
-import TravelersList from '../components/TravelersList/TravelersList';
+import Block from '../../components/Block/Block';
+import TravelersList from '../../components/TravelersList/TravelersList';
 import PopularStoriesSection from '@/components/PopularStoriesSection/PopularStoriesSection';
-import Join from '../components/Join/Join';
+import Join from '../../components/Join/Join';
 import Hero from '@/components/Hero/Hero';
 import About from '@/components/About/About';
 
