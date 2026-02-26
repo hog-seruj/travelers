@@ -5,8 +5,9 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { getUsers } from '@/lib/api/clientApi';
 import TravelersList from '@/components/TravelersList/TravelersList';
 import Button from '@/components/Button/Button';
-import Loading from '@/app/loading';
 import { useState, useEffect } from 'react';
+import Loader from '@/components/Loader/Loader';
+import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 
 export default function TravellersPageClient() {
   const [initialLimit, setInitialLimit] = useState<number>(8);
@@ -60,12 +61,8 @@ export default function TravellersPageClient() {
         <div>
           <h2 className={`center ${css.title}`}>Мандрівники</h2>
         </div>
-        {isLoading && <Loading />}
-        {isError && (
-          <div className="center">
-            <p>Помилка при завантаженні...</p>
-          </div>
-        )}
+        {isLoading && <Loader />}
+        {isError && <ErrorMessage />}
         {hasUsers && <TravelersList users={users} />}
         <div className={css.btnWrapper}>
           {hasNextPage && (

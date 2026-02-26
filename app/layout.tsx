@@ -37,9 +37,7 @@ export default function RootLayout({
       lang="uk"
       className={`${nunitoSans.variable} ${sora.variable} ${inter.variable}`}
     >
-      <body
-      // className={`${nunitoSans.variable} ${sora.variable} ${inter.variable}`}
-      >
+      <body>
         <TanStackProvider>
           <AuthProvider>{children}</AuthProvider>
         </TanStackProvider>

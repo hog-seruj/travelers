@@ -1,11 +1,12 @@
 'use client';
 
-import Loading from '@/app/loading';
 import Button from '../Button/Button';
 import { getUsers } from '@/lib/api/clientApi';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import TravelersList from '../TravelersList/TravelersList';
 import css from './OurTravellers.module.css';
+import Loader from '../Loader/Loader';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 export default function OurTravellers() {
   const {
@@ -21,21 +22,10 @@ export default function OurTravellers() {
 
   const users = response?.users;
 
-  if (isLoading)
-    return (
-      <div className="center">
-        <Loading />
-      </div>
-    );
-  if (isError || !response)
-    return (
-      <div className="center">
-        <p>Помилка при завантаженні...</p>
-      </div>
-    );
-
   return (
     <>
+      {isLoading && <Loader />}
+      {isError && <ErrorMessage />}
       {users && users?.length > 0 && <TravelersList users={users} />}
 
       <div className={css.btnWrapper}>
