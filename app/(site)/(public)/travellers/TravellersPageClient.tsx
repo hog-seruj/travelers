@@ -31,12 +31,14 @@ export default function TravellersPageClient() {
     isLoading,
     isError,
   } = useInfiniteQuery({
-    queryKey: ['travelersPage', initialLimit],
+    queryKey: ['travellersPage', initialLimit],
     queryFn: ({ queryKey, pageParam }) => {
       const [, initialLimit] = queryKey;
-      if (pageParam === 1)
-        return getUsers({ page: pageParam, perPage: initialLimit as number });
-      return getUsers({ page: pageParam, perPage: 4 });
+      // if (pageParam === 1)
+      console.log('Fetching page:', pageParam, 'with limit:', initialLimit);
+
+      return getUsers({ page: pageParam, perPage: initialLimit as number });
+      // return getUsers({ page: pageParam, perPage: 4 });
     },
     initialPageParam: 1,
     getNextPageParam: (lastResponse) => {
@@ -51,9 +53,10 @@ export default function TravellersPageClient() {
       };
     },
   });
-
   const users = data?.users ?? [];
   const hasUsers = users.length > 0;
+
+  console.log('Data from useInfiniteQuery:', data?.pages);
 
   return (
     <main>
