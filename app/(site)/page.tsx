@@ -30,20 +30,16 @@ export default async function Home() {
   });
 
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Hero />
-        <About />
-        <HydrationBoundary state={dehydrate(queryClient)}>
-          <PopularStoriesSection />
-        </HydrationBoundary>
-        <HydrationBoundary state={dehydrate(queryClient)}>
-          <Block title="Наші Мандрівники">
-            <TravelersList />
-          </Block>
-        </HydrationBoundary>
-        <Join />
-      </main>
-    </div>
+    <main className={styles.main}>
+      <Hero />
+      <About />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <PopularStoriesSection />
+        <Block title="Наші Мандрівники">
+          <TravelersList />
+        </Block>
+      </HydrationBoundary>
+      <Join />
+    </main>
   );
 }

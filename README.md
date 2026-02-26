@@ -1,36 +1,129 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Подорожники
 
-## Getting Started
+## _Багатосторінковий навчальний проєкт для мандрівників_
 
-First, run the development server:
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/your-username/travelers)
+[![Next.js 15](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](https://opensource.org/licenses/MIT)
 
-```bash
+**Подорожники** — це багатосторінковий навчальний проєкт для поширення історій мандрівників. Користувачі можуть переглядати популярні історії, профілі мандрівників, додавати власні розповіді та зберігати цікаві історії у свій профіль.
+
+- 📱 Адаптивна верстка Mobile First (375px, 768px, 1440px)
+- 🔐 Публічні та приватні маршрути через App Router
+- ✨ Інтерактивні компоненти з hover-ефектами та анімаціями
+- 🌙 Темна тема згідно UI Kit
+
+Мета проєкту — відпрацювати роботу з **Next.js 15**, реалізувати багатосторінковий сайт із публічними та приватними маршрутами, використати сучасний стейт-менеджмент (Redux/Zustand), форми через Formik із валідацією Yup та забезпечити інтерактивність сайту.
+
+## Features
+
+- 🔍 Перегляд популярних історій подорожей з фільтрацією та сортуванням
+- 👤 Публічні профілі мандрівників із галереєю історій
+- ✍️ Створення та редагування власних розповідей через Formik + Yup
+- 💾 Збереження улюблених історій у особистий профіль
+- 🔄 Оптимістичні оновлення та кешування запитів через React Query
+- ⏳ Лоадери та toast-повідомлення для покращеного UX
+- 🪟 Модальні вікна `ConfirmModal` та `AuthNavModal` для інтерактивних сценаріїв
+
+## Tech
+
+Подорожники використовує низку сучасних open source проєктів для коректної роботи:
+
+- [Next.js 15][nextjs] — маршрутизація, SSR/SSG та рендеринг через App Router
+- [React.js][react] — компонентний підхід та хуки
+- [TypeScript][ts] — строга типізація компонентів, API-відповідей та сторів
+- [Redux][redux] / [Zustand][zustand] — глобальний стан та селектори
+- [React Query][reactquery] — робота з бекенд-запитами, кешування та ревалідація
+- [Formik][formik] + [Yup][yup] — управління формами та валідація
+- [CSS Modules][cssmodules] + [modern-normalize][normalize] — ізольовані стилі та нормалізація
+- [Prettier][prettier] — автоматичне форматування коду
+- [SVG][svg] — логотипи, іконки та анімовані елементи
+
+І звісно, Подорожники — це open source проєкт із [публічним репозиторієм][travelers] на GitHub.
+
+## Installation
+
+Подорожники вимагає [Node.js][nodejs] v18+ для запуску.
+
+Встановіть залежності та запустіть сервер розробки:
+
+```sh
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Відкрийте http://localhost:3000 у браузері.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Production-середовище
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+npm install --production
+npm run build
+npm start
+```
 
-## Learn More
+## Environment Variables
 
-To learn more about Next.js, take a look at the following resources:
+Проєкт використовує змінні середовища для конфігурації API та інших сервісів. Створіть файл .env.local на основі .env.example:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```sh
+cp .env.example .env.local
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Приклад змінних:
 
-## Deploy on Vercel
+```sh
+NEXT_PUBLIC_API_URL=https://api.travelers.com
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```sh
+src/
+├── app/                      # Next.js 15 App Router
+│   ├── (public)/            # Публічні маршрути
+│   ├── (private)/           # Приватні маршрути (з захистом)
+│   ├── layout.tsx           # Головний лейаут
+│   ├── loading.tsx          # Глобальний лоадер
+│   └── error.tsx            # Глобальна обробка помилок
+├── components/              # React-компоненти
+│   ├── ui/                  # UI-компоненти
+│   ├── layout/              # Header, Footer
+│   ├── features/            # Бізнес-компоненти
+│   └── modals/              # Модальні вікна
+├── store/                   # Redux / Zustand
+├── lib/                     # Утиліти, API, хуки
+├── styles/                  # Глобальні стилі та теми
+├── types/                   # TypeScript інтерфейси
+└── constants/               # Константи проєкту
+```
+
+## Routes
+
+```sh
+| Route                 | Description                     | Access  |
+|-----------------------|---------------------------------|---------|
+| /                     | Головна з популярними історіями | Public  |
+| /stories              | Каталог історій                 | Public  |
+| /stories/[id]         | Деталі історії                  | Public  |
+| /travellers           | Список мандрівників             | Public  |
+| /travellers/[id]      | Профіль мандрівника             | Public  |
+| /profile              | Особистий профіль               | 🔐 Private |
+| /stories/create       | Створення історії               | 🔐 Private |
+| /stories/[id]/edit    | Редагування історії             | 🔐 Private |
+| /auth/login           | Вхід                            | Public  |
+| /auth/register        | Реєстрація                      | Public  |
+```
+
+## Additional Info
+
+🔤 Підключені шрифти та фавікон для брендингу
+⏳ Лоадери та toast-повідомлення для запитів та валідації форм
+✨ Hover-ефекти для інтерактивних елементів згідно UI Kit
+🪟 Модальні вікна ConfirmModal та AuthNavModal для підтвердження дій та автентифікації
+🌙 Темна тема застосунку реалізована згідно UI Kit
+🎬 Можливе використання анімацій через [framer-motion][framer] або [gsap][gsap]
+
+> Проєкт розроблений як навчальний багатосторінковий сайт для відпрацювання навичок Fullstack-розробки із Next.js, React, TypeScript та сучасними підходами до UX/UI.
