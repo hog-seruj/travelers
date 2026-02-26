@@ -8,12 +8,8 @@ import Button from '@/components/Button/Button';
 import Loading from '@/app/loading';
 import { useState, useEffect } from 'react';
 
-// interface TravellersPageClientProps {
-//   initialLimit: number;
-// }
-
 export default function TravellersPageClient() {
-  const [initialLimit, setInitialLimit] = useState(8);
+  const [initialLimit, setInitialLimit] = useState<number>(8);
 
   useEffect(() => {
     const updateLimit = () => {
@@ -34,35 +30,29 @@ export default function TravellersPageClient() {
     isLoading,
     isError,
   } = useInfiniteQuery({
-    queryKey: ['travelers', initialLimit],
-    queryFn: async ({ pageParam = 1 }) => {
-      console.log('Запит на бекенд:', pageParam);
-
-      if (pageParam === 1) {
-        return getUsers({ page: 1, perPage: initialLimit });
-      }
-
-      return getUsers({
-        page: pageParam,
-        perPage: 4,
-      });
+    queryKey: ['travelersPage', initialLimit],
+    queryFn: ({ queryKey, pageParam }) => {
+      const [, initialLimit] = queryKey;
+      if (pageParam === 1)
+        return getUsers({ page: pageParam, perPage: initialLimit as number });
+      return getUsers({ page: pageParam, perPage: 4 });
     },
     initialPageParam: 1,
-    getNextPageParam: (lastPage) => {
-      if (lastPage.page < lastPage.totalPages) {
-        return lastPage.page + 1;
-      }
-      return undefined;
+    getNextPageParam: (lastResponse) => {
+      const nextPage = (lastResponse.page as number) + 1;
+      return nextPage < lastResponse.totalPages ? nextPage : undefined;
+    },
+
+    select: (data) => {
+      return {
+        ...data,
+        users: data.pages.flatMap((page) => page.users),
+      };
     },
   });
 
-  const users = data?.pages.flatMap((page) => page.users) ?? [];
-  if (isError)
-    return (
-      <div className="center">
-        <p>Помилка при завантаженні...</p>
-      </div>
-    );
+  const users = data?.users ?? [];
+  const hasUsers = users.length > 0;
 
   return (
     <main>
@@ -70,20 +60,25 @@ export default function TravellersPageClient() {
         <div>
           <h2 className={`center ${css.title}`}>Мандрівники</h2>
         </div>
-        <TravelersList users={users} />
+        {isLoading && <Loading />}
+        {isError && (
+          <div className="center">
+            <p>Помилка при завантаженні...</p>
+          </div>
+        )}
+        {hasUsers && <TravelersList users={users} />}
         <div className={css.btnWrapper}>
           {hasNextPage && (
             <Button
               size="large"
               variant="primary"
               onClick={() => fetchNextPage()}
-              disabled={isFetchingNextPage || !hasNextPage}
+              disabled={isFetchingNextPage}
               className={css.trlBtn}
             >
               {isFetchingNextPage ? 'Завантаження...' : 'Показати ще'}
             </Button>
           )}
-          {isLoading && <Loading />}
         </div>
       </section>
     </main>

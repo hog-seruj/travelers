@@ -19,7 +19,7 @@ export default async function Home() {
 
   // PopularStoriesSection prefetch
   await queryClient.prefetchQuery({
-    queryKey: ['stories'],
+    queryKey: ['popularStories'],
     queryFn: () => getStories(1, 3, 'popular'),
   });
 

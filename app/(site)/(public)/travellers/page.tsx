@@ -11,7 +11,7 @@ export default async function TravellersPage() {
   const limit = 8;
 
   await queryClient.prefetchInfiniteQuery({
-    queryKey: ['travelers', limit],
+    queryKey: ['travelersPage', limit],
     queryFn: () => getUsers({ page: 1, perPage: limit }),
     initialPageParam: 1,
   });

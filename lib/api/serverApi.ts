@@ -29,7 +29,7 @@ export const getServerMe = async (): Promise<User> => {
 // getUsers
 export async function getUsers({
   page = 1,
-  perPage,
+  perPage = 4,
 }: GetUsersProps): Promise<GetUsersResponse> {
   const cookieStore = await cookies();
   const options = {
@@ -41,7 +41,7 @@ export async function getUsers({
       Cookie: cookieStore.toString(),
     },
   };
-  // const response = await api.get('/users', options);
+
   const response = await nextServer.get('/users', options);
   return response.data;
 }
