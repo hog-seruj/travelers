@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { login } from '@/lib/api/clientApi';
 import { useAuthStore } from '@/lib/store/authStore';
 import { toast } from 'sonner';
+import axios from 'axios';
 
 interface LoginFormValues {
   email: string;
@@ -53,8 +54,17 @@ function LoginForm() {
       actions.resetForm();
 
       router.push('/?toast=login_success');
-    } catch {
-      toast.error('Невірна електронна пошта або пароль');
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const status = err.response?.status;
+
+        if (status === 401) {
+          toast.error('Невірна електронна пошта або пароль');
+          return;
+        }
+      }
+
+      toast.error('Щось пішло не так. Спробуйте ще раз.');
     } finally {
       actions.setSubmitting(false);
     }

@@ -9,7 +9,6 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { register } from '@/lib/api/clientApi';
 import { toast } from 'sonner';
-import { ApiError } from '@/app/api/api';
 import axios from 'axios';
 
 interface RegisterFormValues {
@@ -60,13 +59,12 @@ function RegisterForm() {
       setUser(res);
       actions.resetForm();
       router.push('/?toast=register_success');
-    } catch (err: unknown) {
+    } catch (err) {
       if (!axios.isAxiosError(err)) {
         toast.error('Щось пішло не так. Спробуйте ще раз.');
         return;
       }
-      const error = err as ApiError;
-      if (error.response?.status === 400) {
+      if (err.response?.status === 400) {
         toast.error('Користувач з таким email уже існує');
       } else {
         toast.error('Щось пішло не так. Спробуйте ще раз.');

@@ -5,6 +5,7 @@ import './globals.css';
 import AuthProvider from '@/components/auth/AuthProvider/AuthProvider';
 import { Toaster } from 'sonner';
 import ToastListener from '@/components/ToastListener/ToastListener';
+import { Suspense } from 'react';
 
 const nunitoSans = Nunito_Sans({
   variable: '--font-nunito-sans',
@@ -40,7 +41,9 @@ export default function RootLayout({
       className={`${nunitoSans.variable} ${sora.variable} ${inter.variable}`}
     >
       <body>
-        <ToastListener />
+        <Suspense fallback={null}>
+          <ToastListener />
+        </Suspense>
         <TanStackProvider>
           <AuthProvider>{children}</AuthProvider>
         </TanStackProvider>
