@@ -19,7 +19,7 @@ export default async function Home() {
 
   // PopularStoriesSection prefetch
   await queryClient.prefetchQuery({
-    queryKey: ['stories'],
+    queryKey: ['popularStories'],
     queryFn: () => getStories(1, 3, 'popular'),
   });
 
@@ -30,20 +30,16 @@ export default async function Home() {
   });
 
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Hero />
-        <About />
-        <HydrationBoundary state={dehydrate(queryClient)}>
-          <PopularStoriesSection />
-        </HydrationBoundary>
-        <HydrationBoundary state={dehydrate(queryClient)}>
-          <Block title="Наші Мандрівники">
-            <TravelersList />
-          </Block>
-        </HydrationBoundary>
-        <Join />
-      </main>
-    </div>
+    <main className={styles.main}>
+      <Hero />
+      <About />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <PopularStoriesSection />
+        <Block title="Наші Мандрівники">
+          <TravelersList />
+        </Block>
+      </HydrationBoundary>
+      <Join />
+    </main>
   );
 }

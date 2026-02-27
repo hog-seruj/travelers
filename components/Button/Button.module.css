@@ -10,7 +10,6 @@
   background-color: rgba(0, 0, 0, 0.05);
   color: var(--black);
   font-weight: 500;
-  /* line-height: 1;   */
   border-radius: 8px;
   transition:
     color 0.3s ease-in-out,
@@ -25,8 +24,9 @@
 .button:focus {
   color: var(--white);
   background-color: var(--accent);
-  border-color: gba(255, 255, 255, 0);
+  border-color: rgba(255, 255, 255, 0);
   cursor: pointer;
+  fill: var(--white);
 }
 
 .button:active {

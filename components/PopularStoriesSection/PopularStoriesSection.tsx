@@ -8,7 +8,7 @@ import css from './PopularStoriesSection.module.css';
 
 function PopularStoriesSection() {
   const { data, isLoading, error } = useQuery({
-    queryKey: ['stories'],
+    queryKey: ['popularStories'],
     queryFn: () => getStories(1, 3, 'popular'),
     refetchOnMount: false,
   });
