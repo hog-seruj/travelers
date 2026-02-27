@@ -9,10 +9,13 @@ import BurgerMenu from '../BurgerMenu/BurgerMenu';
 import AuthNavigation from '../AuthNavigation/AuthNavigation';
 import Button from '../Button/Button';
 import UserMenu from '../UserMenu/UserMenu';
+import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import { useAuthStore } from '@/lib/store/authStore';
+import { logout } from '@/lib/api/clientApi';
 
 export default function Header() {
   const [isBurgerOpen, setIsBurgerOpen] = useState<boolean>(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   const user = useAuthStore((state) => state.user);
   const clearAuth = useAuthStore((state) => state.clearIsAuthenticated);
@@ -20,10 +23,27 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const handleLogout = () => {
-    clearAuth();
-    router.push('/');
-    router.refresh();
+  const userName = user?.name?.trim() || 'Мандрівник';
+
+  const handleLogoutClick = () => {
+    setIsLogoutModalOpen(true);
+  };
+
+  const handleLogoutConfirm = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      clearAuth();
+      setIsLogoutModalOpen(false);
+      router.push('/');
+      router.refresh();
+    }
+  };
+
+  const handleLogoutCancel = () => {
+    setIsLogoutModalOpen(false);
   };
 
   useEffect(() => {
@@ -51,8 +71,6 @@ export default function Header() {
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
   }, [isBurgerOpen]);
-
-  const userName = user?.name?.trim() || 'Мандрівник';
 
   return (
     <>
@@ -110,7 +128,7 @@ export default function Header() {
             {user ? (
               <UserMenu
                 userName={userName}
-                onLogout={handleLogout}
+                onLogout={handleLogoutClick}
                 variant="desktop"
               />
             ) : (
@@ -156,6 +174,16 @@ export default function Header() {
       {isBurgerOpen && (
         <BurgerMenu onCloseAction={() => setIsBurgerOpen(false)} />
       )}
+
+      <ConfirmModal
+        isOpen={isLogoutModalOpen}
+        title="Ви точно хочете вийти?"
+        message="Ми будемо сумувати за вами!"
+        confirmButtonText="Вийти"
+        cancelButtonText="Відмінити"
+        onConfirm={handleLogoutConfirm}
+        onCancel={handleLogoutCancel}
+      />
     </>
   );
 }
