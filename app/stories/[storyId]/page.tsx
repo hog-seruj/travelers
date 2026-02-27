@@ -1,4 +1,11 @@
-import StoryDetails from '@/components/StoryDetails/StoryDetails';
+import StoryDetailsSection from '@/components/StoryDetailsSection/StoryDetailsSection';
+import PopularStoriesSection from '@/components/PopularStoriesSection/PopularStoriesSection';
+import { getStory } from '@/lib/api/clientApi';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
 
 import styles from './page.module.css';
 
@@ -8,13 +15,22 @@ type Props = {
 
 export default async function StoryPage({ params }: Props) {
   const { storyId } = await params;
-  console.log(storyId);
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['story', storyId],
+    queryFn: () => getStory(storyId),
+  });
+
   return (
-    <main className={styles.page}>
-      <div className="container">
-        <StoryDetails storyId={storyId} />
-        {/* <Popular currentStoryId={storyId} /> */}
-      </div>
-    </main>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <main className={styles.page}>
+        <div className="container">
+          <StoryDetailsSection storyId={storyId} />
+        </div>
+        <PopularStoriesSection />
+      </main>
+    </HydrationBoundary>
   );
 }
