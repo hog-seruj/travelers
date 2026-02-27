@@ -8,6 +8,9 @@ import css from './RegisterForm.module.css';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { register } from '@/lib/api/clientApi';
+import { toast } from 'sonner';
+import { ApiError } from '@/app/api/api';
+import axios from 'axios';
 
 interface RegisterFormValues {
   name: string;
@@ -37,7 +40,7 @@ const RegisterFormSchema = Yup.object().shape({
 });
 
 function RegisterForm() {
-  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const fieldId = useId();
   const router = useRouter();
   const setUser = useAuthStore((state) => state.setUser);
@@ -49,17 +52,27 @@ function RegisterForm() {
     try {
       const res = await register(values);
 
-      if (res) {
-        setUser(res);
-        actions.resetForm();
-        router.push('/');
-      } else {
-        setError('Не валідна електронна пошта або пароль');
+      if (!res) {
+        toast.error('Не вдалося створити акаунт');
+        return;
       }
-    } catch (err) {
-      //axios error
-      console.log(err);
-      setError('Не валідна електронна пошта або пароль');
+
+      setUser(res);
+      actions.resetForm();
+      router.push('/?toast=register_success');
+    } catch (err: unknown) {
+      if (!axios.isAxiosError(err)) {
+        toast.error('Щось пішло не так. Спробуйте ще раз.');
+        return;
+      }
+      const error = err as ApiError;
+      if (error.response?.status === 400) {
+        toast.error('Користувач з таким email уже існує');
+      } else {
+        toast.error('Щось пішло не так. Спробуйте ще раз.');
+      }
+    } finally {
+      actions.setSubmitting(false);
     }
   };
 
@@ -86,6 +99,7 @@ function RegisterForm() {
                 id={`${fieldId}-name`}
                 type="text"
                 name="name"
+                placeholder="Ваше імʼя та прізвище"
               />
               <ErrorMessage
                 className={css.error}
@@ -102,6 +116,7 @@ function RegisterForm() {
                 id={`${fieldId}-email`}
                 type="email"
                 name="email"
+                placeholder="hello@podorozhnyky.ua"
               />
               <ErrorMessage
                 className={css.error}
@@ -113,12 +128,27 @@ function RegisterForm() {
               <label className={css.label} htmlFor={`${fieldId}-password`}>
                 Пароль*
               </label>
-              <Field
-                className={`${css.input} ${passwordError ? css.inputError : ''}`}
-                id={`${fieldId}-password`}
-                type="password"
-                name="password"
-              />
+              <div className={css.passwordWrapper}>
+                <Field
+                  className={`${css.input} ${passwordError ? css.inputError : ''}`}
+                  id={`${fieldId}-password`}
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  placeholder="********"
+                />
+                <button
+                  type="button"
+                  className={css.toggleBtn}
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  onMouseDown={(e) => e.preventDefault()}
+                >
+                  <svg className={css.icon} width="20" height="20">
+                    <use
+                      href={`/sprite.svg#${showPassword ? 'icon-eye-off' : 'icon-eye'}`}
+                    />
+                  </svg>
+                </button>
+              </div>
               <ErrorMessage
                 className={css.error}
                 name="password"
@@ -134,7 +164,6 @@ function RegisterForm() {
             >
               {isSubmitting ? 'Реєстрація...' : 'Зареєструватись'}
             </Button>
-            <p className={css.error}>{error}</p>
           </Form>
         );
       }}

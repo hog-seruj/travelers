@@ -3,11 +3,12 @@
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { useId, useState } from 'react';
-import css from './LoginForm.module.css';
 import Button from '../../Button/Button';
+import css from './LoginForm.module.css';
 import { useRouter } from 'next/navigation';
 import { login } from '@/lib/api/clientApi';
 import { useAuthStore } from '@/lib/store/authStore';
+import { toast } from 'sonner';
 
 interface LoginFormValues {
   email: string;
@@ -31,7 +32,7 @@ const LoginFormSchema = Yup.object().shape({
 });
 
 function LoginForm() {
-  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const fieldId = useId();
   const router = useRouter();
   const setUser = useAuthStore((state) => state.setUser);
@@ -42,18 +43,20 @@ function LoginForm() {
   ) => {
     try {
       const res = await login(values);
-      console.log(res);
 
-      if (res) {
-        setUser(res);
-        actions.resetForm();
-        router.push('/');
-      } else {
-        setError('Не валідна електронна пошта або пароль');
+      if (!res) {
+        toast.error('Невірна електронна пошта або пароль');
+        return;
       }
+
+      setUser(res);
+      actions.resetForm();
+
+      router.push('/?toast=login_success');
     } catch {
-      // axios error
-      setError('Не валідна електронна пошта або пароль');
+      toast.error('Невірна електронна пошта або пароль');
+    } finally {
+      actions.setSubmitting(false);
     }
   };
 
@@ -79,6 +82,7 @@ function LoginForm() {
                 id={`${fieldId}-email`}
                 type="email"
                 name="email"
+                placeholder="hello@podorozhnyky.ua"
               />
               <ErrorMessage
                 className={css.error}
@@ -90,12 +94,27 @@ function LoginForm() {
               <label className={css.label} htmlFor={`${fieldId}-password`}>
                 Пароль*
               </label>
-              <Field
-                className={`${css.input} ${passwordError ? css.inputError : ''}`}
-                id={`${fieldId}-password`}
-                type="password"
-                name="password"
-              />
+              <div className={css.passwordWrapper}>
+                <Field
+                  className={`${css.input} ${passwordError ? css.inputError : ''}`}
+                  id={`${fieldId}-password`}
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  placeholder="********"
+                />
+                <button
+                  type="button"
+                  className={css.toggleBtn}
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  onMouseDown={(e) => e.preventDefault()}
+                >
+                  <svg className={css.icon} width="20" height="20">
+                    <use
+                      href={`/sprite.svg#${showPassword ? 'icon-eye-off' : 'icon-eye'}`}
+                    />
+                  </svg>
+                </button>
+              </div>
               <ErrorMessage
                 className={css.error}
                 name="password"
@@ -111,7 +130,6 @@ function LoginForm() {
             >
               {isSubmitting ? 'Вхід...' : 'Увійти'}
             </Button>
-            <p className={css.error}>{error}</p>
           </Form>
         );
       }}
