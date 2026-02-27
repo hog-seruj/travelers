@@ -8,6 +8,7 @@ import Button from '@/components/Button/Button';
 import { useState, useEffect } from 'react';
 import Loader from '@/components/Loader/Loader';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
+// import useAFetchPaginatedQuery from '@/hooks/useFetchPaginatedQuery';
 
 export default function TravellersPageClient() {
   const [initialLimit, setInitialLimit] = useState<number>(8);
@@ -32,16 +33,18 @@ export default function TravellersPageClient() {
     isError,
   } = useInfiniteQuery({
     queryKey: ['travellersPage', initialLimit],
-    queryFn: ({ queryKey, pageParam }) => {
+    queryFn: async ({ queryKey, pageParam }) => {
       const [, initialLimit] = queryKey;
-      // if (pageParam === 1)
-      console.log('Fetching page:', pageParam, 'with limit:', initialLimit);
-
-      return getUsers({ page: pageParam, perPage: initialLimit as number });
-      // return getUsers({ page: pageParam, perPage: 4 });
+      const data = await getUsers({
+        page: pageParam,
+        perPage: initialLimit as number,
+      });
+      return data;
     },
+
     initialPageParam: 1,
     getNextPageParam: (lastResponse) => {
+      console.log('Last response from getNextPageParam:', lastResponse);
       const nextPage = (lastResponse.page as number) + 1;
       return nextPage < lastResponse.totalPages ? nextPage : undefined;
     },
@@ -53,10 +56,31 @@ export default function TravellersPageClient() {
       };
     },
   });
+
+  // з хуком
+  // const {
+  //   data,
+  //   items,
+  //   fetchNextPage,
+  //   hasNextPage,
+  //   isFetchingNextPage,
+  //   isLoading,
+  //   isError,
+  // } = useAFetchPaginatedQuery({
+  //   initialLimit,
+  //   queryKey: ['travellersPage'],
+  //   fetchFn: async ({ page, perPage }) => {
+  //     const res = await getUsers({ page, perPage });
+  //     return { ...res, items: res.users };
+  //   },
+  // });
+
   const users = data?.users ?? [];
   const hasUsers = users.length > 0;
 
-  console.log('Data from useInfiniteQuery:', data?.pages);
+  // console.log(users);
+
+  // console.log('Data from useInfiniteQuery:', data?.pages);
 
   return (
     <main>
@@ -67,6 +91,7 @@ export default function TravellersPageClient() {
         {isLoading && <Loader />}
         {isError && <ErrorMessage />}
         {hasUsers && <TravelersList users={users} />}
+
         <div className={css.btnWrapper}>
           {hasNextPage && (
             <Button
