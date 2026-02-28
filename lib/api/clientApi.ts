@@ -1,5 +1,5 @@
 import { nextServer } from './api';
-import { Category, Story } from '@/types/story';
+import { Category, Story, PaginatedStoriesResponse } from '@/types/story';
 import { User } from '@/types/user';
 
 export type StoryListResponse = {
@@ -7,6 +7,7 @@ export type StoryListResponse = {
   perPage: number;
   totalStories: number;
   totalPages: number;
+  hasNextPage:boolean;
   stories: Story[];
 };
 
@@ -97,3 +98,19 @@ export async function getUsers({
   const response = await nextServer.get('/users', options);
   return response.data;
 }
+
+
+
+export const fetchStories = async (
+  perPage: number,
+  page: number,
+  category: string | null | undefined,
+): Promise<PaginatedStoriesResponse> => {
+  const params: Record<string, string | number> = { perPage, page };
+  if (category) {
+    params.category = category;
+  }
+
+  const { data } = await nextServer.get('/stories', { params });
+  return data.data;
+};

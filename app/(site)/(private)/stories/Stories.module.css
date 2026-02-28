@@ -48,3 +48,11 @@ padding: 48px 0 72px;
 }
   }
 
+.title {
+  padding-top: 32px;
+  margin-bottom: 24px;
+
+  @media screen and (min-width: 1440px) {
+    padding-top: 48px;
+  }
+}
