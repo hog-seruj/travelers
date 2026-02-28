@@ -15,7 +15,7 @@ function PopularStoriesSection() {
   // number of stories depending on screen width
   const storiesNumber: number =
     windowWidth && windowWidth >= 768 && windowWidth < 1440 ? 4 : 3;
-  console.log(storiesNumber);
+  // console.log(storiesNumber);
   //
 
   const { data, isLoading, isError } = useQuery({
