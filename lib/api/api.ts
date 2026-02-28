@@ -13,18 +13,16 @@ export const api = axios.create({
   // withCredentials: true,
 });
 
-<<<<<<< HEAD
-console.log(process.env.NEXT_PUBLIC_API_URL); // Перевірте, чи це виводить правильний URL
-=======
 // axios Next Server !!!! Використовують ті, що переробляє через Next Server !!!!!!!!!!!!!!
-const baseURLT = 'http://localhost:3000/api';
+
+const baseURLT = 'http://localhost:3000/ + /api'
+// const baseURLT = process.env.NEXT_PUBLIC_SERVER_URL + '/api';
 
 export const nextServer = axios.create({
   baseURL: baseURLT,
   withCredentials: true,
 });
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
->>>>>>> main
 
 interface GetUsersProps {
   page?: number;
