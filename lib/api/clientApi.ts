@@ -97,3 +97,20 @@ export async function getUsers({
   const response = await nextServer.get('/users', options);
   return response.data;
 }
+
+// Add story to saved
+interface addStoryToSavedResponse {
+  savedArticles: User['savedArticles'];
+}
+
+export const addStoryToSaved = async (
+  storyId: Story['_id']
+): Promise<addStoryToSavedResponse> => {
+  const response = await nextServer.post<addStoryToSavedResponse>(
+    `/stories/${storyId}/saved`
+    // {
+    //   headers: {},
+    // }
+  );
+  return response.data;
+};

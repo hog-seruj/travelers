@@ -24,3 +24,23 @@ export const getServerMe = async (): Promise<User> => {
   });
   return data;
 };
+
+// Add story to saved
+// interface addStoryToSavedResponse {
+//   savedArticles: User['savedArticles'];
+// }
+
+// export const addStoryToSaved = async (
+//   storyId: Story['_id']
+// ): Promise<addStoryToSavedResponse> => {
+//   const cookieStore = await cookies();
+//   const response = await nextServer.post<addStoryToSavedResponse>(
+//     `/stories/${storyId}/saved`,
+//     {
+//       headers: {
+//         Cookie: cookieStore.toString(),
+//       },
+//     }
+//   );
+//   return response.data;
+// };
