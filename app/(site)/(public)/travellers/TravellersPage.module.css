@@ -6,3 +6,16 @@
     padding-top: 48px;
   }
 }
+
+.btnWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.section {
+  padding-bottom: 64px;
+
+  @media screen and (min-width: 1440px) {
+    padding-bottom: 72px;
+  }
+}

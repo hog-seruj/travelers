@@ -1,11 +1,28 @@
-import TravelersList from '@/components/TravelersList/TravelersList';
-import css from './TravellersPage.module.css';
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from '@tanstack/react-query';
+import { getUsers } from '@/lib/api/serverApi';
+import TravellersPageClient from './TravellersPageClient';
 
-export default function TravellersPage() {
+export default async function TravellersPage() {
+  const queryClient = new QueryClient();
+  const initialLimit = 12;
+
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ['travellersPage', initialLimit],
+    queryFn: () =>
+      getUsers({
+        page: 1,
+        perPage: initialLimit,
+      }),
+    initialPageParam: 1,
+  });
+
   return (
-    <div className="container">
-      <h2 className={`center ${css.title}`}>Мандрівники</h2>
-      <TravelersList />
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <TravellersPageClient />
+    </HydrationBoundary>
   );
 }
