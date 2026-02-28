@@ -6,7 +6,14 @@ export default function CreateStoryPage() {
     <main className={css.main}>
       <div className={css.container}>
         <h1 className={css.title}>Створити нову історію</h1>
-        <AddStoryForm />
+
+        <div className={css.content}>
+          <div className={css.left}>
+            <AddStoryForm />
+          </div>
+
+          <div className={css.right}>{}</div>
+        </div>
       </div>
     </main>
   );

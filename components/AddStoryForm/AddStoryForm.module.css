@@ -1,0 +1,173 @@
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.header {
+    
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.fieldDescription {
+    display: flex;
+}
+
+.labelWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.charCounter {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.45);
+}
+
+.label {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #2D2D2D;
+}
+
+.preview {
+    width: 100%;
+    aspect-ratio: 335 / 220;
+    border-radius: 16px;
+    background: #f3f3f3;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.previewImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.fileInput {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.uploadButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 163px;
+    height: 32px;
+    background: #e8e7ff;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.input,
+.select,
+.textarea,
+.textareaSmall {
+    width: 100%;
+    font-size: 18px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    outline: none;
+    background-color: #ffffff;
+}
+
+.textareaSmall {
+    min-height: 80px;
+    resize: none;
+}
+
+.textarea {
+    min-height: 200px;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+@media (min-width: 1440px) {
+    .form {
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        max-width: 1312px;
+        margin: 40px auto;
+        gap: 24px;
+    }
+
+    .left {
+        flex: 0 0 865px;
+    }
+
+    .right {
+        flex: 0 0 423px;
+        padding-top: 44px;
+    }
+
+    .fieldDescription {
+        display: none !important;
+    }
+
+    .preview {
+        width: 865px;
+        height: 576px;
+        aspect-ratio: auto;
+    }
+
+    .actions {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .actions button {
+        width: 100%;
+        height: 48px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .actions button[type="submit"] {
+        background-color: #5D5FEF;
+        color: #fff;
+        border: none;
+    }
+
+    .actions button[type="button"] {
+        background-color: transparent;
+        color: #5D5FEF;
+        border: 1px solid #5D5FEF;
+    }
+}

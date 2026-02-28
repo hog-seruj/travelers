@@ -38,7 +38,7 @@ const [isErrorOpen, setIsErrorOpen] = useState(false);
 
 const handleSubmit = async (
 values: AddStoryFormValues,
-actions: FormikHelpers<AddStoryFormValues>
+actions: FormikHelpers<AddStoryFormValues>,
 ) => {
 try {
 const formData = new FormData();
@@ -73,109 +73,116 @@ validateOnMount
 const isSaveDisabled =
 isSubmitting || !isValid || !dirty || !values.img;
 
+const inputId = `${fieldId}-img`;
+
 return (
-<Form className={css.form} noValidate>
-<div className={css.field}>
-<label htmlFor={`${fieldId}-img`} className={css.label}>
-Обкладинка статті*
-</label>
+  <Form className={css.form} noValidate>
+    <div className={css.left}>
+      <div className={css.field}>
+        <label htmlFor={inputId} className={css.label}>
+          Обкладинка статті*
+        </label>
 
-<div className={css.preview}>
-{preview ? (
-<img src={preview} alt="preview" className={css.previewImage} />
-) : (
-<div className={css.placeholder}>Обкладинка</div>
-)}
-</div>
+        <div className={css.preview}>
+          {preview ? (
+            <img src={preview} alt="preview" className={css.previewImage} />
+          ) : (
+            <div className={css.placeholder}>Обкладинка</div>
+          )}
+        </div>
 
-<input
-id={`${fieldId}-img`}
-type="file"
-accept="image/png,image/jpeg,image/webp"
-className={css.file}
-disabled={isSubmitting}
-onChange={(e) => {
-const file = e.currentTarget.files?.[0] ?? null;
-setFieldValue('img', file);
-setPreview(file ? URL.createObjectURL(file) : '');
-}}
-/>
+        <input
+          id={inputId}
+          type="file"
+          accept="image/png,image/jpeg,image/webp"
+          className={css.fileInput}
+          disabled={isSubmitting}
+          onChange={(e) => {
+            const file = e.currentTarget.files?.[0] ?? null;
+            setFieldValue('img', file);
+            setPreview(file ? URL.createObjectURL(file) : '');
+          }}
+        />
 
-<ErrorMessage name="img" component="span" className={css.error} />
-</div>
+        <label htmlFor={inputId} className={css.uploadButton}>
+          Завантажити фото
+        </label>
 
-<div className={css.field}>
-<label htmlFor={`${fieldId}-title`} className={css.label}>
-Заголовок*
-</label>
-<Field
-id={`${fieldId}-title`}
-name="title"
-className={css.input}
-disabled={isSubmitting}
-/>
-<ErrorMessage name="title" component="span" className={css.error} />
-</div>
+        <ErrorMessage name="img" component="span" className={css.error} />
+      </div>
 
-<div className={css.field}>
-<label htmlFor={`${fieldId}-category`} className={css.label}>
-Категорія*
-</label>
-<Field
-as="select"
-id={`${fieldId}-category`}
-name="category"
-className={css.select}
-disabled={isSubmitting}
->
-<option value="" disabled>
-Обери категорію
-</option>
-<option value="travel">Travel</option>
-<option value="city">City</option>
-<option value="nature">Nature</option>
-<option value="food">Food</option>
-<option value="other">Other</option>
-</Field>
-<ErrorMessage name="category" component="span" className={css.error} />
-</div>
+      <div className={css.field}>
+        <label htmlFor={`${fieldId}-title`} className={css.label}>
+          Заголовок*
+        </label>
+        <Field
+          id={`${fieldId}-title`}
+          name="title"
+          className={css.input}
+          placeholder="Введіть заголовок історії"
+          disabled={isSubmitting}
+        />
+        <ErrorMessage name="title" component="span" className={css.error} />
+      </div>
 
-<div className={css.field}>
-<label htmlFor={`${fieldId}-article`} className={css.label}>
-Текст історії*
-</label>
-<Field
-as="textarea"
-id={`${fieldId}-article`}
-name="article"
-rows={8}
-className={css.textarea}
-disabled={isSubmitting}
-/>
-<ErrorMessage name="article" component="span" className={css.error} />
-</div>
+      <div className={css.field}>
+        <label htmlFor={`${fieldId}-category`} className={css.label}>
+          Категорія*
+        </label>
+        <Field
+          as="select"
+          id={`${fieldId}-category`}
+          name="category"
+          className={css.select}
+          disabled={isSubmitting}
+        >
+          <option value="" disabled>
+            Категорія
+          </option>
+          <option value="travel">Travel</option>
+          <option value="city">City</option>
+          <option value="nature">Nature</option>
+          <option value="food">Food</option>
+          <option value="other">Other</option>
+        </Field>
+        <ErrorMessage name="category" component="span" className={css.error} />
+      </div>
 
-<div className={css.actions}>
-<Button
-type="submit"
-variant="primary"
-disabled={isSaveDisabled}
->
-{isSubmitting ? 'Збереження...' : 'Зберегти'}
-</Button>
+      <div className={css.field}>
+        <label htmlFor={`${fieldId}-article`} className={css.label}>
+          Текст історії*
+        </label>
+        <Field
+          as="textarea"
+          id={`${fieldId}-article`}
+          name="article"
+          rows={8}
+          className={css.textarea}
+          placeholder="Ваша історія тут"
+          disabled={isSubmitting}
+        />
+        <ErrorMessage name="article" component="span" className={css.error} />
+      </div>
+    </div>
 
-<Button
-type="button"
+    <div className={css.right}>
+      <div className={css.actions}>
+        <Button type="submit" variant="primary" disabled={isSaveDisabled}>
+          {isSubmitting ? 'Збереження...' : 'Зберегти'}
+        </Button>
 
-disabled={isSubmitting}
-onClick={() => router.back()}
->
-Відмінити
-</Button>
+        <Button
+          type="button"
+          disabled={isSubmitting}
+          onClick={() => router.back()}
+        >
+          Відмінити
+        </Button>
 
-{isSubmitting && <span className={css.loader}>Loading...</span>}
-</div>
-</Form>
+        {isSubmitting && <span className={css.loader}>Loading...</span>}
+      </div>
+    </div>
+  </Form>
 );
 }}
 </Formik>
