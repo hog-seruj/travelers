@@ -1,4 +1,4 @@
-/* Header */
+/* Header Base Geometry */
 .header {
   position: fixed;
   top: 0;
@@ -8,34 +8,38 @@
   height: 72px;
   background: transparent;
   padding: 0 16px;
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    /* backdrop-filter: blur(10px); */
-    z-index: -1;
-  }
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
+.header::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: -1;
+}
+
+/* Container */
 .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 100%;
+  position: relative;
+  z-index: 1;
 }
 
-/* Logo */
+/* Logo Base */
 .logoLink {
   display: flex;
   align-items: center;
   gap: 6px;
   text-decoration: none;
-  color: #ffffff;
   font-weight: 600;
   font-size: 15px;
   cursor: pointer;
@@ -57,11 +61,10 @@
   font-size: 17px;
   line-height: 1.1;
   letter-spacing: -0.01em;
-  color: #ffffff;
   white-space: nowrap;
 }
 
-/* Navigation */
+/* Navigation Base */
 .desktopNav {
   display: none;
 }
@@ -75,87 +78,25 @@
 
 .navigationLink {
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.8);
   font-weight: 400;
   font-size: 18px;
   padding: 10px 6px;
   transition: color 0.2s ease;
 }
 
-.navigationLink:hover {
-  color: #7a96ea;
-}
-
-.navigationLink:active {
-  color: #4c4c4c;
-}
-.desktopPublishButton {
-  border: 1px solid #ffffff !important;
-  background-color: #ffffff !important;
-  color: #000000 !important;
-  border-radius: 8px;
-  padding: 4px 10px;
-  font-weight: 500 !important;
-  font-size: 16px !important;
-  line-height: 1.5;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.desktopPublishButton:hover,
-.desktopPublishButton:focus {
-  color: #ffffff !important;
-  background-color: var(--accent, #6366f1) !important;
-  border-color: transparent !important;
-  cursor: pointer;
-}
-
-.desktopPublishButton:active {
-  background-color: var(--accent-dark, #4f46e5) !important;
-  border-color: transparent !important;
-}
-
-/* Actions */
+/* Actions Base */
 .tabletActions {
   display: none;
   align-items: center;
   gap: 12px;
 }
 
-.publishButton {
-  border: 1px solid #ffffff !important;
-  background-color: #ffffff !important;
-  color: #000000 !important;
-  border-radius: 8px;
-  padding: 4px 10px;
-  font-weight: 500 !important;
-  font-size: 16px !important;
-  line-height: 1.5;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.publishButton:hover,
-.publishButton:focus {
-  color: #ffffff !important;
-  background-color: var(--accent, #6366f1) !important;
-  border-color: transparent !important;
-  cursor: pointer;
-}
-
-.publishButton:active {
-  background-color: var(--accent-dark, #4f46e5) !important;
-  border-color: transparent !important;
-}
-
-/* Burger */
+/* Burger Base */
 .burgerIcon {
   width: 24px;
   height: 24px;
-  fill: #ffffff;
   display: block;
+  transition: fill 0.3s ease;
 }
 
 .burgerButton {
@@ -194,7 +135,98 @@
   opacity: 0.8;
 }
 
-/* Media Queries */
+/* ========== VARIANT: TRANSPARENT (Main Page) ========== */
+.header.transparent {
+  background: transparent;
+}
+
+.header.transparent::after {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Text & Icons White */
+.header.transparent .logoLink,
+.header.transparent .logoText {
+  color: #ffffff;
+}
+
+.header.transparent .navigationLink {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.header.transparent .navigationLink:hover,
+.header.transparent .navigationLink:focus {
+  color: var(--accent, #6366f1) !important; /* ✅ Фіолетовий як на внутрішніх */
+}
+
+.header.transparent .burgerIcon {
+  fill: #ffffff;
+}
+
+/* Buttons White (variant="") */
+/* Це стилі для кнопки "Опублікувати" на головній */
+.header.transparent .desktopPublishButton,
+.header.transparent .publishButton {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #ffffff !important;
+  padding: 10px 12px !important;
+}
+
+.header.transparent .desktopPublishButton:hover,
+.header.transparent .publishButton:hover {
+  /* Hover як у Button component (default -> primary behavior on hover) */
+  background-color: var(--accent, #6366f1) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+}
+
+/* ========== VARIANT: SOLID (Inner Pages) ========== */
+.header.solid {
+  background: #ffffff;
+}
+
+.header.solid::after {
+  display: none;
+}
+
+/* Text & Icons Black */
+.header.solid .logoLink,
+.header.solid .logoText {
+  color: #000000;
+}
+
+.header.solid .navigationLink {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.header.solid .navigationLink:hover {
+  color: var(--accent, #6366f1);
+}
+
+.header.solid .burgerIcon {
+  fill: #000000;
+}
+
+/* Buttons Primary (variant="primary") */
+/* Це стилі для кнопки "Опублікувати" на внутрішніх */
+.header.solid .desktopPublishButton,
+.header.solid .publishButton {
+  background-color: var(--accent, #6366f1) !important;
+  color: #ffffff !important;
+  border-color: var(--accent, #6366f1) !important;
+  padding: 10px 12px !important;
+}
+
+.header.solid .desktopPublishButton:hover,
+.header.solid .publishButton:hover {
+  /* Hover як у Button.primary */
+  background-color: var(--accent-light, #818cf8) !important;
+  color: #000000 !important;
+  border: 1px solid #4169e1;
+}
+
+/* ========== MEDIA QUERIES (Geometry Only) ========== */
 @media (min-width: 768px) {
   .tabletActions {
     display: flex;
@@ -215,6 +247,15 @@
   .logoIcon {
     width: 26px;
     height: 26px;
+  }
+
+  /* Tablet Burger Background Logic */
+  .header.transparent .burgerButton {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .header.solid .burgerButton {
+    background: rgba(0, 0, 0, 0.05);
   }
 }
 

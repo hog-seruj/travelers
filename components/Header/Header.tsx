@@ -12,8 +12,13 @@ import UserMenu from '../UserMenu/UserMenu';
 import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import { useAuthStore } from '@/lib/store/authStore';
 import { logout } from '@/lib/api/clientApi';
+import { useHeaderVariant, HeaderVariant } from '@/hooks/useHeaderVariant';
 
-export default function Header() {
+interface HeaderProps {
+  variant?: HeaderVariant;
+}
+
+export default function Header({ variant }: HeaderProps) {
   const [isBurgerOpen, setIsBurgerOpen] = useState<boolean>(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
@@ -23,7 +28,24 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
 
+  const autoVariant = useHeaderVariant();
+  const headerVariant = variant ?? autoVariant;
+
   const userName = user?.name?.trim() || 'Мандрівник';
+
+  // ✅ Визначаємо variant для кнопки "Опублікувати"
+  const publishButtonVariant = pathname === '/' ? '' : 'primary';
+
+  // ✅ Обробка кліку на кнопку "Опублікувати"
+  const handlePublishClick = () => {
+    if (user) {
+      // Авторизований → створення історії
+      router.push('/stories/create');
+    } else {
+      // Неавторизований → сторінка логіну
+      router.push('/auth/login');
+    }
+  };
 
   const handleLogoutClick = () => {
     setIsLogoutModalOpen(true);
@@ -74,7 +96,8 @@ export default function Header() {
 
   return (
     <>
-      <header className={css.header}>
+      {/* ✅ Додаємо клас варіанту (transparent/solid) */}
+      <header className={`${css.header} ${css[headerVariant]}`}>
         <div className={`container ${css.container}`}>
           <Link href="/" aria-label="Home" className={css.logoLink}>
             <Image
@@ -117,7 +140,8 @@ export default function Header() {
             {user && (
               <Button
                 type="button"
-                size="medium"
+                size="small"
+                variant={publishButtonVariant}
                 className={css.desktopPublishButton}
                 onClick={() => router.push('/stories/create')}
               >
@@ -130,18 +154,21 @@ export default function Header() {
                 userName={userName}
                 onLogout={handleLogoutClick}
                 variant="desktop"
+                headerVariant={headerVariant}
               />
             ) : (
-              <AuthNavigation variant="desktop" />
+              <AuthNavigation variant="desktop" headerVariant={headerVariant} />
             )}
           </nav>
 
+          {/* Tablet Actions - ✅ Кнопка ЗАВЖДИ видима */}
           <div className={css.tabletActions}>
             <Button
               type="button"
-              size="medium"
+              size="small"
+              variant={publishButtonVariant}
               className={css.publishButton}
-              onClick={() => router.push('/stories/create')}
+              onClick={handlePublishClick}
             >
               Опублікувати історію
             </Button>
@@ -158,6 +185,7 @@ export default function Header() {
             </button>
           </div>
 
+          {/* Mobile Burger */}
           <button
             type="button"
             className={css.mobileBurger}

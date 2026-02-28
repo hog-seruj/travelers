@@ -1,7 +1,8 @@
+/* ========== БАЗОВІ СТИЛІ (Геометрія) ========== */
 .userMenu {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .userInfo {
@@ -9,45 +10,34 @@
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  color: inherit;
   cursor: pointer;
 }
 
+.userName {
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+/* ✅ АВАТАРКА - ЗАВЖДИ ОДНАКОВА (нейтральний сірий) */
 .avatarPlaceholder {
+  position: relative;
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  display: block;
-  overflow: hidden;
+  background: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
 .avatarPlaceholderIcon {
-  width: 100%;
-  height: 100%;
-  background-color: #ebebeb;
-  fill: #bababa;
-}
-
-.avatarPlaceholder:hover .avatarPlaceholderIcon {
-  fill: #ebebeb;
-  background-color: var(--accent);
-}
-
-.userInfo:hover .avatarPlaceholderIcon {
-  fill: #ebebeb;
-  background-color: var(--accent);
-}
-
-.userName {
-  font-weight: 400;
-  font-size: 16px;
-  color: #ffffff;
-  white-space: nowrap;
-}
-
-.userInfo:hover .userName {
-  color: var(--accent);
+  width: 16px;
+  height: 16px;
+  fill: #9e9e9e;
 }
 
 .separator {
@@ -60,20 +50,150 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background: transparent;
   border: none;
   cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.logoutButton:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .logoutIcon {
   width: 20px;
   height: 20px;
   fill: #ffffff;
+  transition: fill 0.2s ease;
 }
 
-.logoutButton:hover .logoutIcon {
-  fill: var(--accent);
+/* ========== MODAL VARIANT (для BurgerMenu) ========== */
+.modalUserMenu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
+.modalUserInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modalUserName {
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.modalUserName:hover {
+  color: var(--accent, #6366f1); /* ✅ Hover фіолетовий */
+}
+
+.modalAvatarPlaceholder {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.modalAvatarPlaceholderIcon {
+  width: 16px;
+  height: 16px;
+  fill: #9e9e9e;
+}
+
+.modalSeparator {
+  width: 1px;
+  height: 24px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.modalLogoutButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.modalLogoutButton:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.modalLogoutIcon {
+  width: 20px;
+  height: 20px;
+  fill: #000000;
+  transition: fill 0.2s ease;
+}
+
+.modalLogoutIcon:hover {
+  fill: var(--accent, #6366f1); /* ✅ Hover фіолетовий */
+}
+
+/* ========== ВАРІАНТИ HEADER (Тільки текст/сепаратор/іконка логауту) ========== */
+
+/* ✅ Transparent header (Головна) - БІЛИЙ текст та іконки */
+.userMenu.transparent .userName {
+  color: #ffffff !important;
+}
+
+.userMenu.transparent .userName:hover {
+  color: var(--accent, #6366f1) !important; /* ✅ Hover фіолетовий */
+}
+
+.userMenu.transparent .separator {
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+.userMenu.transparent .logoutIcon {
+  fill: #ffffff !important;
+}
+
+.userMenu.transparent .logoutIcon:hover {
+  fill: var(--accent, #6366f1) !important; /* ✅ Hover фіолетовий */
+}
+
+/* ✅ Solid header (Внутрішні) - ЧОРНИЙ текст та іконки */
+.userMenu.solid .userName {
+  color: #000000 !important;
+}
+
+.userMenu.solid .userName:hover {
+  color: var(--accent, #6366f1) !important; /* ✅ Hover фіолетовий */
+}
+
+.userMenu.solid .separator {
+  background: rgba(0, 0, 0, 0.3) !important;
+}
+
+.userMenu.solid .logoutIcon {
+  fill: #000000 !important;
+}
+
+.userMenu.solid .logoutIcon:hover {
+  fill: var(--accent, #6366f1) !important; /* ✅ Hover фіолетовий */
+}
+
+/* ❌ НІЯКИХ СТИЛІВ ДЛЯ .avatarPlaceholder У ВАРІАНТАХ! */
+
+/* ========== MEDIA QUERIES (Геометрія) ========== */
 @media (max-width: 767px) {
   .userName {
     display: none;
@@ -87,95 +207,9 @@
     width: 28px;
     height: 28px;
   }
-}
 
-/* ========== MODAL VARIANT ========== */
-.modalUserMenu {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 8px 0;
-}
-
-.modalUserInfo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  color: #1a1a1a;
-  cursor: pointer;
-  font-size: 18px;
-  font-weight: 500;
-}
-
-.modalAvatarPlaceholder {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: #e5e7eb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.modalAvatarPlaceholder:hover,
-.modalUserInfo:hover .modalAvatarPlaceholderIcon {
-  fill: #ffffff;
-}
-
-.modalAvatarPlaceholder:hover,
-.modalUserInfo:hover .modalAvatarPlaceholder {
-  background-color: var(--accent);
-}
-
-.modalAvatarPlaceholder:hover,
-.modalUserInfo:hover .modalUserName {
-  color: var(--accent);
-}
-
-.modalRegister:hover {
-  color: #000;
-  border: 1px solid var(--accent);
-  background: #e8eeff;
-}
-
-.modalAvatarPlaceholderIcon {
-  width: 20px;
-  height: 20px;
-  fill: #9ca3af;
-}
-
-.modalUserName {
-  font-weight: 400;
-  font-size: 12px;
-  color: #1a1a1a;
-  white-space: nowrap;
-}
-
-.modalSeparator {
-  width: 1px;
-  height: 20px;
-  background: #d1d5db;
-  margin: 0 4px;
-}
-
-.modalLogoutButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-}
-
-.modalLogoutIcon {
-  width: 20px;
-  height: 20px;
-  fill: #1a1a1a;
-}
-
-.modalLogoutButton:hover .modalLogoutIcon {
-  fill: var(--accent);
+  .avatarPlaceholderIcon {
+    width: 14px;
+    height: 14px;
+  }
 }
