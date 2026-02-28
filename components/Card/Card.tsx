@@ -9,7 +9,6 @@ interface Props {
 }
 
 export default function Card({ user }: Props) {
-  console.log('Card id', user._id);
   return (
     <div className={css.card}>
       <Image

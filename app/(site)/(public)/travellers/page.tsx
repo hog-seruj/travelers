@@ -8,14 +8,14 @@ import TravellersPageClient from './TravellersPageClient';
 
 export default async function TravellersPage() {
   const queryClient = new QueryClient();
-  const limit = 8;
+  const initialLimit = 12;
 
   await queryClient.prefetchInfiniteQuery({
-    queryKey: ['travellersPage'],
+    queryKey: ['travellersPage', initialLimit],
     queryFn: () =>
       getUsers({
         page: 1,
-        perPage: limit,
+        perPage: initialLimit,
       }),
     initialPageParam: 1,
   });

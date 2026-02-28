@@ -73,6 +73,7 @@ export async function login(userData: LoginRequest): Promise<User> {
 export interface GetUsersProps {
   page?: number;
   perPage?: number;
+  nextPerPage?: number;
 }
 
 export interface GetUsersResponse {
@@ -86,11 +87,13 @@ export interface GetUsersResponse {
 export async function getUsers({
   page = 1,
   perPage = 4,
+  nextPerPage,
 }: GetUsersProps): Promise<GetUsersResponse> {
   const options = {
     params: {
       page,
       perPage,
+      nextPerPage,
     },
   };
 

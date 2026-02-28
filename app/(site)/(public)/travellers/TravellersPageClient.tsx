@@ -12,6 +12,7 @@ import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 
 export default function TravellersPageClient() {
   const [initialLimit, setInitialLimit] = useState<number>(8);
+  const nextPerPage: number = 4;
 
   useEffect(() => {
     const updateLimit = () => {
@@ -38,15 +39,16 @@ export default function TravellersPageClient() {
       const data = await getUsers({
         page: pageParam,
         perPage: initialLimit as number,
+        nextPerPage,
       });
       return data;
     },
 
     initialPageParam: 1,
     getNextPageParam: (lastResponse) => {
-      console.log('Last response from getNextPageParam:', lastResponse);
-      const nextPage = (lastResponse.page as number) + 1;
-      return nextPage < lastResponse.totalPages ? nextPage : undefined;
+      const currentPage = Number(lastResponse.page);
+      const nextPage = currentPage + 1;
+      return nextPage <= lastResponse.totalPages ? nextPage : undefined;
     },
 
     select: (data) => {
@@ -77,10 +79,6 @@ export default function TravellersPageClient() {
 
   const users = data?.users ?? [];
   const hasUsers = users.length > 0;
-
-  // console.log(users);
-
-  // console.log('Data from useInfiniteQuery:', data?.pages);
 
   return (
     <main>
