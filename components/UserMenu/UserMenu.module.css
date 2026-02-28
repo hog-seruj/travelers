@@ -20,7 +20,6 @@
   transition: color 0.2s ease;
 }
 
-/* ✅ АВАТАРКА - ЗАВЖДИ ОДНАКОВА (нейтральний сірий) */
 .avatarPlaceholder {
   position: relative;
   width: 32px;
@@ -92,7 +91,7 @@
 }
 
 .modalUserName:hover {
-  color: var(--accent, #6366f1); /* ✅ Hover фіолетовий */
+  color: var(--accent, #6366f1);
 }
 
 .modalAvatarPlaceholder {
@@ -144,18 +143,15 @@
 }
 
 .modalLogoutIcon:hover {
-  fill: var(--accent, #6366f1); /* ✅ Hover фіолетовий */
+  fill: var(--accent, #6366f1);
 }
 
-/* ========== ВАРІАНТИ HEADER (Тільки текст/сепаратор/іконка логауту) ========== */
-
-/* ✅ Transparent header (Головна) - БІЛИЙ текст та іконки */
 .userMenu.transparent .userName {
   color: #ffffff !important;
 }
 
 .userMenu.transparent .userName:hover {
-  color: var(--accent, #6366f1) !important; /* ✅ Hover фіолетовий */
+  color: var(--accent, #6366f1) !important;
 }
 
 .userMenu.transparent .separator {
@@ -167,7 +163,7 @@
 }
 
 .userMenu.transparent .logoutIcon:hover {
-  fill: var(--accent, #6366f1) !important; /* ✅ Hover фіолетовий */
+  fill: var(--accent, #6366f1) !important;
 }
 
 /* ✅ Solid header (Внутрішні) - ЧОРНИЙ текст та іконки */
@@ -176,7 +172,7 @@
 }
 
 .userMenu.solid .userName:hover {
-  color: var(--accent, #6366f1) !important; /* ✅ Hover фіолетовий */
+  color: var(--accent, #6366f1) !important;
 }
 
 .userMenu.solid .separator {
@@ -188,10 +184,8 @@
 }
 
 .userMenu.solid .logoutIcon:hover {
-  fill: var(--accent, #6366f1) !important; /* ✅ Hover фіолетовий */
+  fill: var(--accent, #6366f1) !important;
 }
-
-/* ❌ НІЯКИХ СТИЛІВ ДЛЯ .avatarPlaceholder У ВАРІАНТАХ! */
 
 /* ========== MEDIA QUERIES (Геометрія) ========== */
 @media (max-width: 767px) {

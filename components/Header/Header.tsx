@@ -33,16 +33,12 @@ export default function Header({ variant }: HeaderProps) {
 
   const userName = user?.name?.trim() || 'Мандрівник';
 
-  // ✅ Визначаємо variant для кнопки "Опублікувати"
   const publishButtonVariant = pathname === '/' ? '' : 'primary';
 
-  // ✅ Обробка кліку на кнопку "Опублікувати"
   const handlePublishClick = () => {
     if (user) {
-      // Авторизований → створення історії
       router.push('/stories/create');
     } else {
-      // Неавторизований → сторінка логіну
       router.push('/auth/login');
     }
   };
@@ -96,7 +92,6 @@ export default function Header({ variant }: HeaderProps) {
 
   return (
     <>
-      {/* ✅ Додаємо клас варіанту (transparent/solid) */}
       <header className={`${css.header} ${css[headerVariant]}`}>
         <div className={`container ${css.container}`}>
           <Link href="/" aria-label="Home" className={css.logoLink}>
@@ -161,7 +156,6 @@ export default function Header({ variant }: HeaderProps) {
             )}
           </nav>
 
-          {/* Tablet Actions - ✅ Кнопка ЗАВЖДИ видима */}
           <div className={css.tabletActions}>
             <Button
               type="button"

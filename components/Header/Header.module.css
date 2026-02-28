@@ -156,7 +156,7 @@
 
 .header.transparent .navigationLink:hover,
 .header.transparent .navigationLink:focus {
-  color: var(--accent, #6366f1) !important; /* ✅ Фіолетовий як на внутрішніх */
+  color: var(--accent, #6366f1) !important;
 }
 
 .header.transparent .burgerIcon {
@@ -164,7 +164,6 @@
 }
 
 /* Buttons White (variant="") */
-/* Це стилі для кнопки "Опублікувати" на головній */
 .header.transparent .desktopPublishButton,
 .header.transparent .publishButton {
   background-color: #ffffff !important;
@@ -175,7 +174,6 @@
 
 .header.transparent .desktopPublishButton:hover,
 .header.transparent .publishButton:hover {
-  /* Hover як у Button component (default -> primary behavior on hover) */
   background-color: var(--accent, #6366f1) !important;
   color: #ffffff !important;
   border-color: transparent !important;
@@ -209,7 +207,6 @@
 }
 
 /* Buttons Primary (variant="primary") */
-/* Це стилі для кнопки "Опублікувати" на внутрішніх */
 .header.solid .desktopPublishButton,
 .header.solid .publishButton {
   background-color: var(--accent, #6366f1) !important;
@@ -220,7 +217,6 @@
 
 .header.solid .desktopPublishButton:hover,
 .header.solid .publishButton:hover {
-  /* Hover як у Button.primary */
   background-color: var(--accent-light, #818cf8) !important;
   color: #000000 !important;
   border: 1px solid #4169e1;
