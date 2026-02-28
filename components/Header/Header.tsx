@@ -31,9 +31,9 @@ export default function Header({ variant }: HeaderProps) {
   const autoVariant = useHeaderVariant();
   const headerVariant = variant ?? autoVariant;
 
-  const userName = user?.name?.trim() || 'Мандрівник';
+  const publishButtonVariant = headerVariant === 'transparent' ? '' : 'primary';
 
-  const publishButtonVariant = pathname === '/' ? '' : 'primary';
+  const userName = user?.name?.trim() || 'Мандрівник';
 
   const handlePublishClick = () => {
     if (user) {
@@ -179,7 +179,6 @@ export default function Header({ variant }: HeaderProps) {
             </button>
           </div>
 
-          {/* Mobile Burger */}
           <button
             type="button"
             className={css.mobileBurger}
