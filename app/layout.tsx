@@ -3,6 +3,9 @@ import { Nunito_Sans, Sora, Inter } from 'next/font/google';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
 import './globals.css';
 import AuthProvider from '@/components/auth/AuthProvider/AuthProvider';
+import { Toaster } from 'sonner';
+import ToastListener from '@/components/ToastListener/ToastListener';
+import { Suspense } from 'react';
 
 const nunitoSans = Nunito_Sans({
   variable: '--font-nunito-sans',
@@ -38,9 +41,23 @@ export default function RootLayout({
       className={`${nunitoSans.variable} ${sora.variable} ${inter.variable}`}
     >
       <body>
+        <Suspense fallback={null}>
+          <ToastListener />
+        </Suspense>
         <TanStackProvider>
           <AuthProvider>{children}</AuthProvider>
         </TanStackProvider>
+        <Toaster
+          richColors
+          position="top-right"
+          toastOptions={{
+            style: {
+              fontFamily: 'var(--font-nunito-sans)',
+              fontSize: '16px',
+              maxWidth: '360px',
+            },
+          }}
+        />
       </body>
     </html>
   );

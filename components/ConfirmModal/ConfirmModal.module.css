@@ -1,0 +1,160 @@
+/* Overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 300;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Modal - Mobile First (Default) */
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  border-radius: 24px;
+  padding-block: 64px 20px;
+  padding-inline: 20px;
+  width: 335px;
+  max-width: 100%;
+  background: #f7f9ff;
+  animation: slideIn 0.3s ease;
+  position: relative;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Close Button */
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.closeButton:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.closeIcon {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: #1a1a1a;
+  stroke-width: 2;
+}
+
+/* Title - Mobile */
+.title {
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: #000;
+  margin-bottom: 16px;
+}
+
+/* Message - Mobile */
+.message {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: center;
+  color: #000;
+  margin-bottom: 32px;
+}
+
+/* Button Group - only layout, no button styles */
+.buttonGroup {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 24px;
+  width: calc(100% - 40px);
+  margin-inline: auto;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.cancelButton,
+.confirmButton {
+  width: 100%;
+}
+
+/* ───────────────────────────────────────
+   Tablet (min-width: 768px)
+   ─────────────────────────────────────── */
+@media screen and (min-width: 768px) {
+  .modal {
+    width: 704px;
+    padding-block: 64px;
+    padding-inline: 32px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .message {
+    font-size: 16px;
+  }
+
+  .buttonGroup {
+    flex-direction: row;
+    padding-inline: 64px;
+  }
+}
+
+/* ───────────────────────────────────────
+   Desktop (min-width: 1440px)
+   ─────────────────────────────────────── */
+@media screen and (min-width: 1440px) {
+  .modal {
+    width: 768px;
+    padding: 64px;
+  }
+
+  .title {
+    font-size: 48px;
+  }
+
+  .message {
+    font-size: 20px;
+  }
+}

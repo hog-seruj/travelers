@@ -16,11 +16,11 @@
   width: 100%;
   height: 40px;
   padding: 8px;
+  padding-right: 48px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   background-color: inherit;
   outline: none;
-  color: rgba(0, 0, 0, 0.6);
 
   transition:
     border-color 200ms ease,
@@ -28,7 +28,8 @@
 }
 
 .input::placeholder {
-  color: rgba(0, 0, 0, 0.15);
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: 400;
 }
 
 .input:focus {
@@ -58,6 +59,36 @@
 
 .btn {
   font-size: 16px;
+}
+
+.passwordWrapper {
+  position: relative;
+}
+
+.toggleBtn {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggleBtn svg {
+  display: block;
+}
+
+.icon {
+  fill: rgba(0, 0, 0, 0.7);
+}
+
+.toggleBtn:focus {
+  outline: none;
 }
 
 @media (min-width: 1440px) {
