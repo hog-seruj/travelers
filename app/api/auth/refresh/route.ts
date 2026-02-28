@@ -19,7 +19,7 @@ export async function POST() {
   // Якщо accessToken немає — перевіряємо refreshToken
   if (refreshToken) {
     // Виконуємо запит до API, передаючи всі cookie у заголовку
-    const apiRes = await api.post('auth/refresh', {
+    const apiRes = await api.post('auth/refresh', null, {
       headers: {
         Cookie: cookieStore.toString(), // перетворюємо cookie у рядок
       },
@@ -40,6 +40,8 @@ export async function POST() {
           cookieStore.set('accessToken', parsed.accessToken, options);
         if (parsed.refreshToken)
           cookieStore.set('refreshToken', parsed.refreshToken, options);
+        if (parsed.sessionId)
+          cookieStore.set('sessionId', parsed.sessionId, options);
       }
       return NextResponse.json({ success: true });
     }

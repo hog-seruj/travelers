@@ -47,3 +47,53 @@ export const getMe = async () => {
 export const logout = async (): Promise<void> => {
   await nextServer.post('/auth/logout');
 };
+
+export type RegisterRequest = {
+  name: string;
+  email: string;
+  password: string;
+};
+
+export async function register(userData: RegisterRequest): Promise<User> {
+  const { data } = await nextServer.post<User>(`/auth/register`, userData);
+  return data;
+}
+
+export type LoginRequest = {
+  email: string;
+  password: string;
+};
+
+export async function login(userData: LoginRequest): Promise<User> {
+  const { data } = await nextServer.post<User>(`/auth/login`, userData);
+  return data;
+}
+// getUsers
+
+interface GetUsersProps {
+  page?: number;
+  perPage?: number;
+}
+
+interface GetUsersResponse {
+  page: number;
+  perPage: number;
+  totalItems: number;
+  totalPages: number;
+  users: User[];
+}
+
+export async function getUsers({
+  page = 1,
+  perPage = 4,
+}: GetUsersProps): Promise<GetUsersResponse> {
+  const options = {
+    params: {
+      page,
+      perPage,
+    },
+  };
+  // const response = await api.get('/users', options);
+  const response = await nextServer.get('/users', options);
+  return response.data;
+}

@@ -10,18 +10,17 @@
   background-color: rgba(0, 0, 0, 0.05);
   color: var(--black);
   font-weight: 500;
-  /* line-height: 1;   */
   border-radius: 8px;
-  transition: color 0.3s ease-in-out, transform 0.1s ease, box-shadow 0.2s ease,
-    background-color 0.3s ease, border-color 0.3s ease, border-color 0.3s ease;
+  transition: 0.3s ease-in-out;
 }
 
 .button:hover,
 .button:focus {
   color: var(--white);
   background-color: var(--accent);
-  border-color: gba(255, 255, 255, 0);
+  border-color: rgba(255, 255, 255, 0);
   cursor: pointer;
+  fill: var(--white);
 }
 
 .button:active {
@@ -61,7 +60,11 @@
 }
 
 .large {
-  font-size: 18px;
+  font-size: 16px;
   padding: 6px 12px;
   height: 48px;
+
+  @media screen and (min-width: 1440px) {
+    font-size: 18px;
+  }
 }

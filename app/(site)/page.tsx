@@ -12,7 +12,7 @@ import {
   dehydrate,
 } from '@tanstack/react-query';
 import { getStories } from '@/lib/api/clientApi';
-import { getUsers } from '@/lib/api/api';
+import { getUsers } from '@/lib/api/clientApi';
 
 export default async function Home() {
   const queryClient = new QueryClient();
