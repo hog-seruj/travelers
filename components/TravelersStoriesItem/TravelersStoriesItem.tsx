@@ -7,9 +7,10 @@ import css from './TravelersStoriesItem.module.css';
 
 interface TravelersStoriesItemProps {
   story: Story;
+  className?: string;
 }
 
-function TravelersStoriesItem({ story }: TravelersStoriesItemProps) {
+function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
   const handleClick = () => {
     // перевірити чи авторизований користувач
     // якщо ні - відкривати модальне вікно AuthNavModal
@@ -21,7 +22,7 @@ function TravelersStoriesItem({ story }: TravelersStoriesItemProps) {
   };
 
   return (
-    <li className={css.item}>
+    <li className={`${css.item} ${className || ''}`}>
       <Image
         src={story.img}
         alt={story.title}

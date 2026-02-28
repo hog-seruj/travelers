@@ -1,6 +1,8 @@
 import StoryDetailsSection from '@/components/StoryDetailsSection/StoryDetailsSection';
 import PopularStoriesSection from '@/components/PopularStoriesSection/PopularStoriesSection';
-import { getStory } from '@/lib/api/clientApi';
+import { getStory, getStories } from '@/lib/api/clientApi';
+import { notFound } from 'next/navigation';
+
 import {
   dehydrate,
   HydrationBoundary,
@@ -18,18 +20,25 @@ export default async function StoryPage({ params }: Props) {
 
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchQuery({
-    queryKey: ['story', storyId],
-    queryFn: () => getStory(storyId),
-  });
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: ['story', storyId],
+      queryFn: () => getStory(storyId),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: ['popularStories', 4],
+      queryFn: () => getStories(1, 4, 'popular'),
+    }),
+  ]);
+
+  const story = queryClient.getQueryData(['story', storyId]);
+  if (!story) notFound();
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <main className={styles.page}>
-        <div className="container">
-          <StoryDetailsSection storyId={storyId} />
-        </div>
-        <PopularStoriesSection />
+        <StoryDetailsSection storyId={storyId} />
+        <PopularStoriesSection perPage={4} mobileCount={2} />
       </main>
     </HydrationBoundary>
   );

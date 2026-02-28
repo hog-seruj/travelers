@@ -19,8 +19,8 @@ export default async function Home() {
 
   // PopularStoriesSection prefetch
   await queryClient.prefetchQuery({
-    queryKey: ['popularStories'],
-    queryFn: () => getStories(1, 3, 'popular'),
+    queryKey: ['popularStories', 4],
+    queryFn: () => getStories(1, 4, 'popular'),
   });
 
   // getUsers prefetch
@@ -34,7 +34,7 @@ export default async function Home() {
       <Hero />
       <About />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <PopularStoriesSection />
+        <PopularStoriesSection perPage={4} mobileCount={3} />
         <Block title="Наші Мандрівники">
           <TravelersList />
         </Block>

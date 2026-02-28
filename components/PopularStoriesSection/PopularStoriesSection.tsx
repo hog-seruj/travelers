@@ -6,10 +6,18 @@ import PopularStories from '../PopularStories/PopularStories';
 import { getStories } from '@/lib/api/clientApi';
 import css from './PopularStoriesSection.module.css';
 
-function PopularStoriesSection() {
+interface PopularStoriesSectionProps {
+  perPage?: number;
+  mobileCount?: number;
+}
+
+function PopularStoriesSection({
+  perPage = 3,
+  mobileCount = 3,
+}: PopularStoriesSectionProps) {
   const { data, isLoading, error } = useQuery({
-    queryKey: ['popularStories'],
-    queryFn: () => getStories(1, 3, 'popular'),
+    queryKey: ['popularStories', perPage],
+    queryFn: () => getStories(1, perPage, 'popular'),
     refetchOnMount: false,
   });
 
@@ -20,7 +28,9 @@ function PopularStoriesSection() {
     <section className={css.section}>
       <div className="container">
         <h2 className={css.title}>Популярні історії</h2>
-        {data?.stories?.length > 0 && <PopularStories stories={data.stories} />}
+        {data?.stories?.length > 0 && (
+          <PopularStories stories={data.stories} mobileCount={mobileCount} />
+        )}
         <div className={css.btn}>
           <Button
             variant="primary"
