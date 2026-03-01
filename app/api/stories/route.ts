@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
         page,
         perPage,
         sort,
-        category: category || undefined,
+        category,
       },
     });
     return NextResponse.json(data);
