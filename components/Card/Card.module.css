@@ -43,6 +43,11 @@
   line-height: 1.5;
   font-family: var(--mainFontFamily);
 
+  white-space: nowrap; /* Забороняє перенос на новий рядок */
+  overflow: hidden; /* Ховає те, що не помістилося */
+  text-overflow: ellipsis; /* Додає три крапки */
+  width: 100%;
+
   @media screen and (min-width: 1440px) {
     font-size: 26px;
   }

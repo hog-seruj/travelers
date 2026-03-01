@@ -1,4 +1,3 @@
-/* desktop */
 .desktopAuth {
   display: flex;
   align-items: center;
@@ -8,57 +7,15 @@
 .loginButton,
 .registerButton {
   text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  gap: 8px;
-  font-size: 16px;
   font-weight: 500;
+  font-size: 16px;
+  padding: 4px 10px;
   border-radius: 8px;
-  padding-block: 4px;
-  padding-inline: 10px;
-  height: 35px;
-  cursor: pointer;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
-.loginButton {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  color: #ffffff;
-  width: 58px;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.loginButton:hover {
-  background: #e8eeff;
-  color: #000000;
-}
-
-.loginButton:active {
-  background: #7a96ea;
-}
-
-.registerButton {
-  width: 113px;
-  background-color: #ffffff;
-  color: #1a1a1a;
-  border: 1px solid rgba(255, 255, 255, 0);
-}
-
-.registerButton:hover {
-  border: 1px solid #fff;
-  background: #7f7f7f;
-  color: #ffffff;
-}
-
-.registerButton:active {
-  border: 1px solid #7f7f7f;
-  background: #4c4c4c;
-}
-
-/* modal */
+/* Modal variant */
 .modalAuth {
   display: flex;
   flex-direction: column;
@@ -69,48 +26,91 @@
 .modalLogin,
 .modalRegister {
   text-decoration: none;
-  font-size: 16px;
   font-weight: 500;
-  padding: 14px 24px;
+  font-size: 16px;
+  padding: 12px 10px;
   border-radius: 8px;
-  cursor: pointer;
   transition: all 0.2s ease;
   text-align: center;
   width: 100%;
   display: block;
 }
 
-.modalLogin {
-  background-color: #f0f0f5;
-  color: #1a1a1a;
-  border: 1px solid transparent;
-}
-
-.modalLogin:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background: #4169e1;
+.desktopAuth.transparent .loginButton {
   color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 10px 12px;
 }
 
-.modalLogin:active {
+.desktopAuth.transparent .loginButton:hover,
+.desktopAuth.transparent .loginButton:focus {
   border: 1px solid #4169e1;
-  background: #7a96ea;
+  background: #e8eeff;
   color: #000000;
 }
 
-.modalRegister {
-  background: #4169e1;
+.desktopAuth.transparent .registerButton {
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+  padding: 10px 12px;
+}
+
+.desktopAuth.transparent .registerButton:hover,
+.desktopAuth.transparent .registerButton:focus {
+  background-color: var(--accent, #6366f1);
   color: #ffffff;
-  border: 1px solid transparent;
+}
+
+.desktopAuth.solid .loginButton {
+  color: #000;
+  background-color: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.05);
+  padding: 10px 12px;
+}
+
+.desktopAuth.solid .loginButton:hover {
+  background-color: var(--accent, #6366f1);
+  color: #ffffff;
+  border-color: var(--accent, #6366f1);
+}
+
+.desktopAuth.solid .registerButton {
+  background-color: var(--accent, #6366f1);
+  color: #ffffff;
+  border-color: var(--accent, #6366f1);
+  padding: 10px 12px;
+  border: 1px solid #4169e1;
+}
+
+.desktopAuth.solid .registerButton:hover {
+  background-color: var(--accent-light, #818cf8);
+  color: #000000;
+  border: 1px solid #4169e1;
+}
+
+.modalLogin {
+  color: #1a1a1a;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.modalLogin:hover {
+  background-color: var(--accent, #6366f1);
+  color: #ffffff;
+  border: 1px solid var(--accent, #6366f1);
+}
+
+.modalRegister {
+  background-color: var(--accent, #6366f1);
+  color: #ffffff;
+  border: 1px solid var(--accent, #6366f1);
 }
 
 .modalRegister:hover {
-  color: #000;
-  border: 1px solid #4169e1;
   background: #e8eeff;
-}
-.modalRegister:active {
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0);
-  background: #1a2a5a;
+  color: #000000;
+  border: 1px solid #4169e1;
 }
