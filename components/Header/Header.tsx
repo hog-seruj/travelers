@@ -9,10 +9,18 @@ import BurgerMenu from '../BurgerMenu/BurgerMenu';
 import AuthNavigation from '../AuthNavigation/AuthNavigation';
 import Button from '../Button/Button';
 import UserMenu from '../UserMenu/UserMenu';
+import ConfirmModal from '../ConfirmModal/ConfirmModal';
 import { useAuthStore } from '@/lib/store/authStore';
+import { logout } from '@/lib/api/clientApi';
+import { useHeaderVariant, HeaderVariant } from '@/hooks/useHeaderVariant';
 
-export default function Header() {
+interface HeaderProps {
+  variant?: HeaderVariant;
+}
+
+export default function Header({ variant }: HeaderProps) {
   const [isBurgerOpen, setIsBurgerOpen] = useState<boolean>(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   const user = useAuthStore((state) => state.user);
   const clearAuth = useAuthStore((state) => state.clearIsAuthenticated);
@@ -20,10 +28,40 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const handleLogout = () => {
-    clearAuth();
-    router.push('/');
-    router.refresh();
+  const autoVariant = useHeaderVariant();
+  const headerVariant = variant ?? autoVariant;
+
+  const publishButtonVariant = headerVariant === 'transparent' ? '' : 'primary';
+
+  const userName = user?.name?.trim() || 'Мандрівник';
+
+  const handlePublishClick = () => {
+    if (user) {
+      router.push('/stories/create');
+    } else {
+      router.push('/auth/login');
+    }
+  };
+
+  const handleLogoutClick = () => {
+    setIsLogoutModalOpen(true);
+  };
+
+  const handleLogoutConfirm = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      clearAuth();
+      setIsLogoutModalOpen(false);
+      router.push('/');
+      router.refresh();
+    }
+  };
+
+  const handleLogoutCancel = () => {
+    setIsLogoutModalOpen(false);
   };
 
   useEffect(() => {
@@ -52,11 +90,9 @@ export default function Header() {
     return () => window.removeEventListener('keydown', handleEscape);
   }, [isBurgerOpen]);
 
-  const userName = user?.name?.trim() || 'Мандрівник';
-
   return (
     <>
-      <header className={css.header}>
+      <header className={`${css.header} ${css[headerVariant]}`}>
         <div className={`container ${css.container}`}>
           <Link href="/" aria-label="Home" className={css.logoLink}>
             <Image
@@ -99,7 +135,8 @@ export default function Header() {
             {user && (
               <Button
                 type="button"
-                size="medium"
+                size="small"
+                variant={publishButtonVariant}
                 className={css.desktopPublishButton}
                 onClick={() => router.push('/stories/create')}
               >
@@ -110,20 +147,22 @@ export default function Header() {
             {user ? (
               <UserMenu
                 userName={userName}
-                onLogout={handleLogout}
+                onLogout={handleLogoutClick}
                 variant="desktop"
+                headerVariant={headerVariant}
               />
             ) : (
-              <AuthNavigation variant="desktop" />
+              <AuthNavigation variant="desktop" headerVariant={headerVariant} />
             )}
           </nav>
 
           <div className={css.tabletActions}>
             <Button
               type="button"
-              size="medium"
+              size="small"
+              variant={publishButtonVariant}
               className={css.publishButton}
-              onClick={() => router.push('/stories/create')}
+              onClick={handlePublishClick}
             >
               Опублікувати історію
             </Button>
@@ -156,6 +195,16 @@ export default function Header() {
       {isBurgerOpen && (
         <BurgerMenu onCloseAction={() => setIsBurgerOpen(false)} />
       )}
+
+      <ConfirmModal
+        isOpen={isLogoutModalOpen}
+        title="Ви точно хочете вийти?"
+        message="Ми будемо сумувати за вами!"
+        confirmButtonText="Вийти"
+        cancelButtonText="Відмінити"
+        onConfirm={handleLogoutConfirm}
+        onCancel={handleLogoutCancel}
+      />
     </>
   );
 }

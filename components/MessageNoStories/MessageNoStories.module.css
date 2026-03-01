@@ -1,0 +1,40 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 32px;
+  max-width: 335px;
+  padding: 20px;
+  border-radius: 24px;
+
+  background-color: var(--accent-light);
+}
+
+.text {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 140%;
+  letter-spacing: -0.01em;
+}
+
+.btn {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+@media screen and (min-width: 768px) {
+  .wrapper {
+    max-width: 533px;
+    padding: 40px 32px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .text {
+    font-size: 26px;
+  }
+
+  .btn {
+    font-size: 18px;
+  }
+}

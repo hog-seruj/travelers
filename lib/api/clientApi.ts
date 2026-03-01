@@ -80,12 +80,13 @@ export async function login(userData: LoginRequest): Promise<User> {
 }
 // getUsers
 
-interface GetUsersProps {
+export interface GetUsersProps {
   page?: number;
   perPage?: number;
+  nextPerPage?: number;
 }
 
-interface GetUsersResponse {
+export interface GetUsersResponse {
   page: number;
   perPage: number;
   totalItems: number;
@@ -96,14 +97,32 @@ interface GetUsersResponse {
 export async function getUsers({
   page = 1,
   perPage = 4,
+  nextPerPage,
 }: GetUsersProps): Promise<GetUsersResponse> {
   const options = {
     params: {
       page,
       perPage,
+      nextPerPage,
     },
   };
-  // const response = await api.get('/users', options);
+
   const response = await nextServer.get('/users', options);
   return response.data;
+}
+
+export interface GetUserResponse {
+  user: User;
+  articles: {
+    page: number;
+    perPage: number;
+    totalPages: number;
+    articles: Story[];
+    totalArticles: number;
+  };
+}
+
+export async function getUserById(id: User['_id']) {
+  const { data } = await nextServer.get<GetUserResponse>(`/users/${id}`);
+  return data;
 }
