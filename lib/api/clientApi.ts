@@ -27,6 +27,16 @@ export const getStories = async (
   return res.data;
 };
 
+export const getStory = async (storyId: string) => {
+  const res = await nextServer.get<Story>(`/stories/${storyId}`);
+  return res.data;
+};
+
+export const saveStory = async (storyId: string) => {
+  const res = await nextServer.post(`/stories/${storyId}/favoriteCount`);
+  return res.data;
+};
+
 // silent authentication logic
 type CheckSessionRequest = {
   success: boolean;
