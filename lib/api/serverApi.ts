@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import { nextServer } from './api';
 import { User } from '@/types/user';
 import { GetUsersProps, GetUsersResponse } from './clientApi';
+import { Category, CategoriesResponse} from '@/types/story'
 
 export const checkServerSession = async () => {
   // Дістаємо поточні cookie
@@ -45,3 +46,8 @@ export async function getUsers({
   const response = await nextServer.get('/users', options);
   return response.data;
 }
+
+export const getCategories= async (): Promise<Category[]>=> {
+  const {data} = await nextServer.get<CategoriesResponse>('/categories');
+  return data.data;
+};

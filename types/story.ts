@@ -17,3 +17,54 @@ export interface Category {
   _id: string;
   name: string;
 }
+
+
+export type StoryListResponse = {
+  page: number;
+  perPage: number;
+  totalStories: number;
+  totalPages: number;
+  stories: Story[];
+};
+
+export type PaginatedStoriesResponse = {
+  page: number;
+  perPage: number;
+  totalPages: number;
+  totalItems: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  data: Story[];
+};
+
+export interface CategoriesResponse{
+  status: number;
+  message: string;
+  data: Category[];
+}
+
+export interface SavedStory {
+  _id: string;
+  img: string;
+  title: string;
+  article: string;
+  category: Category;
+  date: string;
+  favoriteCount: number;
+}
+
+
+export interface UserSavedArticlesResponse {
+  status: number;
+  message: string;
+  data: {
+    user: {
+      _id: string;
+      name: string;
+      avatarUrl: string;
+      description: string;
+      createdAt: string;
+    };
+    savedStories: SavedStory[];
+  };
+}

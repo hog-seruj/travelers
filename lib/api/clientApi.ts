@@ -1,6 +1,12 @@
 import { nextServer } from './api';
-import { Category, Story } from '@/types/story';
+import {
+  Category,
+  Story,
+  SavedStory,
+  UserSavedArticlesResponse,
+} from '@/types/story';
 import { User } from '@/types/user';
+import { CategoriesResponse } from '@/types/story';
 
 export type StoryListResponse = {
   page: number;
@@ -111,6 +117,20 @@ export async function getUsers({
   return response.data;
 }
 
+export const getCategories = async (): Promise<Category[]> => {
+  const { data } = await nextServer.get<CategoriesResponse>('/categories');
+  return data.data;
+};
+
+export const fetchSavedStoriesByUserId = async (
+  userId: string
+): Promise<SavedStory[]> => {
+  const res = await nextServer.get<UserSavedArticlesResponse>(
+    `/users/${userId}/saved`
+  );
+
+  return res.data.data.savedStories;
+};
 export interface GetUserResponse {
   user: User;
   articles: {
