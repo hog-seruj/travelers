@@ -1,13 +1,13 @@
 import { nextServer } from './api';
-import { Category, Story, PaginatedStoriesResponse } from '@/types/story';
+import { Category, Story, SavedStory, UserSavedArticlesResponse } from '@/types/story';
 import { User } from '@/types/user';
+import {CategoriesResponse} from '@/types/story';
 
 export type StoryListResponse = {
-  page: number;
+   page: number;
   perPage: number;
   totalStories: number;
   totalPages: number;
-  hasNextPage:boolean;
   stories: Story[];
 };
 
@@ -27,6 +27,9 @@ export const getStories = async (
   });
   return res.data;
 };
+
+
+
 
 // silent authentication logic
 type CheckSessionRequest = {
@@ -100,17 +103,18 @@ export async function getUsers({
 }
 
 
-
-export const fetchStories = async (
-  perPage: number,
-  page: number,
-  category: string | null | undefined,
-): Promise<PaginatedStoriesResponse> => {
-  const params: Record<string, string | number> = { perPage, page };
-  if (category) {
-    params.category = category;
-  }
-
-  const { data } = await nextServer.get('/stories', { params });
+export const getCategories= async (): Promise<Category[]>=> {
+  const {data} = await nextServer.get<CategoriesResponse>('/categories');
   return data.data;
 };
+
+
+
+
+export const  fetchSavedStoriesByUserId =async (userId: string): Promise<SavedStory[]>=> {
+  const res = await nextServer.get<UserSavedArticlesResponse>(
+    `/users/${userId}/saved`
+  );
+
+  return res.data.data.savedStories;
+}

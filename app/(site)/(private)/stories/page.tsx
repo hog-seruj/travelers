@@ -1,21 +1,20 @@
-import style from './Stories.module.css';
-import StoriesPageSection from '@/components/StoriesPage/StoriesPage'
-import {QueryClient,HydrationBoundary,dehydrate} from '@tanstack/react-query';
+import {getStories, getCategories} from "@/lib/api/serverApi";
+import {dehydrate, HydrationBoundary, QueryClient,} from "@tanstack/react-query";
+import StoriesPageClient from "./StoriesPageClient";
 
 
-export default async function Home() {
-  const queryClient = new QueryClient();
+export default async function StoriesPage() {
+const queryClient = new QueryClient();
 
+const initialStories = await getStories(1, 9);
+const categories = await getCategories();
   return (
-    <div className={style.page}>
-      <main className={style.main}>
-        <HydrationBoundary state={dehydrate(queryClient)}>
-   <h2 className={`center ${style.title}`}>Історії Мандрівників</h2>
-            <StoriesPageSection/>
-        </HydrationBoundary>
-       
-      </main>
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <StoriesPageClient 
+          initialStories={initialStories}
+          categories={categories} />
+    </HydrationBoundary>
+     
   );
 }
 
