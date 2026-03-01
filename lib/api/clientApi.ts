@@ -1,10 +1,15 @@
 import { nextServer } from './api';
-import { Category, Story, SavedStory, UserSavedArticlesResponse } from '@/types/story';
+import {
+  Category,
+  Story,
+  SavedStory,
+  UserSavedArticlesResponse,
+} from '@/types/story';
 import { User } from '@/types/user';
-import {CategoriesResponse} from '@/types/story';
+import { CategoriesResponse } from '@/types/story';
 
 export type StoryListResponse = {
-   page: number;
+  page: number;
   perPage: number;
   totalStories: number;
   totalPages: number;
@@ -28,8 +33,15 @@ export const getStories = async (
   return res.data;
 };
 
+export const getStory = async (storyId: string) => {
+  const res = await nextServer.get<Story>(`/stories/${storyId}`);
+  return res.data;
+};
 
-
+export const saveStory = async (storyId: string) => {
+  const res = await nextServer.post(`/stories/${storyId}/favoriteCount`);
+  return res.data;
+};
 
 // silent authentication logic
 type CheckSessionRequest = {
@@ -105,19 +117,32 @@ export async function getUsers({
   return response.data;
 }
 
-
-export const getCategories= async (): Promise<Category[]>=> {
-  const {data} = await nextServer.get<CategoriesResponse>('/categories');
+export const getCategories = async (): Promise<Category[]> => {
+  const { data } = await nextServer.get<CategoriesResponse>('/categories');
   return data.data;
 };
 
-
-
-
-export const  fetchSavedStoriesByUserId =async (userId: string): Promise<SavedStory[]>=> {
+export const fetchSavedStoriesByUserId = async (
+  userId: string
+): Promise<SavedStory[]> => {
   const res = await nextServer.get<UserSavedArticlesResponse>(
     `/users/${userId}/saved`
   );
 
   return res.data.data.savedStories;
+};
+export interface GetUserResponse {
+  user: User;
+  articles: {
+    page: number;
+    perPage: number;
+    totalPages: number;
+    articles: Story[];
+    totalArticles: number;
+  };
+}
+
+export async function getUserById(id: User['_id']) {
+  const { data } = await nextServer.get<GetUserResponse>(`/users/${id}`);
+  return data;
 }

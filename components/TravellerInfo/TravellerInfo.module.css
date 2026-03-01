@@ -1,0 +1,64 @@
+.travellerInfo{
+    padding-top: 32px;
+    margin-top: 72px;
+}
+
+.travellerInfo_content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.photo{
+    border-radius: 50%;
+}
+
+
+.travellerInfo_about{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    width: 311px;
+}
+
+.title{
+    font-size: 20px;
+    line-height: 1.3;
+}
+
+.description{
+    line-height: 1.5;
+    text-align: center;
+}
+
+
+ @media screen and (min-width: 768px){
+    .travellerInfo_about{
+        gap: 0px;
+        width: 481px;
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+
+    .description{
+        text-align: start;
+    }
+ }
+
+ @media screen and (min-width: 1440){
+    .travellerInfo{
+    padding-top: 48px;
+    }
+
+    .travellerInfo_content{
+        justify-content: flex-start;
+    }
+
+    .travellerInfo_about{
+        width: 367px;
+    }
+ }
