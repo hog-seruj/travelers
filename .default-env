@@ -1,3 +1,7 @@
-NEXT_PUBLIC_API_URL=
+NEXT_PUBLIC_API_URL=https://travelers-api.onrender.com
+NEXT_PUBLIC_SERVER_URL=http://localhost:3000
 
-NEXT_PUBLIC_SERVER_URL=
+
+# Cloudinary (для прямого upload з браузера потрібен UNSIGNED preset)
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=dispogabr
+NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET=travelers_unsigned
