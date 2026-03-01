@@ -100,3 +100,19 @@ export async function getUsers({
   const response = await nextServer.get('/users', options);
   return response.data;
 }
+
+export interface GetUserResponse {
+  user: User;
+  articles: {
+    page: number;
+    perPage: number;
+    totalPages: number;
+    articles: Story[];
+    totalArticles: number;
+  };
+}
+
+export async function getUserById(id: User['_id']) {
+  const { data } = await nextServer.get<GetUserResponse>(`/users/${id}`);
+  return data;
+}
