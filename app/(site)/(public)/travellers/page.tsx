@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-query';
 import { getUsers } from '@/lib/api/serverApi';
 import TravellersPageClient from './TravellersPageClient';
+import MainWrapper from '@/components/MainWrapper/MainWrapper';
 
 export default async function TravellersPage() {
   const queryClient = new QueryClient();
@@ -21,8 +22,10 @@ export default async function TravellersPage() {
   });
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <TravellersPageClient />
-    </HydrationBoundary>
+    <MainWrapper>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <TravellersPageClient />
+      </HydrationBoundary>
+    </MainWrapper>
   );
 }

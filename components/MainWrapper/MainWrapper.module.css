@@ -1,0 +1,12 @@
+.wrapper {
+  padding-top: var(--hero-height);
+  padding-bottom: 64px;
+
+  @media screen and (min-width: 1440px) {
+    padding-bottom: 72px;
+  }
+
+  &.transparent {
+    padding-top: 0;
+  }
+}

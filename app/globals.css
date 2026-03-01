@@ -13,6 +13,7 @@
   --mainFontFamily: var(--font-nunito-sans), sans-serif;
   --soraFontFamily: var(--font-sora), sans-serif;
   --interFontFamily: var(--font-inter), sans-serif;
+  --hero-height: 72px;
 }
 
 html,
