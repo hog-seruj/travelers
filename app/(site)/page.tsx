@@ -13,6 +13,7 @@ import {
 import { getStories } from '@/lib/api/clientApi';
 import { getUsers } from '@/lib/api/serverApi';
 import OurTravellers from '@/components/OurTravellers/OurTravellers';
+import MainWrapper from '@/components/MainWrapper/MainWrapper';
 
 export default async function Home() {
   const queryClient = new QueryClient();
@@ -33,7 +34,7 @@ export default async function Home() {
   });
 
   return (
-    <div className={styles.page}>
+    <MainWrapper>
       <main className={styles.main}>
         <Hero />
         <About />
@@ -47,6 +48,6 @@ export default async function Home() {
         </HydrationBoundary>
         <Join />
       </main>
-    </div>
+    </MainWrapper>
   );
 }
