@@ -1,3 +1,4 @@
+import MainWrapper from '../../../../../components/MainWrapper/MainWrapper';
 interface TravellerPublicPageProps {
   params: Promise<{ travellerId: string }>;
 }
@@ -8,8 +9,10 @@ export default async function TravellerPublicPage({
   const { travellerId } = await params;
 
   return (
-    <div>
-      <h2>Мандрівник {travellerId}</h2>
-    </div>
+    <MainWrapper>
+      <div className="container">
+        <h2>Мандрівник {travellerId}</h2>
+      </div>
+    </MainWrapper>
   );
 }
