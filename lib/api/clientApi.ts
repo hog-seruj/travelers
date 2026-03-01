@@ -37,10 +37,14 @@ export const checkSession = async () => {
   return res.data.success;
 };
 
+interface GetMeResponse {
+  success: boolean;
+  user: User;
+}
 // get me
-export const getMe = async () => {
-  const { data } = await nextServer.get<User>('/users/me');
-  return data;
+export const getMe = async (): Promise<User> => {
+  const { data } = await nextServer.get<GetMeResponse>('/users/me');
+  return data.user;
 };
 
 //logout

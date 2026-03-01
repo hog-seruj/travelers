@@ -6,7 +6,7 @@ import { GetUsersProps, GetUsersResponse } from './clientApi';
 export const checkServerSession = async () => {
   // Дістаємо поточні cookie
   const cookieStore = await cookies();
-  const res = await nextServer.post('/auth/refresh', {
+  const res = await nextServer.post('/auth/refresh', null, {
     headers: {
       // передаємо кукі далі
       Cookie: cookieStore.toString(),
@@ -23,7 +23,7 @@ export const getServerMe = async (): Promise<User> => {
       Cookie: cookieStore.toString(),
     },
   });
-  return data;
+  return data.user;
 };
 
 // getUsers
