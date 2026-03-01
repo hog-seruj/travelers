@@ -100,3 +100,8 @@ export async function getUsers({
   const response = await nextServer.get('/users', options);
   return response.data;
 }
+
+export async function getUserById(id: User['_id']) {
+  const { data } = await nextServer.get<User>(`/users/${id}`);
+  return data;
+}
