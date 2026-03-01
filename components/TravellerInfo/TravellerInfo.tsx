@@ -11,7 +11,7 @@ interface Props {
 
 export default function TravellerInfo({ id }: Props) {
   const { data, isError, isLoading } = useQuery({
-    queryKey: ['user'],
+    queryKey: ['user', id],
     queryFn: () => getUserById(id),
     placeholderData: keepPreviousData,
     refetchOnMount: false,
@@ -23,7 +23,10 @@ export default function TravellerInfo({ id }: Props) {
         <Loading />
       </div>
     );
-  if (isError || !data)
+
+  const user = data?.user;
+
+  if (isError || !user)
     return (
       <div className="center">
         <p>Помилка при завантаженні...</p>
@@ -32,15 +35,21 @@ export default function TravellerInfo({ id }: Props) {
 
   return (
     <section className={css.travellerInfo}>
-      <Image
-        src={data.avatarUrl}
-        alt={data.name}
-        className={css.photo}
-        width={112}
-        height={112}
-      />
-      <h3 className={css.title}>{data.name}</h3>
-      <p className={css.description}>{data.description}</p>
+      <div className="container">
+        <div className={css.travellerInfo_content}>
+          <Image
+            src={user.avatarUrl}
+            alt={user.name}
+            className={css.photo}
+            width={199}
+            height={199}
+          />
+          <div className={css.travellerInfo_about}>
+            <h3 className={css.title}>{user.name}</h3>
+            <p className={css.description}>{user.description}</p>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
