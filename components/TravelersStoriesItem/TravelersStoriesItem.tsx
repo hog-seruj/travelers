@@ -14,10 +14,15 @@ interface TravelersStoriesItemProps {
 }
 
 function TravelersStoriesItem({ story }: TravelersStoriesItemProps) {
+  // отримуємо користувача по запиту (до отримання юзера зі стору) ???
+
+  //
+
   const { isAuthenticated, user, updateUser } = useAuthStore();
   // const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   // const user = useAuthStore((state) => state.user);
   // const updateUser = useAuthStore((state) => state.updateUser);
+  console.log(user);
 
   const queryClient = useQueryClient();
 
@@ -73,12 +78,12 @@ function TravelersStoriesItem({ story }: TravelersStoriesItemProps) {
 
   // логіка зміни стилів кнопки
   let classesArray: string[] = [];
-  if (isAuthenticated && user && user.savedArticles.includes(story._id)) {
+  if (isAuthenticated && user && user.savedArticles?.includes(story._id)) {
     classesArray = [css.buttonAdd, css.buttonAddSaved];
-    console.log(classesArray);
+    // console.log(classesArray);
   } else {
     classesArray = [css.buttonAdd];
-    console.log(classesArray);
+    // console.log(classesArray);
   }
   const classes = classesArray.join(' ');
   //
@@ -99,7 +104,7 @@ function TravelersStoriesItem({ story }: TravelersStoriesItemProps) {
 
     console.log(user);
 
-    if (isAuthenticated && user && user.savedArticles.includes(story._id)) {
+    if (isAuthenticated && user && user.savedArticles?.includes(story._id)) {
       console.log('Історія вже збережена');
       // робимо запит delete на /stories/:storyId/saved
       mutationRemoveStory.mutate(story._id);

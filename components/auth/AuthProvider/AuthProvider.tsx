@@ -13,6 +13,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const clearIsAuthenticated = useAuthStore(
     (state) => state.clearIsAuthenticated
   );
+  // upate user
+  // const updateUser = useAuthStore((state) => state.updateUser);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -26,6 +28,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     };
     fetchUser();
   }, [setUser, clearIsAuthenticated]);
+  // додаємо в залежності
+  // }, [setUser, updateUser, clearIsAuthenticated]);
 
   return children;
 };
