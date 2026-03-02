@@ -13,14 +13,12 @@ import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 import Button from '@/components/Button/Button';
 import Loading from '@/app/loading';
 
-interface StoriesPageClientProps {
-  category?: string | undefined;
-}
+// interface StoriesPageClientProps {
+//   category?: string | undefined;
+// }
 
-export default function StoriesPageClient({
-  category,
-}: StoriesPageClientProps) {
-  const [activeCategory, setActiveCategory] = useState(category ?? 'all');
+export default function StoriesPageClient() {
+  const [activeCategory, setActiveCategory] = useState('all');
   const handleCategoryChange = (id: string) => {
     setActiveCategory(id);
   };

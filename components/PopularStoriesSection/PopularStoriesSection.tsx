@@ -56,7 +56,7 @@ function PopularStoriesSection({ mobileCount = 3 }: { mobileCount?: number }) {
           <Button
             variant="primary"
             size="large"
-            href="/stories/filter/all"
+            href="/stories"
             className={css.button}
           >
             Переглянути всі

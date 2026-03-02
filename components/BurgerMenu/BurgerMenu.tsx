@@ -104,7 +104,7 @@ export default function BurgerMenu({ onCloseAction }: BurgerMenuProps) {
               </li>
               <li>
                 <Link
-                  href="/stories/filter/all"
+                  href="/stories"
                   className={`${css.navigationLink} ${
                     pathname === '/stories' ? css.active : ''
                   }`}

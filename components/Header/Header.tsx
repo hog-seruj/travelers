@@ -114,7 +114,7 @@ export default function Header({ variant }: HeaderProps) {
                 </Link>
               </li>
               <li>
-                <Link href="/stories/filter/all" className={css.navigationLink}>
+                <Link href="/stories" className={css.navigationLink}>
                   Історії
                 </Link>
               </li>
