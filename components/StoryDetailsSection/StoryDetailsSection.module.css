@@ -1,0 +1,178 @@
+.section {
+  padding: 32px 0;
+}
+
+.title {
+  font-size: 32px;
+  line-height: 110%;
+  letter-spacing: -0.01em;
+  margin-bottom: 32px;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-bottom: 16px;
+}
+
+.label {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 150%;
+  color: var(--text-color);
+}
+
+.author,
+.date {
+  color: #666;
+}
+
+.country {
+  padding: 4px 10px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--white);
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 150%;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 223px;
+  margin-bottom: 64px;
+}
+
+.image {
+  border-radius: 24px;
+  object-fit: cover;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.description {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--text-color);
+  margin-bottom: 24px;
+}
+
+.saveBlock {
+  background: #f2f2f2;
+  border-radius: 24px;
+  padding: 32px 20px;
+}
+
+.saveTitle {
+  font-size: 18px;
+  line-height: 140%;
+  letter-spacing: -0.01em;
+  color: var(--text-color);
+  margin-bottom: 16px;
+}
+
+.saveText {
+  font-size: 16px;
+  line-height: 150%;
+  margin-bottom: 16px;
+  font-weight: 400;
+  color: var(--text-color);
+}
+
+.saveButton {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.loader,
+.error {
+  text-align: center;
+  padding: 48px 0;
+  font-size: 16px;
+}
+
+.error {
+  color: #e53935;
+}
+
+@media screen and (min-width: 768px) {
+  .title {
+    font-size: 48px;
+  }
+
+  .meta {
+    gap: 8px 48px;
+    margin-bottom: 18px;
+  }
+
+  .country {
+    margin-left: auto;
+  }
+
+  .imageWrapper {
+    height: 469px;
+  }
+
+  .description {
+    width: 100%;
+  }
+
+  .saveBlock {
+    width: 418px;
+    padding: 32px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .title {
+    font-size: 56px;
+  }
+
+  .meta {
+    width: 100%;
+  }
+
+  .label {
+    font-size: 18px;
+  }
+
+  .country {
+    font-size: 16px;
+  }
+
+  .imageWrapper {
+    height: 874px;
+    margin-bottom: 96px;
+  }
+
+  .content {
+    flex-direction: row;
+    gap: 24px;
+    margin-top: 48px;
+    padding: 48px 0;
+  }
+
+  .description {
+    margin-bottom: 0;
+    max-width: 865px;
+    font-size: 18px;
+  }
+
+  .saveBlock {
+    margin-top: 0;
+  }
+
+  .saveTitle {
+    font-size: 26px;
+  }
+
+  .saveText {
+    font-size: 18px;
+  }
+}

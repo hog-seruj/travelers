@@ -1,38 +1,12 @@
-'use client';
-
 import css from './TravelersList.module.css';
 import Card from '../Card/Card';
-import Button from '../Button/Button';
-import { getUsers } from '@/lib/api/clientApi';
-import { useQuery, keepPreviousData } from '@tanstack/react-query';
-import Loading from '@/app/loading';
-export default function TravelersList() {
-  const {
-    data: response,
-    isError,
-    isLoading,
-  } = useQuery({
-    queryKey: ['users'],
-    queryFn: () => getUsers({ page: 1, perPage: 4 }),
-    placeholderData: keepPreviousData,
-    refetchOnMount: false,
-  });
+import { User } from '@/types/user';
 
-  const users = response?.users;
+interface TravelersListProps {
+  users: User[];
+}
 
-  if (isLoading)
-    return (
-      <div className="center">
-        <Loading />
-      </div>
-    );
-  if (isError || !response)
-    return (
-      <div className="center">
-        <p>Помилка при завантаженні...</p>
-      </div>
-    );
-
+export default function TravelersList({ users }: TravelersListProps) {
   return (
     <div className={css.wrapper}>
       <ul className={css.list}>
@@ -42,15 +16,6 @@ export default function TravelersList() {
           </li>
         ))}
       </ul>
-
-      <Button
-        size="large"
-        variant="primary"
-        href="/travellers"
-        className={css.trlBtn}
-      >
-        Переглянути всі
-      </Button>
     </div>
   );
 }

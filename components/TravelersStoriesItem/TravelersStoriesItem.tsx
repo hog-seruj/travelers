@@ -11,9 +11,10 @@ import { toast } from 'sonner';
 
 interface TravelersStoriesItemProps {
   story: Story;
+  className?: string;
 }
 
-function TravelersStoriesItem({ story }: TravelersStoriesItemProps) {
+function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
   const { isAuthenticated, user, updateUser } = useAuthStore();
   // const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   // const user = useAuthStore((state) => state.user);
@@ -112,7 +113,7 @@ function TravelersStoriesItem({ story }: TravelersStoriesItemProps) {
   };
 
   return (
-    <li className={css.item}>
+    <li className={`${css.item} ${className || ''}`}>
       <Image
         src={story.img}
         alt={story.title}

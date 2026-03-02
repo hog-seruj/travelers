@@ -1,0 +1,9 @@
+.btnWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.trlBtn {
+  align-self: center;
+  text-align: center;
+}

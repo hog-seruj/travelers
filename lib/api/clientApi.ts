@@ -27,6 +27,16 @@ export const getStories = async (
   return res.data;
 };
 
+export const getStory = async (storyId: string) => {
+  const res = await nextServer.get<Story>(`/stories/${storyId}`);
+  return res.data;
+};
+
+export const saveStory = async (storyId: string) => {
+  const res = await nextServer.post(`/stories/${storyId}/favoriteCount`);
+  return res.data;
+};
+
 // silent authentication logic
 type CheckSessionRequest = {
   success: boolean;
@@ -38,13 +48,13 @@ export const checkSession = async () => {
 };
 
 // get me
-interface getMeResponse {
+interface GetMeResponse {
   success: boolean;
   user: User;
 }
 
-export const getMe = async () => {
-  const { data } = await nextServer.get<getMeResponse>('/users/me');
+export const getMe = async (): Promise<User> => {
+  const { data } = await nextServer.get<GetMeResponse>('/users/me');
   return data.user;
 };
 
@@ -75,12 +85,13 @@ export async function login(userData: LoginRequest): Promise<User> {
 }
 // getUsers
 
-interface GetUsersProps {
+export interface GetUsersProps {
   page?: number;
   perPage?: number;
+  nextPerPage?: number;
 }
 
-interface GetUsersResponse {
+export interface GetUsersResponse {
   page: number;
   perPage: number;
   totalItems: number;
@@ -91,14 +102,16 @@ interface GetUsersResponse {
 export async function getUsers({
   page = 1,
   perPage = 4,
+  nextPerPage,
 }: GetUsersProps): Promise<GetUsersResponse> {
   const options = {
     params: {
       page,
       perPage,
+      nextPerPage,
     },
   };
-  // const response = await api.get('/users', options);
+
   const response = await nextServer.get('/users', options);
   return response.data;
 }
@@ -132,3 +145,19 @@ export const removeStoryFromSaved = async (
   console.log(response.data);
   return response.data;
 };
+
+export interface GetUserResponse {
+  user: User;
+  articles: {
+    page: number;
+    perPage: number;
+    totalPages: number;
+    articles: Story[];
+    totalArticles: number;
+  };
+}
+
+export async function getUserById(id: User['_id']) {
+  const { data } = await nextServer.get<GetUserResponse>(`/users/${id}`);
+  return data;
+}

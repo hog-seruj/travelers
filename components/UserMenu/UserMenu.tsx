@@ -7,12 +7,14 @@ interface UserMenuProps {
   userName: string;
   onLogout: () => void;
   variant?: 'desktop' | 'modal';
+  headerVariant?: 'transparent' | 'solid';
 }
 
 export default function UserMenu({
   userName,
   onLogout,
   variant = 'desktop',
+  headerVariant = 'solid',
 }: UserMenuProps) {
   if (variant === 'modal') {
     return (
@@ -43,7 +45,8 @@ export default function UserMenu({
   }
 
   return (
-    <div className={css.userMenu}>
+    <div className={`${css.userMenu} ${css[headerVariant]}`}>
+      {' '}
       <Link href="/profile" className={css.userInfo}>
         <div className={css.avatarPlaceholder}>
           <svg className={css.avatarPlaceholderIcon} aria-hidden="true">
@@ -52,9 +55,7 @@ export default function UserMenu({
         </div>
         <span className={css.userName}>{userName}</span>
       </Link>
-
       <div className={css.separator} />
-
       <button
         type="button"
         className={css.logoutButton}

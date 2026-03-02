@@ -6,11 +6,13 @@ import css from './AuthNavigation.module.css';
 type AuthNavigationProps = {
   variant?: 'desktop' | 'modal';
   onCloseAction?: () => void;
+  headerVariant?: 'transparent' | 'solid';
 };
 
 export default function AuthNavigation({
   variant = 'desktop',
   onCloseAction,
+  headerVariant = 'solid',
 }: AuthNavigationProps) {
   const handleClick = () => {
     if (onCloseAction) onCloseAction();
@@ -37,9 +39,8 @@ export default function AuthNavigation({
     );
   }
 
-  // Desktop variant
   return (
-    <div className={css.desktopAuth}>
+    <div className={`${css.desktopAuth} ${css[headerVariant]}`}>
       <Link href="/auth/login" className={css.loginButton}>
         Вхід
       </Link>

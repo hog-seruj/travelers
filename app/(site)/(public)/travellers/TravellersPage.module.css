@@ -6,3 +6,8 @@
     padding-top: 48px;
   }
 }
+
+.btnWrapper {
+  display: flex;
+  justify-content: center;
+}
