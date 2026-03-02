@@ -24,7 +24,7 @@ export default async function Home() {
       'popularStories',
       { page: 1, perPage: 4, sort: 'popular', category: null },
     ],
-    queryFn: () => getStories(1, 4, 'popular'),
+    queryFn: () => getStories({ page: 1, perPage: 4, sort: 'popular' }),
   });
 
   // getUsers prefetch
