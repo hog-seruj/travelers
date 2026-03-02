@@ -108,9 +108,22 @@ export const addStoryToSaved = async (
 ): Promise<addStoryToSavedResponse> => {
   const response = await nextServer.post<addStoryToSavedResponse>(
     `/stories/${storyId}/saved`
-    // {
-    //   headers: {},
-    // }
   );
+  console.log(response.data);
+  return response.data;
+};
+
+// Remove story from saved
+interface removeStoryFromSavedResponse {
+  stories: User['savedArticles'];
+}
+
+export const removeStoryFromSaved = async (
+  storyId: Story['_id']
+): Promise<removeStoryFromSavedResponse> => {
+  const response = await nextServer.delete<removeStoryFromSavedResponse>(
+    `/stories/${storyId}/saved`
+  );
+  console.log(response.data);
   return response.data;
 };
