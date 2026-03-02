@@ -9,13 +9,18 @@ import Loader from '../Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
-function PopularStoriesSection() {
+function PopularStoriesSection({ mobileCount = 3 }: { mobileCount?: number }) {
   const windowWidth = useWindowWidth();
 
   // number of stories depending on screen width
   const storiesNumber: number =
-    windowWidth && windowWidth >= 768 && windowWidth < 1440 ? 4 : 3;
-  // console.log(storiesNumber);
+    !windowWidth || windowWidth < 768
+      ? mobileCount
+      : windowWidth < 1440
+        ? 4
+        : 3;
+
+  console.log(storiesNumber);
   //
 
   const { data, isLoading, isError } = useQuery({

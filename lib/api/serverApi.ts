@@ -2,12 +2,13 @@ import { cookies } from 'next/headers';
 import { nextServer } from './api';
 import { User } from '@/types/user';
 import { GetUsersProps, GetUsersResponse } from './clientApi';
-import { Category, CategoriesResponse} from '@/types/story'
+import { Category, CategoriesResponse } from '@/types/story';
+import type { StoryListResponse } from './clientApi';
 
 export const checkServerSession = async () => {
   // Дістаємо поточні cookie
   const cookieStore = await cookies();
-  const res = await nextServer.post('/auth/refresh', {
+  const res = await nextServer.post('/auth/refresh', null, {
     headers: {
       // передаємо кукі далі
       Cookie: cookieStore.toString(),
@@ -24,7 +25,7 @@ export const getServerMe = async (): Promise<User> => {
       Cookie: cookieStore.toString(),
     },
   });
-  return data;
+  return data.user;
 };
 
 // getUsers
@@ -47,7 +48,42 @@ export async function getUsers({
   return response.data;
 }
 
-export const getCategories= async (): Promise<Category[]>=> {
-  const {data} = await nextServer.get<CategoriesResponse>('/categories');
-  return data.data;
+export const getCategories = async (): Promise<CategoriesResponse> => {
+  const cookieStore = await cookies();
+  const response = await nextServer.get<CategoriesResponse>('/categories', {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+
+  return response.data;
+};
+
+// getStories
+
+export interface GetStoriesProps {
+  page?: number;
+  perPage?: number;
+  sort?: string;
+  category?: string;
+}
+export const getStories = async ({
+  page,
+  perPage,
+  sort,
+  category,
+}: GetStoriesProps) => {
+  const cookieStore = await cookies();
+  const res = await nextServer.get<StoryListResponse>('/stories', {
+    params: {
+      page,
+      perPage,
+      sort,
+      category,
+    },
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return res.data;
 };

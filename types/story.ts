@@ -18,7 +18,6 @@ export interface Category {
   name: string;
 }
 
-
 export type StoryListResponse = {
   page: number;
   perPage: number;
@@ -37,10 +36,8 @@ export type PaginatedStoriesResponse = {
   data: Story[];
 };
 
-export interface CategoriesResponse{
-  status: number;
-  message: string;
-  data: Category[];
+export interface CategoriesResponse {
+  categories: Category[];
 }
 
 export interface SavedStory {
@@ -52,7 +49,6 @@ export interface SavedStory {
   date: string;
   favoriteCount: number;
 }
-
 
 export interface UserSavedArticlesResponse {
   status: number;

@@ -26,7 +26,10 @@ export default async function StoryPage({ params }: Props) {
       queryFn: () => getStory(storyId),
     }),
     queryClient.prefetchQuery({
-      queryKey: ['popularStories', 4],
+      queryKey: [
+        'popularStories',
+        { page: 1, perPage: 4, sort: 'popular', category: null },
+      ],
       queryFn: () => getStories(1, 4, 'popular'),
     }),
   ]);
@@ -38,7 +41,7 @@ export default async function StoryPage({ params }: Props) {
     <HydrationBoundary state={dehydrate(queryClient)}>
       <main className={styles.page}>
         <StoryDetailsSection storyId={storyId} />
-        <PopularStoriesSection perPage={4} mobileCount={2} />
+        <PopularStoriesSection mobileCount={2} />
       </main>
     </HydrationBoundary>
   );
