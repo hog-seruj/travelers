@@ -17,8 +17,8 @@ function PopularStoriesSection({ mobileCount = 3 }: { mobileCount?: number }) {
     !windowWidth || windowWidth < 768
       ? mobileCount
       : windowWidth < 1440
-        ? 4
-        : 3;
+      ? 4
+      : 3;
 
   console.log(storiesNumber);
   //
@@ -56,7 +56,7 @@ function PopularStoriesSection({ mobileCount = 3 }: { mobileCount?: number }) {
           <Button
             variant="primary"
             size="large"
-            href="/stories"
+            href="/stories/filter/all"
             className={css.button}
           >
             Переглянути всі

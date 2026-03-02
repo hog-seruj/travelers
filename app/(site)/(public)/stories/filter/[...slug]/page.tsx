@@ -13,7 +13,8 @@ interface StoriesPageProps {
 
 export default async function StoriesPage({ params }: StoriesPageProps) {
   const queryClient = new QueryClient();
-  const initialLimit: number = 9;
+  const initialLimit = 9;
+  const nextPerPage = 3;
   const { slug } = await params;
   const category = slug[0] === 'all' ? undefined : slug[0];
 
@@ -23,11 +24,12 @@ export default async function StoriesPage({ params }: StoriesPageProps) {
       queryFn: getCategories,
     }),
     queryClient.prefetchInfiniteQuery({
-      queryKey: ['storiesPage', initialLimit, category],
+      queryKey: ['storiesPage', initialLimit, nextPerPage, category],
       queryFn: () =>
         getStories({
           page: 1,
           perPage: initialLimit,
+          nextPerPage,
           sort: 'popular',
           category,
         }),
@@ -38,7 +40,7 @@ export default async function StoriesPage({ params }: StoriesPageProps) {
   return (
     <MainWrapper>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <StoriesPageClient />
+        <StoriesPageClient category={category} />
       </HydrationBoundary>
     </MainWrapper>
   );

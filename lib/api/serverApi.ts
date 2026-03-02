@@ -2,8 +2,8 @@ import { cookies } from 'next/headers';
 import { nextServer } from './api';
 import { User } from '@/types/user';
 import { GetUsersProps, GetUsersResponse } from './clientApi';
-import { Category, CategoriesResponse } from '@/types/story';
-import type { StoryListResponse } from './clientApi';
+import { CategoriesResponse } from '@/types/story';
+import type { StoryListResponse, getStoriesProps } from '@/types/story';
 
 export const checkServerSession = async () => {
   // Дістаємо поточні cookie
@@ -48,6 +48,8 @@ export async function getUsers({
   return response.data;
 }
 
+// getCategories
+
 export const getCategories = async (): Promise<CategoriesResponse> => {
   const cookieStore = await cookies();
   const response = await nextServer.get<CategoriesResponse>('/categories', {
@@ -61,18 +63,13 @@ export const getCategories = async (): Promise<CategoriesResponse> => {
 
 // getStories
 
-export interface GetStoriesProps {
-  page?: number;
-  perPage?: number;
-  sort?: string;
-  category?: string;
-}
 export const getStories = async ({
   page,
   perPage,
+  nextPerPage,
   sort,
   category,
-}: GetStoriesProps) => {
+}: getStoriesProps) => {
   const cookieStore = await cookies();
   const res = await nextServer.get<StoryListResponse>('/stories', {
     params: {
@@ -80,6 +77,7 @@ export const getStories = async ({
       perPage,
       sort,
       category,
+      nextPerPage,
     },
     headers: {
       Cookie: cookieStore.toString(),

@@ -4,6 +4,7 @@ import { api, ApiError } from '../api';
 export async function GET(request: NextRequest) {
   const page = request.nextUrl.searchParams.get('page');
   const perPage = request.nextUrl.searchParams.get('perPage');
+  const nextPerPage = request.nextUrl.searchParams.get('nextPerPage');
   const sort = request.nextUrl.searchParams.get('sort');
   const category = request.nextUrl.searchParams.get('category');
 
@@ -12,6 +13,7 @@ export async function GET(request: NextRequest) {
       params: {
         page,
         perPage,
+        nextPerPage,
         sort,
         category,
       },

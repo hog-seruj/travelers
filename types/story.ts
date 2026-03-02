@@ -18,27 +18,26 @@ export interface Category {
   name: string;
 }
 
+export interface CategoriesResponse {
+  categories: Category[];
+}
+
+export interface getStoriesProps {
+  page?: number;
+  perPage?: number;
+  sort?: 'newest' | 'popular';
+  category?: string;
+  nextPerPage?: number;
+}
+
 export type StoryListResponse = {
   page: number;
   perPage: number;
+  nextPerPage: number;
   totalStories: number;
   totalPages: number;
   stories: Story[];
 };
-
-export type PaginatedStoriesResponse = {
-  page: number;
-  perPage: number;
-  totalPages: number;
-  totalItems: number;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
-  data: Story[];
-};
-
-export interface CategoriesResponse {
-  categories: Category[];
-}
 
 export interface SavedStory {
   _id: string;

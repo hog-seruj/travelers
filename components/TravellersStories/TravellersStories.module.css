@@ -1,25 +1,20 @@
-.stories__list {
+.wrapper {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
   gap: 24px;
   justify-content: flex-start;
   align-items: center;
+  margin-bottom: 40px;
 }
 
 @media screen and (min-width: 768px) {
-  .stories__list {
+  .list {
     flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: stretch;
-    margin-bottom: 24px;
   }
 }
-
-@media screen and (min-width: 1440px) {
-  .stories__list {
-    margin-bottom: 40px;
-  }
-}
-
-

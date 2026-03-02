@@ -1,5 +1,5 @@
 'use client';
-
+import css from './Loader.module.css';
 
 import Icon from '../Icon/Icon';
 
