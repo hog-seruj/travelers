@@ -16,7 +16,6 @@
 .info {
   margin-bottom: 24px;
   height: 160px;
-  overflow: hidden;
 }
 
 .category {
@@ -32,13 +31,22 @@
   line-height: 1.5;
   margin-bottom: 8px;
   height: 54px;
+  text-overflow: ellipsis;
   overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .article {
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 
 .publication {

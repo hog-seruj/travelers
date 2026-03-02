@@ -14,10 +14,6 @@ interface TravelersStoriesItemProps {
 }
 
 function TravelersStoriesItem({ story }: TravelersStoriesItemProps) {
-  // отримуємо користувача по запиту (до отримання юзера зі стору) ???
-
-  //
-
   const { isAuthenticated, user, updateUser } = useAuthStore();
   // const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   // const user = useAuthStore((state) => state.user);
@@ -113,9 +109,6 @@ function TravelersStoriesItem({ story }: TravelersStoriesItemProps) {
       // робимо запит post на /stories/:storyId/save
       mutationAddStory.mutate(story._id);
     }
-
-    // лоадер
-    // кількість закладок збільшується/зменшується
   };
 
   return (

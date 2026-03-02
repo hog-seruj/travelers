@@ -38,9 +38,14 @@ export const checkSession = async () => {
 };
 
 // get me
+interface getMeResponse {
+  success: boolean;
+  user: User;
+}
+
 export const getMe = async () => {
-  const { data } = await nextServer.get<User>('/users/me');
-  return data;
+  const { data } = await nextServer.get<getMeResponse>('/users/me');
+  return data.user;
 };
 
 //logout
