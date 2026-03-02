@@ -16,7 +16,6 @@
 .info {
   margin-bottom: 24px;
   height: 160px;
-  overflow: hidden;
 }
 
 .category {
@@ -32,13 +31,22 @@
   line-height: 1.5;
   margin-bottom: 8px;
   height: 54px;
+  text-overflow: ellipsis;
   overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .article {
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 
 .publication {
@@ -99,12 +107,45 @@
 
 .buttonAdd {
   padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background-color: rgba(0, 0, 0, 0.05);
+  fill: var(--black);
   flex-shrink: 0;
   height: 48px;
   width: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 8px;
+  transition: 0.3s ease-in-out;
+  box-sizing: border-box;
+}
+
+.buttonAdd:hover {
+  background-color: var(--accent-dark);
+  border-color: rgba(255, 255, 255, 0);
+  cursor: pointer;
+  fill: var(--white);
+}
+
+.buttonAdd:disabled {
+  cursor: not-allowed;
+  opacity: 0.3;
+  background-color: red;
+}
+
+.buttonAddSaved {
+  fill: var(--white);
+  background-color: var(--accent-dark);
+  border-color: rgba(255, 255, 255, 0);
+  transition: 0.3s ease-in-out;
+}
+
+.buttonAddSaved:hover {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background-color: rgba(0, 0, 0, 0.05);
+  fill: var(--black);
+  cursor: pointer;
 }
 
 @media screen and (min-width: 768px) {
