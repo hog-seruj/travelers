@@ -4,6 +4,10 @@ import { Story } from '@/types/story';
 import Image from 'next/image';
 import Button from '../Button/Button';
 import css from './TravelersStoriesItem.module.css';
+import { useAuthStore } from '@/lib/store/authStore';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { addStoryToSaved, removeStoryFromSaved } from '@/lib/api/clientApi';
+import { toast } from 'sonner';
 
 interface TravelersStoriesItemProps {
   story: Story;
@@ -11,14 +15,101 @@ interface TravelersStoriesItemProps {
 }
 
 function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
+  const { isAuthenticated, user, updateUser } = useAuthStore();
+  // const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  // const user = useAuthStore((state) => state.user);
+  // const updateUser = useAuthStore((state) => state.updateUser);
+  console.log(user);
+
+  const queryClient = useQueryClient();
+
+  const mutationAddStory = useMutation({
+    mutationFn: addStoryToSaved,
+    onSuccess: (data) => {
+      console.log(data.savedArticles);
+      updateUser({ savedArticles: data.savedArticles });
+      queryClient.invalidateQueries({
+        queryKey: [
+          'popularStories',
+          { page: 1, perPage: 4, sort: 'popular', category: null },
+        ],
+      });
+      console.log(story._id);
+      // console.log(user?.savedArticles); показує не оновлені дані
+      console.log(useAuthStore.getState().user?.savedArticles);
+      console.log(
+        useAuthStore.getState().user?.savedArticles.includes(story._id)
+      );
+      toast.success(`Історія "${story.title}" успішно додана до збережених!`);
+    },
+    onError: (error) => {
+      console.log('Error', error);
+      toast.error('Виникла помилка, спробуйте ще раз');
+    },
+  });
+
+  const mutationRemoveStory = useMutation({
+    mutationFn: removeStoryFromSaved,
+    onSuccess: (data) => {
+      console.log(data.stories);
+      updateUser({ savedArticles: data.stories });
+      queryClient.invalidateQueries({
+        queryKey: [
+          'popularStories',
+          { page: 1, perPage: 4, sort: 'popular', category: null },
+        ],
+      });
+      console.log(story._id);
+      // console.log(user?.savedArticles); показує не оновлені дані
+      console.log(useAuthStore.getState().user?.savedArticles);
+      console.log(
+        useAuthStore.getState().user?.savedArticles.includes(story._id)
+      );
+      toast.success(`Істоія "${story.title}" успішно видалена із збережених!`);
+    },
+    onError: (error) => {
+      console.log('Error', error);
+      toast.error('Виникла помилка, спробуйте ще раз');
+    },
+  });
+
+  // логіка зміни стилів кнопки
+  let classesArray: string[] = [];
+  if (isAuthenticated && user && user.savedArticles?.includes(story._id)) {
+    classesArray = [css.buttonAdd, css.buttonAddSaved];
+    // console.log(classesArray);
+  } else {
+    classesArray = [css.buttonAdd];
+    // console.log(classesArray);
+  }
+  const classes = classesArray.join(' ');
+  //
+
+  // loader
+  let isButtonDisabled = false;
+  if (mutationAddStory.isPending || mutationRemoveStory.isPending) {
+    isButtonDisabled = true;
+  }
+  //
+
   const handleClick = () => {
-    // перевірити чи авторизований користувач
-    // якщо ні - відкривати модальне вікно AuthNavModal
-    // якщо так, то
-    // додавання/видалення статті з збережених статей користувача
-    // лоадер
-    // кількість закладок збільшується/зменшується
-    // кнопка змінює стилі
+    if (!isAuthenticated) {
+      console.log('Not authorized');
+      return;
+      // відкривати модальне вікно AuthNavModal
+    }
+
+    console.log(user);
+
+    if (isAuthenticated && user && user.savedArticles?.includes(story._id)) {
+      console.log('Історія вже збережена');
+      // робимо запит delete на /stories/:storyId/saved
+      mutationRemoveStory.mutate(story._id);
+    } else {
+      console.log('Історія ще не збережена');
+      // робимо запит post на /stories/:storyId/save
+      mutationAddStory.mutate(story._id);
+    }
   };
 
   return (
@@ -67,11 +158,15 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
           >
             Переглянути статтю
           </Button>
-          <Button onClick={() => handleClick()} className={css.buttonAdd}>
+          <button
+            onClick={() => handleClick()}
+            className={classes}
+            disabled={isButtonDisabled}
+          >
             <svg width="24" height="24">
               <use href="/sprite.svg#icon-bookmark"></use>
             </svg>
-          </Button>
+          </button>
         </div>
       </div>
     </li>

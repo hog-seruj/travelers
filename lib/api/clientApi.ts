@@ -48,11 +48,12 @@ export const checkSession = async () => {
   return res.data.success;
 };
 
+// get me
 interface GetMeResponse {
   success: boolean;
   user: User;
 }
-// get me
+
 export const getMe = async (): Promise<User> => {
   const { data } = await nextServer.get<GetMeResponse>('/users/me');
   return data.user;
@@ -130,6 +131,36 @@ export const fetchSavedStoriesByUserId = async (
 
   return res.data.data.savedStories;
 };
+// Add story to saved
+interface addStoryToSavedResponse {
+  savedArticles: User['savedArticles'];
+}
+
+export const addStoryToSaved = async (
+  storyId: Story['_id']
+): Promise<addStoryToSavedResponse> => {
+  const response = await nextServer.post<addStoryToSavedResponse>(
+    `/stories/${storyId}/saved`
+  );
+  console.log(response.data);
+  return response.data;
+};
+
+// Remove story from saved
+interface removeStoryFromSavedResponse {
+  stories: User['savedArticles'];
+}
+
+export const removeStoryFromSaved = async (
+  storyId: Story['_id']
+): Promise<removeStoryFromSavedResponse> => {
+  const response = await nextServer.delete<removeStoryFromSavedResponse>(
+    `/stories/${storyId}/saved`
+  );
+  console.log(response.data);
+  return response.data;
+};
+
 export interface GetUserResponse {
   user: User;
   articles: {

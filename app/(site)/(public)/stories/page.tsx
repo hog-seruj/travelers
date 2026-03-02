@@ -7,11 +7,7 @@ import {
 } from '@tanstack/react-query';
 import StoriesPageClient from './StoriesPageClient';
 
-interface StoriesPageProps {
-  params: Promise<{ slug: string[] }>;
-}
-
-export default async function StoriesPage({ params }: StoriesPageProps) {
+export default async function StoriesPage() {
   const queryClient = new QueryClient();
   const initialLimit = 9;
   const nextPerPage = 3;
