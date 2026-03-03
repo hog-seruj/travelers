@@ -1,0 +1,17 @@
+.title {
+  padding-top: 32px;
+  margin-bottom: 40px;
+
+  @media screen and (min-width: 1440px) {
+    padding-top: 48px;
+  }
+}
+
+.btnWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.storiesList {
+  margin-bottom: 40px;
+}

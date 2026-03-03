@@ -29,6 +29,12 @@
   overflow-y: auto;
 }
 
+@media screen and (min-width: 768px) {
+  .modal {
+    width: 100%;
+  }
+}
+
 /* Animations */
 @keyframes fadeIn {
   from {

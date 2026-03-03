@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { api } from '../../api';
 import { cookies } from 'next/headers';
 import { isAxiosError } from 'axios';
@@ -8,13 +8,20 @@ type Props = {
   params: Promise<{ id: string }>;
 };
 
-export async function GET(request: Request, { params }: Props) {
+export async function GET(request: NextRequest, { params }: Props) {
+  const page = request.nextUrl.searchParams.get('page');
+  const perPage = request.nextUrl.searchParams.get('perPage');
+
   try {
     const cookieStore = await cookies();
     const { id } = await params;
     const res = await api(`/users/${id}`, {
       headers: {
         Cookie: cookieStore.toString(),
+      },
+      params: {
+        page,
+        perPage,
       },
     });
     return NextResponse.json(res.data, { status: res.status });

@@ -17,8 +17,8 @@ function PopularStoriesSection({ mobileCount = 3 }: { mobileCount?: number }) {
     !windowWidth || windowWidth < 768
       ? mobileCount
       : windowWidth < 1440
-        ? 4
-        : 3;
+      ? 4
+      : 3;
 
   console.log(storiesNumber);
   //
@@ -28,7 +28,7 @@ function PopularStoriesSection({ mobileCount = 3 }: { mobileCount?: number }) {
       'popularStories',
       { page: 1, perPage: 4, sort: 'popular', category: null },
     ],
-    queryFn: () => getStories(1, 4, 'popular'),
+    queryFn: () => getStories({ page: 1, perPage: 4, sort: 'popular' }),
     refetchOnMount: false,
   });
 

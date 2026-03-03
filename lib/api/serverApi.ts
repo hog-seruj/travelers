@@ -2,6 +2,8 @@ import { cookies } from 'next/headers';
 import { nextServer } from './api';
 import { User } from '@/types/user';
 import { GetUsersProps, GetUsersResponse } from './clientApi';
+import { CategoriesResponse } from '@/types/story';
+import type { StoryListResponse, getStoriesProps } from '@/types/story';
 
 export const checkServerSession = async () => {
   // Дістаємо поточні cookie
@@ -45,3 +47,41 @@ export async function getUsers({
   const response = await nextServer.get('/users', options);
   return response.data;
 }
+
+// getCategories
+
+export const getCategories = async (): Promise<CategoriesResponse> => {
+  const cookieStore = await cookies();
+  const response = await nextServer.get<CategoriesResponse>('/categories', {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+
+  return response.data;
+};
+
+// getStories
+
+export const getStories = async ({
+  page,
+  perPage,
+  nextPerPage,
+  sort,
+  category,
+}: getStoriesProps) => {
+  const cookieStore = await cookies();
+  const res = await nextServer.get<StoryListResponse>('/stories', {
+    params: {
+      page,
+      perPage,
+      sort,
+      category,
+      nextPerPage,
+    },
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return res.data;
+};
