@@ -145,7 +145,7 @@
 /* Text & Icons White */
 .header.transparent .logoLink,
 .header.transparent .logoText {
-  color: var(--whte);
+  color: var(--white);
 }
 
 .header.transparent .navigationLink {
@@ -158,22 +158,22 @@
 }
 
 .header.transparent .burgerIcon {
-  fill: var(--whte);
+  fill: var(--white);
 }
 
 /* Buttons White (variant="") */
 .header.transparent .desktopPublishButton,
 .header.transparent .publishButton {
-  background-color: var(--whte) !important;
+  background-color: var(--white) !important;
   color: var(--dark) !important;
-  border-color: var(--whte) !important;
+  border-color: var(--white) !important;
   padding: 10px 12px !important;
 }
 
 .header.transparent .desktopPublishButton:hover,
 .header.transparent .publishButton:hover {
   background-color: var(--accent, #6366f1) !important;
-  color: var(--whte) !important;
+  color: var(--white) !important;
   border-color: transparent !important;
 }
 
@@ -208,7 +208,7 @@
 .header.solid .desktopPublishButton,
 .header.solid .publishButton {
   background-color: var(--accent, #6366f1) !important;
-  color: var(--whte) !important;
+  color: var(--white) !important;
   border-color: var(--accent, #6366f1) !important;
   padding: 10px 12px !important;
 }
