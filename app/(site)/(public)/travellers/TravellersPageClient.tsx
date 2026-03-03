@@ -9,7 +9,6 @@ import { useState, useEffect } from 'react';
 import Loader from '@/components/Loader/Loader';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 import Loading from '@/app/loading';
-// import useAFetchPaginatedQuery from '@/hooks/useFetchPaginatedQuery';
 
 export default function TravellersPageClient() {
   const [initialLimit, setInitialLimit] = useState<number>(8);
@@ -60,24 +59,6 @@ export default function TravellersPageClient() {
     },
   });
 
-  // з хуком
-  // const {
-  //   data,
-  //   items,
-  //   fetchNextPage,
-  //   hasNextPage,
-  //   isFetchingNextPage,
-  //   isLoading,
-  //   isError,
-  // } = useAFetchPaginatedQuery({
-  //   initialLimit,
-  //   queryKey: ['travellersPage'],
-  //   fetchFn: async ({ page, perPage }) => {
-  //     const res = await getUsers({ page, perPage });
-  //     return { ...res, items: res.users };
-  //   },
-  // });
-
   const users = data?.users ?? [];
   const hasUsers = users.length > 0;
 
@@ -88,14 +69,8 @@ export default function TravellersPageClient() {
           <h2 className={`center ${css.title}`}>Мандрівники</h2>
         </div>
         {isLoading && <Loader />}
-
         {hasUsers && <TravelersList users={users} />}
         {isError && <ErrorMessage />}
-        {isFetchingNextPage && (
-          <div className="container center">
-            <Loading />
-          </div>
-        )}
         <div className={css.btnWrapper}>
           {hasNextPage && (
             <Button

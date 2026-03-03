@@ -11,11 +11,6 @@ import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import Loader from '@/components/Loader/Loader';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 import Button from '@/components/Button/Button';
-import Loading from '@/app/loading';
-
-// interface StoriesPageClientProps {
-//   category?: string | undefined;
-// }
 
 export default function StoriesPageClient() {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -77,7 +72,6 @@ export default function StoriesPageClient() {
   });
 
   const stories = response?.stories ?? [];
-  console.log('stories', stories);
   const hasStories = stories.length > 0;
 
   return (
@@ -94,11 +88,6 @@ export default function StoriesPageClient() {
       {isLoading && <Loader />}
       {hasStories && <TravellersStories stories={stories} />}
       {isError && <ErrorMessage />}
-      {isFetchingNextPage && (
-        <div className="container center">
-          <Loading />
-        </div>
-      )}
       <div className={css.btnWrapper}>
         {hasNextPage && (
           <Button

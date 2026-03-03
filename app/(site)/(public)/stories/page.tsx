@@ -11,8 +11,6 @@ export default async function StoriesPage() {
   const queryClient = new QueryClient();
   const initialLimit = 9;
   const nextPerPage = 3;
-  // const { slug } = await params;
-  // const category = slug[0] === 'all' ? undefined : slug[0];
 
   await Promise.all([
     queryClient.prefetchQuery({
