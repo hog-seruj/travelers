@@ -8,6 +8,8 @@ import { useAuthStore } from '@/lib/store/authStore';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addStoryToSaved, removeStoryFromSaved } from '@/lib/api/clientApi';
 import { toast } from 'sonner';
+import { useState } from 'react';
+import AuthNavModal from '../AuthNavModal/AuthNavModal';
 
 interface TravelersStoriesItemProps {
   story: Story;
@@ -20,6 +22,8 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
   // const user = useAuthStore((state) => state.user);
   // const updateUser = useAuthStore((state) => state.updateUser);
   console.log(user);
+
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
 
@@ -92,11 +96,22 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
   }
   //
 
+  // modal
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  //
+
   const handleClick = () => {
     if (!isAuthenticated) {
-      console.log('Not authorized');
+      // console.log('Not authorized');
+      // відкриваємо модальне вікно AuthNavModal
+      openModal();
       return;
-      // відкривати модальне вікно AuthNavModal
     }
 
     console.log(user);
@@ -113,61 +128,64 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
   };
 
   return (
-    <li className={`${css.item} ${className || ''}`}>
-      <Image
-        src={story.img}
-        alt={story.title}
-        width={335}
-        height={223}
-        className={css.image}
-      />
-      <div className={css.wrapper}>
-        <div className={css.info}>
-          <p className={css.category}>{story.category.name}</p>
-          <h3 className={css.title}>{story.title}</h3>
-          <p className={css.article}>{story.article}</p>
-        </div>
-        <div className={css.publication}>
-          <Image
-            src={story.ownerId.avatarUrl}
-            alt={story.ownerId.name}
-            width={48}
-            height={48}
-            className={css.photo}
-          />
-          <div>
-            <p className={css.name}>{story.ownerId.name}</p>
-            <div className={css.dateSaved}>
-              <p className={css.date}>{story.date}</p>
-              <div className={css.point}></div>
-              <p className={css.count}>{story.favoriteCount}</p>
-              <svg width="16" height="16">
-                <use href="/sprite.svg#icon-bookmark"></use>
-              </svg>
+    <>
+      <li className={`${css.item} ${className || ''}`}>
+        <Image
+          src={story.img}
+          alt={story.title}
+          width={335}
+          height={223}
+          className={css.image}
+        />
+        <div className={css.wrapper}>
+          <div className={css.info}>
+            <p className={css.category}>{story.category.name}</p>
+            <h3 className={css.title}>{story.title}</h3>
+            <p className={css.article}>{story.article}</p>
+          </div>
+          <div className={css.publication}>
+            <Image
+              src={story.ownerId.avatarUrl}
+              alt={story.ownerId.name}
+              width={48}
+              height={48}
+              className={css.photo}
+            />
+            <div>
+              <p className={css.name}>{story.ownerId.name}</p>
+              <div className={css.dateSaved}>
+                <p className={css.date}>{story.date}</p>
+                <div className={css.point}></div>
+                <p className={css.count}>{story.favoriteCount}</p>
+                <svg width="16" height="16">
+                  <use href="/sprite.svg#icon-bookmark"></use>
+                </svg>
+              </div>
             </div>
           </div>
+          <div className={css.buttons}>
+            <Button
+              variant=""
+              size="large"
+              href={`/stories/${story._id}`}
+              className={css.buttonView}
+            >
+              Переглянути статтю
+            </Button>
+            <button
+              onClick={() => handleClick()}
+              className={classes}
+              disabled={isButtonDisabled}
+            >
+              <svg width="24" height="24">
+                <use href="/sprite.svg#icon-bookmark"></use>
+              </svg>
+            </button>
+          </div>
         </div>
-        <div className={css.buttons}>
-          <Button
-            variant=""
-            size="large"
-            href={`/stories/${story._id}`}
-            className={css.buttonView}
-          >
-            Переглянути статтю
-          </Button>
-          <button
-            onClick={() => handleClick()}
-            className={classes}
-            disabled={isButtonDisabled}
-          >
-            <svg width="24" height="24">
-              <use href="/sprite.svg#icon-bookmark"></use>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </li>
+      </li>
+      {isModalOpen && <AuthNavModal onClose={closeModal} />}
+    </>
   );
 }
 
