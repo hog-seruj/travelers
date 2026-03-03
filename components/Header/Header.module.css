@@ -8,9 +8,7 @@
   height: var(--hero-height, 72px);
   background: transparent;
   padding: 0 16px;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .header::after {
@@ -147,7 +145,7 @@
 /* Text & Icons White */
 .header.transparent .logoLink,
 .header.transparent .logoText {
-  color: #ffffff;
+  color: var(--whte);
 }
 
 .header.transparent .navigationLink {
@@ -160,28 +158,28 @@
 }
 
 .header.transparent .burgerIcon {
-  fill: #ffffff;
+  fill: var(--whte);
 }
 
 /* Buttons White (variant="") */
 .header.transparent .desktopPublishButton,
 .header.transparent .publishButton {
-  background-color: #ffffff !important;
-  color: #000000 !important;
-  border-color: #ffffff !important;
+  background-color: var(--whte) !important;
+  color: var(--dark) !important;
+  border-color: var(--whte) !important;
   padding: 10px 12px !important;
 }
 
 .header.transparent .desktopPublishButton:hover,
 .header.transparent .publishButton:hover {
   background-color: var(--accent, #6366f1) !important;
-  color: #ffffff !important;
+  color: var(--whte) !important;
   border-color: transparent !important;
 }
 
 /* ========== VARIANT: SOLID (Inner Pages) ========== */
 .header.solid {
-  background: #ffffff;
+  background-color: var(--light-bg);
 }
 
 .header.solid::after {
@@ -191,7 +189,7 @@
 /* Text & Icons Black */
 .header.solid .logoLink,
 .header.solid .logoText {
-  color: #000000;
+  color: var(--dark);
 }
 
 .header.solid .navigationLink {
@@ -203,14 +201,14 @@
 }
 
 .header.solid .burgerIcon {
-  fill: #000000;
+  fill: var(--dark);
 }
 
 /* Buttons Primary (variant="primary") */
 .header.solid .desktopPublishButton,
 .header.solid .publishButton {
   background-color: var(--accent, #6366f1) !important;
-  color: #ffffff !important;
+  color: var(--whte) !important;
   border-color: var(--accent, #6366f1) !important;
   padding: 10px 12px !important;
 }
@@ -218,7 +216,7 @@
 .header.solid .desktopPublishButton:hover,
 .header.solid .publishButton:hover {
   background-color: var(--accent-light, #818cf8) !important;
-  color: #000000 !important;
+  color: var(--dark) !important;
   border: 1px solid #4169e1;
 }
 

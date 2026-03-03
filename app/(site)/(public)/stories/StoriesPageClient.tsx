@@ -2,7 +2,7 @@
 
 import TravellersStories from '@/components/TravellersStories/TravellersStories';
 import Categories from '@/components/Categories/Categories';
-import { getStories, getCategories } from '@/lib/api/clientApi';
+import { getStories, getCategoriesT } from '@/lib/api/clientApi';
 import css from './StoriesPageClient.module.css';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { useState } from 'react';
@@ -31,7 +31,7 @@ export default function StoriesPageClient() {
 
   const { data } = useQuery({
     queryKey: ['categories'],
-    queryFn: () => getCategories(),
+    queryFn: () => getCategoriesT(),
     refetchOnMount: false,
   });
 
