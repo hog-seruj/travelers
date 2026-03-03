@@ -1,202 +1,231 @@
 'use client';
+/* eslint-disable @next/next/no-img-element */
 
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
-import { useId, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
+
 import Button from '@/components/Button/Button';
-import { createStory } from '@/lib/api/api';
+import { createStory, updateStory } from '@/lib/api/api';
+import { getStory, getCategories } from '@/lib/api/clientApi';
+import { Category, Story } from '@/types/story';
+
 import css from './AddStoryForm.module.css';
 
 interface AddStoryFormValues {
-img: File | null;
-title: string;
-category: string;
-article: string;
+    img: File | null;
+    title: string;
+    category: string;
+    article: string;
 }
 
-const initialValues: AddStoryFormValues = {
-img: null,
-title: '',
-category: '',
-article: '',
-};
-
-const validationSchema = Yup.object({
-img: Yup.mixed<File>().required('Поле обовʼязкове'),
-title: Yup.string().required('Поле обовʼязкове'),
-category: Yup.string().required('Поле обовʼязкове'),
-article: Yup.string().required('Поле обовʼязкове'),
-});
-
-export default function AddStoryForm() {
-const fieldId = useId();
-const router = useRouter();
-
-const [preview, setPreview] = useState<string>('');
-const [isErrorOpen, setIsErrorOpen] = useState(false);
-
-const handleSubmit = async (
-values: AddStoryFormValues,
-actions: FormikHelpers<AddStoryFormValues>
-) => {
-try {
-const formData = new FormData();
-if (values.img) formData.append('img', values.img);
-formData.append('title', values.title);
-formData.append('category', values.category);
-formData.append('article', values.article);
-
-const res = await createStory(formData);
-
-router.push(`/stories/${res._id}`);
-actions.resetForm();
-setPreview('');
-} catch {
-setIsErrorOpen(true);
-} finally {
-actions.setSubmitting(false);
+interface Props {
+    storyId?: string;
 }
-};
 
-return (
-<>
-<Formik
-initialValues={initialValues}
-validationSchema={validationSchema}
-onSubmit={handleSubmit}
-validateOnBlur
-validateOnChange
-validateOnMount
->
-{({ isSubmitting, isValid, dirty, setFieldValue, values }) => {
-const isSaveDisabled =
-isSubmitting || !isValid || !dirty || !values.img;
+export default function AddStoryForm({ storyId }: Props) {
+    const router = useRouter();
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [error, setError] = useState<boolean>(false);
 
-return (
-<Form className={css.form} noValidate>
-<div className={css.field}>
-<label htmlFor={`${fieldId}-img`} className={css.label}>
-Обкладинка статті*
-</label>
+    // fetch categories (using clientApi to avoid circular import issues)
+    const {
+        data: categories,
+        isLoading: categoriesLoading,
+        isError: categoriesError,
+    } = useQuery<Category[]>({
+        queryKey: ['categories'],
+        queryFn: getCategories,
+    });
 
-<div className={css.preview}>
-{preview ? (
-<img src={preview} alt="preview" className={css.previewImage} />
-) : (
-<div className={css.placeholder}>Обкладинка</div>
-)}
-</div>
+    // fetch story when editing
+    const {
+        data: story,
+        isLoading: storyLoading,
+        isError: storyError,
+    } = useQuery<Story>({
+        queryKey: ['story', storyId],
+        queryFn: () => getStory(storyId!),
+        enabled: Boolean(storyId),
+    });
 
-<input
-id={`${fieldId}-img`}
-type="file"
-accept="image/png,image/jpeg,image/webp"
-className={css.file}
-disabled={isSubmitting}
-onChange={(e) => {
-const file = e.currentTarget.files?.[0] ?? null;
-setFieldValue('img', file);
-setPreview(file ? URL.createObjectURL(file) : '');
-}}
-/>
+    // set preview when story loads
+    useEffect(() => {
+        if (story?.img) {
+            setPreviewUrl(story.img);
+        }
+    }, [story]);
 
-<ErrorMessage name="img" component="span" className={css.error} />
-</div>
+    // cleanup object URLs
+    useEffect(() => {
+        return () => {
+            if (previewUrl && previewUrl.startsWith('blob:')) {
+                URL.revokeObjectURL(previewUrl);
+            }
+        };
+    }, [previewUrl]);
 
-<div className={css.field}>
-<label htmlFor={`${fieldId}-title`} className={css.label}>
-Заголовок*
-</label>
-<Field
-id={`${fieldId}-title`}
-name="title"
-className={css.input}
-disabled={isSubmitting}
-/>
-<ErrorMessage name="title" component="span" className={css.error} />
-</div>
+    const initialValues: AddStoryFormValues = {
+        img: null,
+        title: story?.title || '',
+        category: story?.category?._id || '',
+        article: story?.article || '',
+    };
 
-<div className={css.field}>
-<label htmlFor={`${fieldId}-category`} className={css.label}>
-Категорія*
-</label>
-<Field
-as="select"
-id={`${fieldId}-category`}
-name="category"
-className={css.select}
-disabled={isSubmitting}
->
-<option value="" disabled>
-Обери категорію
-</option>
-<option value="travel">Travel</option>
-<option value="city">City</option>
-<option value="nature">Nature</option>
-<option value="food">Food</option>
-<option value="other">Other</option>
-</Field>
-<ErrorMessage name="category" component="span" className={css.error} />
-</div>
+    const validationSchema = Yup.object().shape({
+        img: storyId
+            ? Yup.mixed().nullable()
+            : Yup.mixed().required('Обкладинка обов’язкова'),
+        title: Yup.string().required('Заголовок обов’язковий'),
+        category: Yup.string().required('Категорія обов’язкова'),
+        article: Yup.string().required('Текст обов’язковий'),
+    });
 
-<div className={css.field}>
-<label htmlFor={`${fieldId}-article`} className={css.label}>
-Текст історії*
-</label>
-<Field
-as="textarea"
-id={`${fieldId}-article`}
-name="article"
-rows={8}
-className={css.textarea}
-disabled={isSubmitting}
-/>
-<ErrorMessage name="article" component="span" className={css.error} />
-</div>
+    const handleCancel = () => {
+        router.back();
+    };
 
-<div className={css.actions}>
-<Button
-type="submit"
-variant="primary"
-disabled={isSaveDisabled}
->
-{isSubmitting ? 'Збереження...' : 'Зберегти'}
-</Button>
+    const handleSubmit = async (
+        values: AddStoryFormValues,
+        { setSubmitting }: FormikHelpers<AddStoryFormValues>
+    ) => {
+        setError(false);
+        const formData = new FormData();
+        if (values.img) {
+            formData.append('storyImage', values.img);
+        }
+        formData.append('title', values.title);
+        formData.append('category', values.category);
+        formData.append('article', values.article);
 
-<Button
-type="button"
+        try {
+            const result = storyId
+                ? await updateStory(storyId, formData)
+                : await createStory(formData);
+            router.push(`/stories/${result._id}`);
+        } catch (err) {
+            console.error(err);
+            setError(true);
+        } finally {
+            setSubmitting(false);
+        }
+    };
 
-disabled={isSubmitting}
-onClick={() => router.back()}
->
-Відмінити
-</Button>
+    if (categoriesLoading || (storyId && storyLoading)) {
+        return <div>Loading...</div>;
+    }
 
-{isSubmitting && <span className={css.loader}>Loading...</span>}
-</div>
-</Form>
-);
-}}
-</Formik>
+    if (categoriesError || storyError) {
+        return <div>Не вдалося завантажити дані</div>;
+    }
 
-{isErrorOpen && (
-<div className={css.modalOverlay} onClick={() => setIsErrorOpen(false)}>
-<div className={css.modal} onClick={(e) => e.stopPropagation()}>
-<h2 className={css.modalTitle}>Помилка збереження</h2>
-<p className={css.modalText}>
-Не вдалося зберегти історію. Спробуй ще раз.
-</p>
-<button
-type="button"
-className={css.modalButton}
-onClick={() => setIsErrorOpen(false)}
->
-Закрити
-</button>
-</div>
-</div>
-)}
-</>
-);
+    return (
+        <div className={css.wrapper}>
+            {error && (
+                <div className={css.errorModal}>
+                    Помилка збереження
+                    <button onClick={() => setError(false)}>OK</button>
+                </div>
+            )}
+            <Formik
+                enableReinitialize
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
+            >
+                {({ isSubmitting, isValid, setFieldValue }) => (
+                    <Form className={css.form}>
+                        <div className={css.fieldGroup}>
+                            <label htmlFor="img">Обкладинка</label>
+                            {previewUrl ? (
+                                <img
+                                    src={previewUrl}
+                                    alt="preview"
+                                    className={css.preview}
+                                />
+                            ) : (
+                                <div className={css.placeholder}>No image</div>
+                            )}
+                            <input
+                                id="img"
+                                name="img"
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => {
+                                    const file =
+                                        e.currentTarget.files && e.currentTarget.files[0]
+                                            ? e.currentTarget.files[0]
+                                            : null;
+                                    setFieldValue('img', file);
+                                    if (file) {
+                                        const url = URL.createObjectURL(file);
+                                        setPreviewUrl(url);
+                                    }
+                                }}
+                            />
+                            <ErrorMessage
+                                name="img"
+                                component="div"
+                                className={css.error}
+                            />
+                        </div>
+
+                        <div className={css.fieldGroup}>
+                            <label htmlFor="title">Заголовок</label>
+                            <Field id="title" name="title" />
+                            <ErrorMessage
+                                name="title"
+                                component="div"
+                                className={css.error}
+                            />
+                        </div>
+
+                        <div className={css.fieldGroup}>
+                            <label htmlFor="category">Категорія</label>
+                            <Field as="select" id="category" name="category">
+                                <option value="">Обрати категорію</option>
+                                {categories?.map((c) => (
+                                    <option key={c._id} value={c._id}>
+                                        {c.name}
+                                    </option>
+                                ))}
+                            </Field>
+                            <ErrorMessage
+                                name="category"
+                                component="div"
+                                className={css.error}
+                            />
+                        </div>
+
+                        <div className={css.fieldGroup}>
+                            <label htmlFor="article">Текст</label>
+                            <Field as="textarea" id="article" name="article" rows={10} />
+                            <ErrorMessage
+                                name="article"
+                                component="div"
+                                className={css.error}
+                            />
+                        </div>
+
+                        <div className={css.buttonGroup}>
+                            <Button
+                                type="submit"
+                                disabled={!isValid || isSubmitting}
+                                variant="primary"
+                            >
+                                Зберегти
+                            </Button>
+                            <Button type="button" variant="" onClick={handleCancel}>
+                                Відмінити
+                            </Button>
+                        </div>
+                        {isSubmitting && <div>Loading...</div>}
+                    </Form>
+                )}
+            </Formik>
+        </div>
+    );
 }
+
