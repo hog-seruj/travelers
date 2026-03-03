@@ -4,7 +4,7 @@ import css from './TravelersStoriesSection.module.css';
 import Button from '@/components/Button/Button';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import TravelersStories from '../TravelersStories/TravelersStories';
+import TravellersStories from '../TravellersStories/TravellersStories';
 import { getUserById } from '@/lib/api/clientApi';
 import Loader from '../Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
@@ -89,7 +89,7 @@ function TravelersStoriesSection() {
             href="/stories"
           />
         )}
-        {hasStories && <TravelersStories stories={travelerStories} />}
+        {hasStories && <TravellersStories stories={travelerStories} />}
         {hasNextPage && (
           <div className={css.btn}>
             <Button
