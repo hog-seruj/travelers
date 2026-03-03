@@ -1,14 +1,14 @@
 import axios from 'axios';
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! використовується у тих, хто ще робить запити напряму на наш бекенд !!
-const baseURL = 'http://localhost:3000/api';
+// const baseURL = 'http://localhost:3000/api';
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // export const nextServer = axios.create({
-export const api = axios.create({
-  baseURL: baseURL,
-  // withCredentials: true,
-});
+// export const api = axios.create({
+//   baseURL: baseURL,
+// withCredentials: true,
+// });
 
 const baseURLT = process.env.NEXT_PUBLIC_SERVER_URL + '/api';
 export const nextServer = axios.create({
