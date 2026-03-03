@@ -3,7 +3,7 @@
 
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 
@@ -30,7 +30,16 @@ export default function AddStoryForm({ storyId }: Props) {
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [error, setError] = useState<boolean>(false);
 
-    // fetch categories (using clientApi to avoid circular import issues)
+    // ✅ тільки для візуалу (auto-resize textarea)
+    const articleRef = useRef<HTMLTextAreaElement | null>(null);
+
+    const autoResizeArticle = () => {
+        const el = articleRef.current;
+        if (!el) return;
+        el.style.height = 'auto';
+        el.style.height = `${el.scrollHeight}px`;
+    };
+
     const {
         data: categories,
         isLoading: categoriesLoading,
@@ -40,7 +49,6 @@ export default function AddStoryForm({ storyId }: Props) {
         queryFn: getCategories,
     });
 
-    // fetch story when editing
     const {
         data: story,
         isLoading: storyLoading,
@@ -51,14 +59,12 @@ export default function AddStoryForm({ storyId }: Props) {
         enabled: Boolean(storyId),
     });
 
-    // set preview when story loads
     useEffect(() => {
         if (story?.img) {
             setPreviewUrl(story.img);
         }
     }, [story]);
 
-    // cleanup object URLs
     useEffect(() => {
         return () => {
             if (previewUrl && previewUrl.startsWith('blob:')) {
@@ -75,9 +81,7 @@ export default function AddStoryForm({ storyId }: Props) {
     };
 
     const validationSchema = Yup.object().shape({
-        img: storyId
-            ? Yup.mixed().nullable()
-            : Yup.mixed().required('Обкладинка обов’язкова'),
+        img: storyId ? Yup.mixed().nullable() : Yup.mixed().required('Обкладинка обов’язкова'),
         title: Yup.string().required('Заголовок обов’язковий'),
         category: Yup.string().required('Категорія обов’язкова'),
         article: Yup.string().required('Текст обов’язковий'),
@@ -93,6 +97,7 @@ export default function AddStoryForm({ storyId }: Props) {
     ) => {
         setError(false);
         const formData = new FormData();
+
         if (values.img) {
             formData.append('storyImage', values.img);
         }
@@ -101,9 +106,7 @@ export default function AddStoryForm({ storyId }: Props) {
         formData.append('article', values.article);
 
         try {
-            const result = storyId
-                ? await updateStory(storyId, formData)
-                : await createStory(formData);
+            const result = storyId ? await updateStory(storyId, formData) : await createStory(formData);
             router.push(`/stories/${result._id}`);
         } catch (err) {
             console.error(err);
@@ -129,98 +132,98 @@ export default function AddStoryForm({ storyId }: Props) {
                     <button onClick={() => setError(false)}>OK</button>
                 </div>
             )}
-            <Formik
-                enableReinitialize
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={handleSubmit}
-            >
+
+            <Formik enableReinitialize initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
                 {({ isSubmitting, isValid, setFieldValue }) => (
                     <Form className={css.form}>
                         <div className={css.fieldGroup}>
-                            <label htmlFor="img">Обкладинка</label>
-                            {previewUrl ? (
-                                <img
-                                    src={previewUrl}
-                                    alt="preview"
-                                    className={css.preview}
-                                />
-                            ) : (
-                                <div className={css.placeholder}>No image</div>
-                            )}
+                            <label htmlFor="img">Обкладинка статті</label>
+
+                            {previewUrl ? <img src={previewUrl} alt="preview" className={css.preview} /> : <div className={css.placeholder}>No image</div>}
+
+                            <label htmlFor="img" className={css.uploadBtn}>
+                                Завантажити фото
+                            </label>
+
                             <input
                                 id="img"
                                 name="img"
                                 type="file"
                                 accept="image/*"
+                                className={css.fileInput}
                                 onChange={(e) => {
-                                    const file =
-                                        e.currentTarget.files && e.currentTarget.files[0]
-                                            ? e.currentTarget.files[0]
-                                            : null;
+                                    const file = e.currentTarget.files && e.currentTarget.files[0] ? e.currentTarget.files[0] : null;
+
                                     setFieldValue('img', file);
+
                                     if (file) {
                                         const url = URL.createObjectURL(file);
                                         setPreviewUrl(url);
                                     }
                                 }}
                             />
-                            <ErrorMessage
-                                name="img"
-                                component="div"
-                                className={css.error}
-                            />
+
+                            <ErrorMessage name="img" component="div" className={css.error} />
                         </div>
 
                         <div className={css.fieldGroup}>
                             <label htmlFor="title">Заголовок</label>
-                            <Field id="title" name="title" />
-                            <ErrorMessage
-                                name="title"
-                                component="div"
-                                className={css.error}
-                            />
+                            <Field id="title" name="title" placeholder="Введіть заголовок історії" />
+                            <ErrorMessage name="title" component="div" className={css.error} />
                         </div>
 
                         <div className={css.fieldGroup}>
                             <label htmlFor="category">Категорія</label>
-                            <Field as="select" id="category" name="category">
-                                <option value="">Обрати категорію</option>
-                                {categories?.map((c) => (
-                                    <option key={c._id} value={c._id}>
-                                        {c.name}
-                                    </option>
-                                ))}
-                            </Field>
-                            <ErrorMessage
-                                name="category"
-                                component="div"
-                                className={css.error}
-                            />
+
+                            <div className={css.selectWrapper}>
+                                <Field as="select" id="category" name="category">
+                                    <option value="">Категорія</option>
+                                    {categories?.map((c) => (
+                                        <option key={c._id} value={c._id}>
+                                            {c.name}
+                                        </option>
+                                    ))}
+                                </Field>
+
+                                <svg className={css.selectIcon} width="16" height="16">
+                                    <use href="/sprite.svg#icon-down" />
+                                </svg>
+                            </div>
+
+                            <ErrorMessage name="category" component="div" className={css.error} />
                         </div>
 
                         <div className={css.fieldGroup}>
-                            <label htmlFor="article">Текст</label>
-                            <Field as="textarea" id="article" name="article" rows={10} />
-                            <ErrorMessage
+                            <label htmlFor="article">Текст історії</label>
+
+                            <Field
+                                as="textarea"
+                                id="article"
                                 name="article"
-                                component="div"
-                                className={css.error}
+                                rows={1}
+                                placeholder="Ваша історія тут"
+                                innerRef={(node: HTMLTextAreaElement | null) => {
+                                    articleRef.current = node;
+                                    // ✅ підлаштувати висоту одразу при маунті/ре-рендері
+                                    requestAnimationFrame(autoResizeArticle);
+                                }}
+                                onInput={() => {
+                                    autoResizeArticle();
+                                }}
                             />
+
+                            <ErrorMessage name="article" component="div" className={css.error} />
                         </div>
 
                         <div className={css.buttonGroup}>
-                            <Button
-                                type="submit"
-                                disabled={!isValid || isSubmitting}
-                                variant="primary"
-                            >
+                            <Button type="submit" disabled={!isValid || isSubmitting} variant="primary">
                                 Зберегти
                             </Button>
                             <Button type="button" variant="" onClick={handleCancel}>
                                 Відмінити
                             </Button>
                         </div>
+
                         {isSubmitting && <div>Loading...</div>}
                     </Form>
                 )}
@@ -228,4 +231,3 @@ export default function AddStoryForm({ storyId }: Props) {
         </div>
     );
 }
-

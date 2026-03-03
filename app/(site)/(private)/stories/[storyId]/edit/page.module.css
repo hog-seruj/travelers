@@ -1,1 +1,57 @@
-/* empty styling for edit page */
+/* app/(site)/(private)/stories/[storyId]/edit/page.module.css */
+
+.main {
+    width: 100%;
+    padding-top: 32px;
+}
+
+.container {
+    width: 100%;
+    max-width: 375px;
+    margin: 0 auto;
+}
+
+.title {
+    width: 100%;
+    max-width: 335px;
+
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+
+    margin: 0 auto 24px;
+    padding: 0 20px;
+}
+
+@media (min-width: 375px) {
+    .container {
+        max-width: 375px;
+    }
+}
+
+@media (min-width: 768px) {
+    .main {
+        padding-top: 40px;
+    }
+
+    .container {
+        max-width: 560px;
+    }
+
+    .title {
+        max-width: 560px;
+        padding: 0 24px;
+    }
+}
+
+@media (min-width: 1440px) {
+    .container {
+        max-width: 640px;
+    }
+
+    .title {
+        max-width: 640px;
+        padding: 0;
+    }
+}
