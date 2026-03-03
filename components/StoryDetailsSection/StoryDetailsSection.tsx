@@ -1,6 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import { getStory, saveStory } from '@/lib/api/clientApi';
 import { useAuthStore } from '@/lib/store/authStore';
 import { Story } from '@/types/story';
@@ -15,6 +16,11 @@ interface StoryDetailsProps {
 
 export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const user = useAuthStore((state) => state.user);
+
+  const [isSaved, setIsSaved] = useState(
+    user?.savedArticles?.includes(storyId) ?? false
+  );
 
   const {
     data: story,
@@ -34,6 +40,7 @@ export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
 
     try {
       await saveStory(storyId);
+      setIsSaved(true);
       toast.success('Історію збережено!');
     } catch {
       toast.error('Невдалось зберегти історію');
@@ -80,20 +87,22 @@ export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
           <div className={css.description}>
             <p>{story.article}</p>
           </div>
-          <div className={css.saveBlock}>
-            <h3 className={css.saveTitle}>Збережіть собі історію</h3>
-            <p className={css.saveText}>
-              Вона буде доступна у вашому профілі у розділі збережене
-            </p>
-            <Button
-              variant="primary"
-              size="large"
-              className={css.saveButton}
-              onClick={handleSave}
-            >
-              Зберегти
-            </Button>
-          </div>
+          {!isSaved && (
+            <div className={css.saveBlock}>
+              <h3 className={css.saveTitle}>Збережіть собі історію</h3>
+              <p className={css.saveText}>
+                Вона буде доступна у вашому профілі у розділі збережене
+              </p>
+              <Button
+                variant="primary"
+                size="large"
+                className={css.saveButton}
+                onClick={handleSave}
+              >
+                Зберегти
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </section>
