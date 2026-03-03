@@ -8,6 +8,7 @@ import Button from '@/components/Button/Button';
 import { useState, useEffect } from 'react';
 import Loader from '@/components/Loader/Loader';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
+import Loading from '@/app/loading';
 // import useAFetchPaginatedQuery from '@/hooks/useFetchPaginatedQuery';
 
 export default function TravellersPageClient() {
@@ -87,9 +88,14 @@ export default function TravellersPageClient() {
           <h2 className={`center ${css.title}`}>Мандрівники</h2>
         </div>
         {isLoading && <Loader />}
-        {isError && <ErrorMessage />}
-        {hasUsers && <TravelersList users={users} />}
 
+        {hasUsers && <TravelersList users={users} />}
+        {isError && <ErrorMessage />}
+        {isFetchingNextPage && (
+          <div className="container center">
+            <Loading />
+          </div>
+        )}
         <div className={css.btnWrapper}>
           {hasNextPage && (
             <Button

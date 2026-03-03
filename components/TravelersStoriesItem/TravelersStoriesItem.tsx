@@ -139,7 +139,9 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
         />
         <div className={css.wrapper}>
           <div className={css.info}>
-            <p className={css.category}>{story.category.name}</p>
+            <p className={css.category}>
+              {story?.category?.name || 'Про все на світі'}
+            </p>
             <h3 className={css.title}>{story.title}</h3>
             <p className={css.article}>{story.article}</p>
           </div>

@@ -1,31 +1,33 @@
 import { nextServer } from './api';
-import { Category, Story } from '@/types/story';
+import { Story, SavedStory, UserSavedArticlesResponse } from '@/types/story';
 import { User } from '@/types/user';
+import {
+  CategoriesResponse,
+  getStoriesProps,
+  StoryListResponse,
+  Category,
+} from '@/types/story';
 
-export type StoryListResponse = {
-  page: number;
-  perPage: number;
-  totalStories: number;
-  totalPages: number;
-  stories: Story[];
-};
+// getStories with pagination, sorting and filtering by category
 
-export const getStories = async (
-  page?: number,
-  perPage?: number,
-  sort?: 'newest' | 'popular',
-  category?: Category
-) => {
+export async function getStories({
+  page,
+  perPage,
+  sort,
+  category,
+  nextPerPage,
+}: getStoriesProps): Promise<StoryListResponse> {
   const res = await nextServer.get<StoryListResponse>('/stories', {
     params: {
       page,
       perPage,
       sort,
       category,
+      nextPerPage,
     },
   });
   return res.data;
-};
+}
 
 export const getStory = async (storyId: string) => {
   const res = await nextServer.get<Story>(`/stories/${storyId}`);
@@ -39,9 +41,7 @@ export const saveStory = async (storyId: string) => {
 
 // fetch list of categories (used in create / edit story forms)
 export const getCategories = async (): Promise<Category[]> => {
-  const res = await nextServer.get<{ categories: Category[] }>(
-    '/categories'
-  );
+  const res = await nextServer.get<{ categories: Category[] }>('/categories');
   return res.data.categories;
 };
 
@@ -124,6 +124,20 @@ export async function getUsers({
   return response.data;
 }
 
+export const getCategoriesT = async (): Promise<CategoriesResponse> => {
+  const response = await nextServer.get<CategoriesResponse>('/categories');
+  return response.data;
+};
+
+export const fetchSavedStoriesByUserId = async (
+  userId: string
+): Promise<SavedStory[]> => {
+  const res = await nextServer.get<UserSavedArticlesResponse>(
+    `/users/${userId}/saved`
+  );
+
+  return res.data.data.savedStories;
+};
 // Add story to saved
 interface addStoryToSavedResponse {
   savedArticles: User['savedArticles'];

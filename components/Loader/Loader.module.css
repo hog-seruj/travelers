@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: row; 
+  flex-direction: row;
   gap: 5px;
   height: 100vh;
   text-align: center;
@@ -12,17 +12,17 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 8px solid #cce0ff; 
-  border-top: 8px solid #1e3a8a; 
-  animation: pulseEffect 2s ease-in-out infinite, rotateSpinner 1.5s linear infinite;
+  border: 8px solid #cce0ff;
+  border-top: 8px solid var(--accent-dark);
+  animation: pulseEffect 2s ease-in-out infinite,
+    rotateSpinner 1.5s linear infinite;
 }
 
 /* Текст для спінера */
 .spinnerText {
-
   font-size: 14px;
   font-weight: bold;
-  color: #1e3a8a;
+  color: var(--accent-dark);
   animation: textAnimation 2s ease-in-out infinite;
 }
 
@@ -30,15 +30,15 @@
 @keyframes pulseEffect {
   0% {
     transform: scale(1);
-    border-color: #1e3a8a;
+    border-color: var(--accent-dark);
   }
   50% {
     transform: scale(1.2); /* Збільшуємо розмір */
-    border-color: #a5c9e2; /* Світліший синій колір */
+    border-color: var(--accent-2); /* Світліший синій колір */
   }
   100% {
     transform: scale(1);
-    border-color: #1e3a8a;
+    border-color: var(--accent-dark);
   }
 }
 
@@ -55,20 +55,17 @@
 /* Анімація для тексту */
 @keyframes textAnimation {
   0% {
-    color: #1e3a8a;
+    color: var(--accent-dark);
   }
   50% {
-    color: #a5c9e2; /* Світліший колір для тексту */
+    color: var(--accent-2); /* Світліший колір для тексту */
   }
   100% {
-    color: #1e3a8a;
+    color: var(--accent-dark);
   }
 }
-
 
 .logoIcon {
   width: 30px;
   height: 30px;
-  
-  
 }
