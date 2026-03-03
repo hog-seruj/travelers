@@ -37,6 +37,14 @@ export const saveStory = async (storyId: string) => {
   return res.data;
 };
 
+// fetch list of categories (used in create / edit story forms)
+export const getCategories = async (): Promise<Category[]> => {
+  const res = await nextServer.get<{ categories: Category[] }>(
+    '/categories'
+  );
+  return res.data.categories;
+};
+
 // silent authentication logic
 type CheckSessionRequest = {
   success: boolean;

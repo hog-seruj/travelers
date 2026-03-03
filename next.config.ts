@@ -8,8 +8,15 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'ftp.goit.study',
       },
-
-      { protocol: 'https', hostname: 'ac.goit.global' },
+      {
+        protocol: 'https',
+        hostname: 'ac.goit.global',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        pathname: '/**',
+      },
     ],
   },
 };
