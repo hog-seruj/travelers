@@ -5,6 +5,7 @@ import {
   CategoriesResponse,
   getStoriesProps,
   StoryListResponse,
+  Category,
 } from '@/types/story';
 
 // getStories with pagination, sorting and filtering by category
