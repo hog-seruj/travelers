@@ -14,6 +14,11 @@ import AuthNavModal from '../AuthNavModal/AuthNavModal';
 interface TravelersStoriesItemProps {
   story: Story;
   className?: string;
+  editButton?: boolean;
+  isAuthenticated?: boolean;
+  isSaved?: boolean;
+  isOwnStory?: boolean;
+  onNeedAuth?: () => void;
 }
 
 function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {

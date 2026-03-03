@@ -1,0 +1,41 @@
+.container {
+  width: 100%;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr; 
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0px 0px 40px 0px;
+
+}
+
+.loadMore {
+  display: block;
+  margin: 40px auto 0;
+  padding: 12px 24px;
+  background: transparent;
+  border: 1px solid #3B82F6;
+  border-radius: 8px;
+  color: #3B82F6;
+  cursor: pointer;
+}
+
+/* Планшет */
+@media (min-width: 768px) {
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 340px); 
+    justify-content: center;
+    gap: 32px 24px; 
+  }
+}
+
+@media (min-width: 1440px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px 24px;
+  }
+}

@@ -9,11 +9,15 @@ type CommonProps = {
   className?: string;
   children: React.ReactNode;
   disabled?: boolean;
+  isFetching?: boolean;
+  onClick?: () => void;
 };
 
 type ButtonOnlyProps = CommonProps &
   React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    href?: never;
+  href?: never;
+  isFetching?: boolean;
+  onClick?: () => void;
   };
 
 type LinkOnlyProps = CommonProps & {

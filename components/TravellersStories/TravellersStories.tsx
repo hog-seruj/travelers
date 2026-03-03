@@ -1,17 +1,49 @@
+import TravelersStoriesItem from '@/components/TravelersStoriesItem/TravelersStoriesItem';
 import { Story } from '@/types/story';
-import TravelersStoriesItem from '../TravelersStoriesItem/TravelersStoriesItem';
-import css from './TravellersStories.module.css';
+import css from './TravelersStories.module.css';
 
-interface TravellersStoriesProps {
+interface TravelersStoriesProps {
   stories: Story[];
+  onLoadMore: () => void;
+  page: number;
+  totalPages: number;
+  isFetching: boolean;
+  editButton?: boolean; // додано для кнопки редагування
 }
 
-export default function TravellersStories({ stories }: TravellersStoriesProps) {
+function TravelersStories({
+  stories,
+  onLoadMore,
+  page,
+  totalPages,
+  isFetching,
+  editButton = false,
+}: TravelersStoriesProps) {
+  if (!stories || stories.length === 0) {
+    return <p>Історії відсутні</p>;
+  }
+
   return (
-    <ul className={css.list}>
-      {stories.map((story) => (
-        <TravelersStoriesItem story={story} key={story._id} />
-      ))}
-    </ul>
+    <div>
+      <ul className={css.list}>
+        {stories.map((story) => (
+          <TravelersStoriesItem
+            key={story._id}
+            story={story}
+            editButton={editButton} // передаємо в картку, щоб вона знала показувати кнопку редагування
+          />
+        ))}
+      </ul>
+
+      {page < totalPages && (
+        <div className={css.buttonWrapper}>
+          <button onClick={onLoadMore} disabled={isFetching} className={css.loadMore}>
+            {isFetching ? 'Завантаження...' : 'Завантажити ще'}
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
+
+export default TravelersStories;
