@@ -179,7 +179,16 @@ export interface GetUserResponse {
   };
 }
 
-export async function getUserById(id: User['_id']) {
-  const { data } = await nextServer.get<GetUserResponse>(`/users/${id}`);
+export async function getUserById(
+  id: User['_id'],
+  page?: number,
+  perPage?: number
+) {
+  const { data } = await nextServer.get<GetUserResponse>(`/users/${id}`, {
+    params: {
+      page,
+      perPage,
+    },
+  });
   return data;
 }
