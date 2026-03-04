@@ -8,7 +8,6 @@ import Button from '@/components/Button/Button';
 import { useState, useEffect } from 'react';
 import Loader from '@/components/Loader/Loader';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
-import Loading from '@/app/loading';
 
 export default function TravellersPageClient() {
   const [initialLimit, setInitialLimit] = useState<number>(8);
@@ -57,6 +56,8 @@ export default function TravellersPageClient() {
         users: data.pages.flatMap((page) => page.users),
       };
     },
+    refetchOnMount: false,
+    staleTime: 5 * 60 * 1000, // 5 хвилин
   });
 
   const users = data?.users ?? [];
