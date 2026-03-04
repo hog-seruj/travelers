@@ -6,10 +6,8 @@ export default function CreateStoryPage() {
   return (
     <MainWrapper>
       <main className={css.main}>
-        <div className={css.container}>
-          <h1 className={css.title}>Створити нову історію</h1>
-          <AddStoryForm />
-        </div>
+        <h1 className={css.title}>Створити нову історію</h1>
+        <AddStoryForm />
       </main>
     </MainWrapper>
   );

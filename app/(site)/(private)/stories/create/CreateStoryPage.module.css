@@ -1,24 +1,42 @@
-/* app/(site)/(private)/stories/create/CreateStoryPage.module.css */
-
 .main {
-    width: 100%;
-    padding-top: 32px;
+  width: 100%;
+  max-width: 375px;
+  margin: 0 auto;
+  padding: 32px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
-.container {}
+.title {
+  width: 100%;
 
-.title {}
-
-@media (min-width: 375px) {
-    .container {}
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
 }
 
 @media (min-width: 768px) {
-    .main {}
+  .main {
+    max-width: 768px;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
 
-    .container {}
-
-    .title {}
+  .title {
+    font-size: 48px;
+  }
 }
 
-@media (min-width: 1440px) {}
+@media (min-width: 1440px) {
+  .main {
+    max-width: 1440px;
+    padding: 48px 64px;
+    gap: 48px;
+  }
+
+  .title {
+    font-size: 56px;
+  }
+}

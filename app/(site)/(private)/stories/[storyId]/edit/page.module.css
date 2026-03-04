@@ -1,57 +1,42 @@
-/* app/(site)/(private)/stories/[storyId]/edit/page.module.css */
-
 .main {
-    width: 100%;
-    padding-top: 32px;
-}
-
-.container {
-    width: 100%;
-    max-width: 375px;
-    margin: 0 auto;
+  width: 100%;
+  max-width: 375px;
+  margin: 0 auto;
+  padding: 32px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
 .title {
-    width: 100%;
-    max-width: 335px;
+  width: 100%;
 
-    font-size: 32px;
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.01em;
-
-    margin: 0 auto 24px;
-    padding: 0 20px;
-}
-
-@media (min-width: 375px) {
-    .container {
-        max-width: 375px;
-    }
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
 }
 
 @media (min-width: 768px) {
-    .main {
-        padding-top: 40px;
-    }
+  .main {
+    max-width: 768px;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
 
-    .container {
-        max-width: 560px;
-    }
-
-    .title {
-        max-width: 560px;
-        padding: 0 24px;
-    }
+  .title {
+    font-size: 48px;
+  }
 }
 
 @media (min-width: 1440px) {
-    .container {
-        max-width: 640px;
-    }
+  .main {
+    max-width: 1440px;
+    padding: 48px 64px;
+    gap: 48px;
+  }
 
-    .title {
-        max-width: 640px;
-        padding: 0;
-    }
+  .title {
+    font-size: 56px;
+  }
 }
