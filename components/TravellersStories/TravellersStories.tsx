@@ -8,12 +8,10 @@ interface TravellersStoriesProps {
 
 export default function TravellersStories({ stories }: TravellersStoriesProps) {
   return (
-    <div className={css.wrapper}>
-      <ul className={css.list}>
-        {stories.map((story) => (
-          <TravelersStoriesItem story={story} key={story._id} />
-        ))}
-      </ul>
-    </div>
+    <ul className={css.list}>
+      {stories.map((story) => (
+        <TravelersStoriesItem story={story} key={story._id} />
+      ))}
+    </ul>
   );
 }

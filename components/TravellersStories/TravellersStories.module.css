@@ -1,20 +1,13 @@
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
 .list {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 24px;
-  justify-content: flex-start;
-  align-items: center;
   margin-bottom: 40px;
 }
 
 @media screen and (min-width: 768px) {
   .list {
     flex-direction: row;
+    flex-wrap: wrap;
   }
 }
