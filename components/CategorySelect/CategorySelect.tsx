@@ -1,16 +1,16 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useField, useFormikContext } from 'formik';
+import { useField } from 'formik';
 import clsx from 'clsx';
 import css from './CategorySelect.module.css';
 
 type Option = { value: string; label: string };
 
 interface Props {
-  name: string; // "category"
-  placeholder?: string; // "Категорія"
-  options: Option[]; // categories
+  name: string;
+  placeholder?: string;
+  options: Option[];
   disabled?: boolean;
 }
 
@@ -20,8 +20,7 @@ export default function CategorySelect({
   options,
   disabled,
 }: Props) {
-  const [field, meta] = useField<string>(name);
-  const { setFieldValue, setFieldTouched } = useFormikContext();
+  const [field, meta, helpers] = useField<string>(name);
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
 
@@ -30,30 +29,30 @@ export default function CategorySelect({
     [options, field.value]
   );
 
-  // close on outside click
   useEffect(() => {
     const onDown = (e: MouseEvent) => {
+      if (!open) return;
       if (!rootRef.current) return;
       if (!rootRef.current.contains(e.target as Node)) setOpen(false);
     };
     document.addEventListener('mousedown', onDown);
     return () => document.removeEventListener('mousedown', onDown);
-  }, []);
+  }, [open]);
 
-  // close on Esc
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (!open) return;
       if (e.key === 'Escape') setOpen(false);
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, []);
+  }, [open]);
 
   const hasError = Boolean(meta.touched && meta.error);
 
   const choose = (value: string) => {
-    setFieldValue(name, value);
-    setFieldTouched(name, true, true);
+    helpers.setTouched(true, false);
+    helpers.setValue(value, true);
     setOpen(false);
   };
 
@@ -75,7 +74,6 @@ export default function CategorySelect({
           className={clsx(css.icon, open && css.iconOpen)}
           width="16"
           height="16"
-          aria-hidden="true"
         >
           <use href="/sprite.svg#icon-down" />
         </svg>

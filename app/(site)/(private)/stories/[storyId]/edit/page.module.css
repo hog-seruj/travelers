@@ -1,8 +1,7 @@
 .main {
   width: 100%;
-  max-width: 375px;
-  margin: 0 auto;
-  padding: 32px 20px;
+  padding-top: 32px;
+  padding-bottom: 32px;
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -18,12 +17,6 @@
 }
 
 @media (min-width: 768px) {
-  .main {
-    max-width: 768px;
-    padding-left: 32px;
-    padding-right: 32px;
-  }
-
   .title {
     font-size: 48px;
   }
@@ -31,8 +24,8 @@
 
 @media (min-width: 1440px) {
   .main {
-    max-width: 1440px;
-    padding: 48px 64px;
+    padding-top: 48px;
+    padding-bottom: 48px;
     gap: 48px;
   }
 

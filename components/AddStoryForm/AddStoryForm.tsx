@@ -14,6 +14,7 @@ import { Category, Story } from '@/types/story';
 
 import css from './AddStoryForm.module.css';
 import CategorySelect from '../CategorySelect/CategorySelect';
+import { toast } from 'sonner';
 
 interface AddStoryFormValues {
   img: File | null;
@@ -29,7 +30,6 @@ interface Props {
 export default function AddStoryForm({ storyId }: Props) {
   const router = useRouter();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [error, setError] = useState<boolean>(false);
 
   // ✅ тільки для візуалу (auto-resize textarea)
   const articleRef = useRef<HTMLTextAreaElement | null>(null);
@@ -98,7 +98,6 @@ export default function AddStoryForm({ storyId }: Props) {
     values: AddStoryFormValues,
     { setSubmitting }: FormikHelpers<AddStoryFormValues>
   ) => {
-    setError(false);
     const formData = new FormData();
 
     if (values.img) {
@@ -115,7 +114,7 @@ export default function AddStoryForm({ storyId }: Props) {
       router.push(`/stories/${result._id}`);
     } catch (err) {
       console.error(err);
-      setError(true);
+      toast.error('Сталася помилка, спробуйте пізніше');
     } finally {
       setSubmitting(false);
     }
@@ -131,17 +130,13 @@ export default function AddStoryForm({ storyId }: Props) {
 
   return (
     <div className={css.wrapper}>
-      {error && (
-        <div className={css.errorModal}>
-          Помилка збереження
-          <button onClick={() => setError(false)}>OK</button>
-        </div>
-      )}
-
       <Formik
         enableReinitialize
         initialValues={initialValues}
         validationSchema={validationSchema}
+        validateOnChange={true}
+        validateOnBlur={true}
+        validateOnMount={false}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, isValid, setFieldValue }) => (
@@ -199,21 +194,6 @@ export default function AddStoryForm({ storyId }: Props) {
 
             <div className={css.fieldGroup}>
               <label htmlFor="category">Категорія</label>
-
-              {/* <div className={css.selectWrapper}>
-                                <Field as="select" id="category" name="category">
-                                    <option value="">Категорія</option>
-                                    {categories?.map((c) => (
-                                        <option key={c._id} value={c._id}>
-                                            {c.name}
-                                        </option>
-                                    ))}
-                                </Field>
-
-                                <svg className={css.selectIcon} width="16" height="16">
-                                    <use href="/sprite.svg#icon-down" />
-                                </svg>
-                            </div> */}
               <div className={css.selectWrapper}>
                 <CategorySelect
                   name="category"
