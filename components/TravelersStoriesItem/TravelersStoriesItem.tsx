@@ -33,10 +33,13 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
       console.log(data.savedArticles);
       updateUser({ savedArticles: data.savedArticles });
       queryClient.invalidateQueries({
-        queryKey: [
-          'popularStories',
-          { page: 1, perPage: 4, sort: 'popular', category: null },
-        ],
+        queryKey: ['popularStories'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['travelerOwnStories'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['travellersPage'],
       });
       console.log(story._id);
       // console.log(user?.savedArticles); показує не оновлені дані
@@ -58,10 +61,13 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
       console.log(data.stories);
       updateUser({ savedArticles: data.stories });
       queryClient.invalidateQueries({
-        queryKey: [
-          'popularStories',
-          { page: 1, perPage: 4, sort: 'popular', category: null },
-        ],
+        queryKey: ['popularStories'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['travelerOwnStories'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['travellersPage'],
       });
       console.log(story._id);
       // console.log(user?.savedArticles); показує не оновлені дані
