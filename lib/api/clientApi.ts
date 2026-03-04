@@ -34,11 +34,6 @@ export const getStory = async (storyId: string) => {
   return res.data;
 };
 
-export const saveStory = async (storyId: string) => {
-  const res = await nextServer.post(`/stories/${storyId}/favoriteCount`);
-  return res.data;
-};
-
 // fetch list of categories (used in create / edit story forms)
 export const getCategories = async (): Promise<Category[]> => {
   const res = await nextServer.get<{ categories: Category[] }>('/categories');
