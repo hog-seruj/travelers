@@ -39,7 +39,7 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
         queryKey: ['travelerOwnStories'],
       });
       queryClient.invalidateQueries({
-        queryKey: ['travellersPage'],
+        queryKey: ['storiesPage'],
       });
       console.log(story._id);
       // console.log(user?.savedArticles); показує не оновлені дані
@@ -67,7 +67,7 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
         queryKey: ['travelerOwnStories'],
       });
       queryClient.invalidateQueries({
-        queryKey: ['travellersPage'],
+        queryKey: ['storiesPage'],
       });
       console.log(story._id);
       // console.log(user?.savedArticles); показує не оновлені дані
