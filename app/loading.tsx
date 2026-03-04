@@ -1,7 +1,10 @@
-import {PulseLoader }  from 'react-spinners';
+import { PulseLoader } from 'react-spinners';
+import style from './(site)/page.module.css';
 
 export default function Loading() {
   return (
-    <PulseLoader color="#e8eeff" margin={6} size={16} speedMultiplier={0.5} />
+    <div className={style.loading}>
+      <PulseLoader color="#7a96ea" margin={6} size={18} speedMultiplier={0.5} />
+    </div>
   );
 }

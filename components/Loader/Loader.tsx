@@ -1,17 +1,11 @@
 'use client';
+import { PulseLoader } from 'react-spinners';
 import css from './Loader.module.css';
-import Icon from '../Icon/Icon';
 
-const Loader = () => {
+export default function Loading() {
   return (
-    <div className={css.spinnerContainer}>
-      <div className={css.spinner}></div>
-      <div className={css.spinnerText}>
-        Подорожуй за мить...
-        <Icon src="/logo.svg" useSprite={false} className={css.logoIcon} />
-      </div>
+    <div className={css.container}>
+      <PulseLoader color="#7a96ea" margin={6} size={18} speedMultiplier={0.5} />
     </div>
   );
-};
-
-export default Loader;
+}
