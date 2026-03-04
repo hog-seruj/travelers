@@ -127,6 +127,11 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
     }
   };
 
+  // logic for editStory button
+  const isMyStory = isAuthenticated && user && user._id === story.ownerId._id;
+  console.log(isMyStory);
+  //
+
   return (
     <>
       <li className={`${css.item} ${className || ''}`}>
@@ -174,15 +179,30 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
             >
               Переглянути статтю
             </Button>
-            <button
-              onClick={() => handleClick()}
-              className={classes}
-              disabled={isButtonDisabled}
-            >
-              <svg width="24" height="24">
-                <use href="/sprite.svg#icon-bookmark"></use>
-              </svg>
-            </button>
+            {!isMyStory && (
+              <button
+                onClick={() => handleClick()}
+                className={classes}
+                disabled={isButtonDisabled}
+              >
+                <svg width="24" height="24">
+                  <use href="/sprite.svg#icon-bookmark"></use>
+                </svg>
+              </button>
+            )}
+            {/* edit button */}
+            {isMyStory && (
+              <Button
+                variant=""
+                size="large"
+                href={`/stories/${story._id}/edit`}
+                className={css.buttonEdit}
+              >
+                <svg width="24" height="24">
+                  <use href="/sprite.svg#icon-edit"></use>
+                </svg>
+              </Button>
+            )}
           </div>
         </div>
       </li>

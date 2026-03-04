@@ -1,9 +1,11 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { getStory, saveStory } from '@/lib/api/clientApi';
+import { useState, useEffect } from 'react';
+import { getStory, addStoryToSaved } from '@/lib/api/clientApi';
 import { useAuthStore } from '@/lib/store/authStore';
 import { Story } from '@/types/story';
+import AuthNavModal from '@/components/AuthNavModal/AuthNavModal';
 import toast from 'react-hot-toast';
 import Button from '@/components/Button/Button';
 import Image from 'next/image';
@@ -15,6 +17,17 @@ interface StoryDetailsProps {
 
 export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const user = useAuthStore((state) => state.user);
+
+  const [isSaved, setIsSaved] = useState(
+    user?.savedArticles?.includes(storyId) ?? false
+  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  useEffect(() => {
+    if (user?.savedArticles?.includes(storyId)) {
+      setIsSaved(true);
+    }
+  }, [user, storyId]);
 
   const {
     data: story,
@@ -28,12 +41,13 @@ export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
 
   const handleSave = async () => {
     if (!isAuthenticated) {
-      toast.error('Увійдіть, щоб зберегти історію');
+      setIsModalOpen(true);
       return;
     }
 
     try {
-      await saveStory(storyId);
+      await addStoryToSaved(storyId);
+      setIsSaved(true);
       toast.success('Історію збережено!');
     } catch {
       toast.error('Невдалось зберегти історію');
@@ -80,22 +94,25 @@ export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
           <div className={css.description}>
             <p>{story.article}</p>
           </div>
-          <div className={css.saveBlock}>
-            <h3 className={css.saveTitle}>Збережіть собі історію</h3>
-            <p className={css.saveText}>
-              Вона буде доступна у вашому профілі у розділі збережене
-            </p>
-            <Button
-              variant="primary"
-              size="large"
-              className={css.saveButton}
-              onClick={handleSave}
-            >
-              Зберегти
-            </Button>
-          </div>
+          {!isSaved && (
+            <div className={css.saveBlock}>
+              <h3 className={css.saveTitle}>Збережіть собі історію</h3>
+              <p className={css.saveText}>
+                Вона буде доступна у вашому профілі у розділі збережене
+              </p>
+              <Button
+                variant="primary"
+                size="large"
+                className={css.saveButton}
+                onClick={handleSave}
+              >
+                Зберегти
+              </Button>
+            </div>
+          )}
         </div>
       </div>
+      {isModalOpen && <AuthNavModal onClose={() => setIsModalOpen(false)} />}
     </section>
   );
 }
