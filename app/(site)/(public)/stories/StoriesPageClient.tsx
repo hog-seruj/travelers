@@ -5,16 +5,16 @@ import Categories from '@/components/Categories/Categories';
 import { getStories, getCategoriesT } from '@/lib/api/clientApi';
 import css from './StoriesPageClient.module.css';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import type { Category } from '@/types/story';
 import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import Loader from '@/components/Loader/Loader';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 import Button from '@/components/Button/Button';
-import { useQueryClient } from '@tanstack/react-query';
+// import { useQueryClient } from '@tanstack/react-query';
 
 export default function StoriesPageClient() {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   const [activeCategory, setActiveCategory] = useState('all');
   const handleCategoryChange = (id: string) => {
     setActiveCategory(id);
@@ -74,10 +74,6 @@ export default function StoriesPageClient() {
     refetchOnMount: false,
     staleTime: 5 * 60 * 1000, // 5 хвилин
   });
-
-  useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ['storiesPage'] });
-  }, [activeCategory, queryClient]);
 
   const stories = response?.stories ?? [];
   const hasStories = stories.length > 0;
