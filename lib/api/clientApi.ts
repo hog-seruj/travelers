@@ -187,3 +187,54 @@ export async function getUserById(
   });
   return data;
 }
+
+// ===== ПРОФІЛЬ: Збережені історії (клієнт) - ВИПРАВЛЕНО =====
+export const getSavedStories = async (userId: string): Promise<Story[]> => {
+  try {
+    const res = await nextServer.get<UserSavedArticlesResponse>(
+      `/users/${userId}/saved`
+    );
+    return res.data.data.savedStories as Story[];
+  } catch (error: unknown) {
+    if (
+      typeof error === 'object' &&
+      error !== null &&
+      'response' in error &&
+      typeof (error as { response?: { status?: number } }).response?.status ===
+        'number'
+    ) {
+      const status = (error as { response: { status: number } }).response
+        .status;
+
+      if (status === 404) {
+        const profileRes = await nextServer.get<GetUserResponse>(
+          `/users/${userId}`
+        );
+        const savedIds = profileRes.data.user.savedArticles; // string[]
+
+        if (!savedIds || savedIds.length === 0) return [];
+
+        // Крок 2: завантажуємо повні дані кожної статті (Story[] з ownerId)
+        const storiesPromises = savedIds.map((id: string) =>
+          nextServer.get<Story>(`/stories/${id}`).then((res) => res.data)
+        );
+
+        const stories = await Promise.all(storiesPromises);
+        return stories;
+      }
+    }
+    throw error;
+  }
+};
+
+export const getOwnStories = async (
+  userId: string,
+  page = 1,
+  perPage = 10
+): Promise<Story[]> => {
+  const { data } = await nextServer.get<GetUserResponse>(`/users/${userId}`, {
+    params: { page, perPage },
+  });
+
+  return data.articles?.articles || [];
+};

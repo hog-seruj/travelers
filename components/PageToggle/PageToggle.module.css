@@ -1,0 +1,41 @@
+.toggleNav {
+  display: flex;
+  gap: 8px;
+  padding: 24px 16px;
+  background: transparent;
+}
+
+.toggleLink {
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: var(--light-bg);
+  border: 1px solid transparent;
+  font-weight: 500;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.6);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toggleLink:hover {
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+.toggleLink.active {
+  background: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+@media (min-width: 768px) {
+  .toggleNav {
+    padding: 24px 32px;
+    gap: 12px;
+  }
+  .toggleLink {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+}

@@ -11,46 +11,35 @@ import { toast } from 'sonner';
 import { useState } from 'react';
 import AuthNavModal from '../AuthNavModal/AuthNavModal';
 
+const DEFAULT_AVATAR =
+  'https://ac.goit.global/fullstack/react/default-avatar.jpg';
+
 interface TravelersStoriesItemProps {
   story: Story;
   className?: string;
+  variant?: 'saved' | 'own';
 }
 
-function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
+export default function TravelersStoriesItem({
+  story,
+  className,
+  variant = 'saved',
+}: TravelersStoriesItemProps) {
   const { isAuthenticated, user, updateUser } = useAuthStore();
-  // const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  // const user = useAuthStore((state) => state.user);
-  // const updateUser = useAuthStore((state) => state.updateUser);
-  console.log(user);
-
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const queryClient = useQueryClient();
 
   const mutationAddStory = useMutation({
     mutationFn: addStoryToSaved,
     onSuccess: (data) => {
-      console.log(data.savedArticles);
       updateUser({ savedArticles: data.savedArticles });
-      queryClient.invalidateQueries({
-        queryKey: ['popularStories'],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ['travelerOwnStories'],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ['storiesPage'],
-      });
-      console.log(story._id);
-      // console.log(user?.savedArticles); показує не оновлені дані
-      console.log(useAuthStore.getState().user?.savedArticles);
-      console.log(
-        useAuthStore.getState().user?.savedArticles.includes(story._id)
-      );
+      queryClient.invalidateQueries({ queryKey: ['popularStories'] });
+      queryClient.invalidateQueries({ queryKey: ['travelerOwnStories'] });
+      queryClient.invalidateQueries({ queryKey: ['storiesPage'] });
       toast.success(`Історія "${story.title}" успішно додана до збережених!`);
     },
     onError: (error) => {
-      console.log('Error', error);
+      console.error('Error adding to saved:', error);
       toast.error('Виникла помилка, спробуйте ще раз');
     },
   });
@@ -58,85 +47,72 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
   const mutationRemoveStory = useMutation({
     mutationFn: removeStoryFromSaved,
     onSuccess: (data) => {
-      console.log(data.stories);
       updateUser({ savedArticles: data.stories });
-      queryClient.invalidateQueries({
-        queryKey: ['popularStories'],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ['travelerOwnStories'],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ['storiesPage'],
-      });
-      console.log(story._id);
-      // console.log(user?.savedArticles); показує не оновлені дані
-      console.log(useAuthStore.getState().user?.savedArticles);
-      console.log(
-        useAuthStore.getState().user?.savedArticles.includes(story._id)
-      );
-      toast.success(`Істоія "${story.title}" успішно видалена із збережених!`);
+      queryClient.invalidateQueries({ queryKey: ['popularStories'] });
+      queryClient.invalidateQueries({ queryKey: ['travelerOwnStories'] });
+      queryClient.invalidateQueries({ queryKey: ['storiesPage'] });
+      toast.success(`Історія "${story.title}" успішно видалена із збережених!`);
     },
     onError: (error) => {
-      console.log('Error', error);
+      console.error('Error removing from saved:', error);
       toast.error('Виникла помилка, спробуйте ще раз');
     },
   });
 
-  // логіка зміни стилів кнопки
-  let classesArray: string[] = [];
-  if (isAuthenticated && user && user.savedArticles?.includes(story._id)) {
-    classesArray = [css.buttonAdd, css.buttonAddSaved];
-    // console.log(classesArray);
-  } else {
-    classesArray = [css.buttonAdd];
-    // console.log(classesArray);
-  }
-  const classes = classesArray.join(' ');
-  //
-
-  // loader
-  let isButtonDisabled = false;
-  if (mutationAddStory.isPending || mutationRemoveStory.isPending) {
-    isButtonDisabled = true;
-  }
-  //
-
-  // modal
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-  //
-
   const handleClick = () => {
     if (!isAuthenticated) {
-      // console.log('Not authorized');
-      // відкриваємо модальне вікно AuthNavModal
-      openModal();
+      setIsModalOpen(true);
       return;
     }
-
-    console.log(user);
-
-    if (isAuthenticated && user && user.savedArticles?.includes(story._id)) {
-      console.log('Історія вже збережена');
-      // робимо запит delete на /stories/:storyId/saved
+    if (user?.savedArticles?.includes(story._id)) {
       mutationRemoveStory.mutate(story._id);
     } else {
-      console.log('Історія ще не збережена');
-      // робимо запит post на /stories/:storyId/save
       mutationAddStory.mutate(story._id);
     }
   };
 
-  // logic for editStory button
-  const isMyStory = isAuthenticated && user && user._id === story.ownerId._id;
-  console.log(isMyStory);
-  //
+  const ownerIdString =
+    typeof story.ownerId === 'string'
+      ? story.ownerId
+      : (story.ownerId as { _id?: string })?._id || '';
+
+  const isMyStory = Boolean(user?._id && user._id === ownerIdString);
+
+  const showSaveButton = variant === 'saved';
+  const showEditButton = variant === 'own';
+
+  const isSaved = user?.savedArticles?.includes(story._id) ?? false;
+  const classes = isSaved
+    ? `${css.buttonAdd} ${css.buttonAddSaved}`
+    : css.buttonAdd;
+  const isButtonDisabled =
+    mutationAddStory.isPending || mutationRemoveStory.isPending;
+
+  // ✅ ЛОГІКА АВАТАРІВ:
+  // 1. Якщо це моя стаття → беремо аватар з поточного юзера (useAuthStore)
+  // 2. Якщо чужа і API повернув об'єкт з avatarUrl → беремо його
+  // 3. Інакше → дефолтний аватар
+  const authorAvatar = isMyStory
+    ? user?.avatarUrl && user.avatarUrl.trim() !== ''
+      ? user.avatarUrl.trim()
+      : DEFAULT_AVATAR
+    : typeof story.ownerId === 'object' &&
+        story.ownerId !== null &&
+        'avatarUrl' in story.ownerId &&
+        (story.ownerId as { avatarUrl?: string }).avatarUrl
+      ? ((story.ownerId as { avatarUrl?: string }).avatarUrl as string).trim()
+      : DEFAULT_AVATAR;
+
+  const authorName = isMyStory
+    ? user?.name && user.name.trim() !== ''
+      ? user.name.trim()
+      : 'Автор'
+    : typeof story.ownerId === 'object' &&
+        story.ownerId !== null &&
+        'name' in story.ownerId &&
+        (story.ownerId as { name?: string }).name
+      ? ((story.ownerId as { name?: string }).name as string).trim()
+      : 'Автор';
 
   return (
     <>
@@ -158,14 +134,18 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
           </div>
           <div className={css.publication}>
             <Image
-              src={story.ownerId.avatarUrl}
-              alt={story.ownerId.name}
+              src={authorAvatar}
+              alt={authorName}
               width={48}
               height={48}
               className={css.photo}
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = DEFAULT_AVATAR;
+              }}
             />
             <div>
-              <p className={css.name}>{story.ownerId.name}</p>
+              <p className={css.name}>{authorName}</p>
               <div className={css.dateSaved}>
                 <p className={css.date}>{story.date}</p>
                 <div className={css.point}></div>
@@ -185,24 +165,29 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
             >
               Переглянути статтю
             </Button>
-            {!isMyStory && (
+
+            {showSaveButton && (
               <button
-                onClick={() => handleClick()}
+                onClick={handleClick}
                 className={classes}
                 disabled={isButtonDisabled}
+                aria-label={
+                  isSaved ? 'Видалити зі збережених' : 'Зберегти історію'
+                }
               >
                 <svg width="24" height="24">
                   <use href="/sprite.svg#icon-bookmark"></use>
                 </svg>
               </button>
             )}
-            {/* edit button */}
-            {isMyStory && (
+
+            {showEditButton && (
               <Button
                 variant=""
                 size="large"
                 href={`/stories/${story._id}/edit`}
                 className={css.buttonEdit}
+                aria-label="Редагувати історію"
               >
                 <svg width="24" height="24">
                   <use href="/sprite.svg#icon-edit"></use>
@@ -212,9 +197,7 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
           </div>
         </div>
       </li>
-      {isModalOpen && <AuthNavModal onClose={closeModal} />}
+      {isModalOpen && <AuthNavModal onClose={() => setIsModalOpen(false)} />}
     </>
   );
 }
-
-export default TravelersStoriesItem;
