@@ -8,7 +8,7 @@ export default function ProfileTabs() {
   const pathname = usePathname();
 
   return (
-    <div className={css.container}>
+    <div className="container"> 
       <div className={css.tabsWrapper}>
         <Link
           href="/profile/saved"
@@ -25,4 +25,4 @@ export default function ProfileTabs() {
       </div>
     </div>
   );
-};
+}

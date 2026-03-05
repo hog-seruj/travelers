@@ -2,16 +2,18 @@
 
 import { useEffect, useState } from "react";
 import TravellerInfo from "@/components/TravellerInfo/TravellerInfo";
-import TravellersStories from "@/components/Profile/TravellersStories/TravellersStories";
+import TravellersStories from "@/components/TravellersStories/TravellersStories";
+import PageToggle from "@/components/PageToggle/PageToggle"; // імпортуємо PageToggle
 import { Story } from "@/types/story";
 
 interface ProfileStoriesProps {
   userId?: string;
-  variant: "own" | "saved"; // визначаємо, яка вкладка активна
+  variant: "own" | "saved"; // початкова вкладка
 }
 
 const ProfileStoriesClient = ({ userId = "temporary-id", variant }: ProfileStoriesProps) => {
-  const activeTab = variant; // тепер вкладка приходить через проп
+  // тепер activeTab керується локальним станом
+  const [activeTab, setActiveTab] = useState<"own" | "saved">(variant);
 
   const [savedStories, setSavedStories] = useState<Story[]>([]);
   const [ownStories, setOwnStories] = useState<Story[]>([]);
@@ -26,78 +28,62 @@ const ProfileStoriesClient = ({ userId = "temporary-id", variant }: ProfileStori
   useEffect(() => {
     let mounted = true;
 
-    const fetchSavedStories = async (page: number) => {
-      setIsFetchingSaved(true);
+    const fetchStories = async (type: "saved" | "own", page: number) => {
+      const setStories = type === "saved" ? setSavedStories : setOwnStories;
+      const setTotalPages = type === "saved" ? setTotalPagesSaved : setTotalPagesOwn;
+      const setFetching = type === "saved" ? setIsFetchingSaved : setIsFetchingOwn;
+
+      setFetching(true);
       try {
-        const res = await fetch(`/api/stories/saved?page=${page}`);
+        const res = await fetch(`/api/stories/${type}?page=${page}`);
         const data = await res.json();
         if (!mounted) return;
-        setSavedStories(prev => (page === 1 ? data.stories : [...prev, ...data.stories]));
-        setTotalPagesSaved(data.totalPages);
+        setStories(prev => (page === 1 ? data.stories : [...prev, ...data.stories]));
+        setTotalPages(data.totalPages);
       } catch (err) {
-        console.error("Помилка завантаження збережених історій:", err);
+        console.error(`Помилка завантаження ${type} історій:`, err);
       } finally {
-        if (mounted) setIsFetchingSaved(false);
+        if (mounted) setFetching(false);
       }
     };
 
-    const fetchOwnStories = async (page: number) => {
-      setIsFetchingOwn(true);
-      try {
-        const res = await fetch(`/api/stories/own?page=${page}`);
-        const data = await res.json();
-        if (!mounted) return;
-        setOwnStories(prev => (page === 1 ? data.stories : [...prev, ...data.stories]));
-        setTotalPagesOwn(data.totalPages);
-      } catch (err) {
-        console.error("Помилка завантаження власних історій:", err);
-      } finally {
-        if (mounted) setIsFetchingOwn(false);
-      }
-    };
-
-    // Завантажуємо обидві вкладки для кешу
-    fetchSavedStories(1);
-    fetchOwnStories(1);
+    fetchStories("saved", 1);
+    fetchStories("own", 1);
 
     return () => {
       mounted = false;
     };
   }, []);
 
-  // --- Хендлери кнопок "Load More" ---
-  const loadMoreSaved = () => {
-    const nextPage = pageSaved + 1;
-    setPageSaved(nextPage);
-    setIsFetchingSaved(true);
-    fetch(`/api/stories/saved?page=${nextPage}`)
-      .then(res => res.json())
-      .then(data => setSavedStories(prev => [...prev, ...data.stories]))
-      .catch(console.error)
-      .finally(() => setIsFetchingSaved(false));
-  };
+  const loadMore = (type: "saved" | "own") => {
+    const nextPage = type === "saved" ? pageSaved + 1 : pageOwn + 1;
+    if (type === "saved") setPageSaved(nextPage);
+    else setPageOwn(nextPage);
 
-  const loadMoreOwn = () => {
-    const nextPage = pageOwn + 1;
-    setPageOwn(nextPage);
-    setIsFetchingOwn(true);
-    fetch(`/api/stories/own?page=${nextPage}`)
+    const setFetching = type === "saved" ? setIsFetchingSaved : setIsFetchingOwn;
+    const setStories = type === "saved" ? setSavedStories : setOwnStories;
+
+    setFetching(true);
+    fetch(`/api/stories/${type}?page=${nextPage}`)
       .then(res => res.json())
-      .then(data => setOwnStories(prev => [...prev, ...data.stories]))
+      .then(data => setStories(prev => [...prev, ...data.stories]))
       .catch(console.error)
-      .finally(() => setIsFetchingOwn(false));
+      .finally(() => setFetching(false));
   };
 
   return (
     <div>
       <TravellerInfo id={userId} />
 
+      {/* PageToggle для перемикання вкладок */}
+      <PageToggle activeTab={activeTab} onTabChange={setActiveTab} />
+
       {activeTab === "own" ? (
         <TravellersStories
           stories={ownStories}
-          variant="own"       // Додаємо variant
-          editButton={true}   // кнопка редагування
-          onLoadMore={loadMoreOwn}
+          variant="own"
+          editButton={true}
+          onLoadMore={() => loadMore("own")}
           page={pageOwn}
           totalPages={totalPagesOwn}
           isFetching={isFetchingOwn}
@@ -105,9 +91,9 @@ const ProfileStoriesClient = ({ userId = "temporary-id", variant }: ProfileStori
       ) : (
         <TravellersStories
           stories={savedStories}
-          variant="saved"     // Додаємо variant
-          editButton={false}  // кнопка збереження
-          onLoadMore={loadMoreSaved}
+          variant="saved"
+          editButton={false}
+          onLoadMore={() => loadMore("saved")}
           page={pageSaved}
           totalPages={totalPagesSaved}
           isFetching={isFetchingSaved}

@@ -5,6 +5,8 @@ import css from "./ProfileInfo.module.css";
 import { useAuthStore } from "@/lib/store/authStore";
 import { getMe } from "@/lib/api/clientApi";
 import { useEffect, useState } from "react";
+import Loader from '@/components/Loader/Loader';
+import { toast } from 'sonner';
 
 export default function ProfileInfo() {
   const { user, setUser } = useAuthStore();
@@ -40,9 +42,11 @@ export default function ProfileInfo() {
     };
   }, [user, setUser]);
 
-  if (loading) return <div>Завантаження...</div>;
-  if (!user) return <div>Користувача не знайдено</div>;
-
+  if (loading) return <Loader />;
+if (!user) {
+  toast.error('Користувача не знайдено');
+  return null; // нічого не рендеримо
+}
   const { avatarUrl, description, name } = user;
 
   return (

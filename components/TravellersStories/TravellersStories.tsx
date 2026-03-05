@@ -1,49 +1,73 @@
-import TravelersStoriesItem from '@/components/TravelersStoriesItem/TravelersStoriesItem';
-import { Story } from '@/types/story';
-import css from './TravelersStories.module.css';
+"use client";
 
-interface TravelersStoriesProps {
+import TravellersStoriesItem from '../TravelersStoriesItem/TravelersStoriesItem';
+import MessageNoStories from '@/components/MessageNoStories/MessageNoStories';
+import Button from '@/components/Button/Button';
+import { Story } from '@/types/story';
+import css from './TravellersStories.module.css';
+
+interface TravellersStoriesProps {
   stories: Story[];
-  onLoadMore: () => void;
-  page: number;
-  totalPages: number;
-  isFetching: boolean;
-  editButton?: boolean; // додано для кнопки редагування
+  variant: 'own' | 'saved';
+  onLoadMore?: () => void;
+  page?: number;
+  totalPages?: number;
+  isFetching?: boolean;
+  editButton?: boolean;
 }
 
-function TravelersStories({
+export default function TravellersStories({
   stories,
+  variant,
   onLoadMore,
-  page,
-  totalPages,
-  isFetching,
+  page = 1,
+  totalPages = 0,
+  isFetching = false,
   editButton = false,
-}: TravelersStoriesProps) {
+}: TravellersStoriesProps) {
   if (!stories || stories.length === 0) {
-    return <p>Історії відсутні</p>;
+    const isOwn = variant === 'own';
+    return (
+      <MessageNoStories 
+        text={isOwn
+          ? "У вас ще немає створених історій. Поділіться своїми пригодами з іншими!"
+          : "Ваш список збережених історій поки що порожній."
+        }
+        buttonText={isOwn ? "Опублікувати історію" : "Перейти до історій"}
+        href={isOwn ? "/stories/create" : "/stories"} 
+      />
+    );
   }
 
   return (
-    <div>
-      <ul className={css.list}>
+    <div className={css.container}>
+      <ul className={css.grid}>
         {stories.map((story) => (
-          <TravelersStoriesItem
+          <TravellersStoriesItem 
             key={story._id}
             story={story}
-            editButton={editButton} // передаємо в картку, щоб вона знала показувати кнопку редагування
+            isOwnStory={variant === 'own'}
+            isSaved={variant === 'saved'}
+            isAuthenticated={true}
           />
         ))}
       </ul>
 
-      {page < totalPages && (
+      {editButton && variant === 'own' && (
+        <div className={css.editButtonWrapper}>
+          <Button onClick={() => console.log('Редагувати історію')}>
+            Редагувати
+          </Button>
+        </div>
+      )}
+
+      {onLoadMore && page < totalPages && (
         <div className={css.buttonWrapper}>
-          <button onClick={onLoadMore} disabled={isFetching} className={css.loadMore}>
+          <Button onClick={onLoadMore} isFetching={isFetching}>
             {isFetching ? 'Завантаження...' : 'Завантажити ще'}
-          </button>
+          </Button>
         </div>
       )}
     </div>
   );
 }
-
-export default TravelersStories;

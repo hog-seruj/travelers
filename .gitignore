@@ -13,6 +13,8 @@
 # testing
 /coverage
 
+*.swp
+
 # next.js
 /.next/
 /out/

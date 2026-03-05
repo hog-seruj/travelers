@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
-import ProfileTabs from '@/components/Profile/ProfileTabs/ProfileTabs';
+// import ProfileTabs from '@/components/Profile/ProfileTabs/ProfileTabs';
 import ProfileInfo from '@/components/Profile/ProfileInfo/ProfileInfo';
-import css from './ProfilePage.module.css';
+import MainWrapper from '@/components/MainWrapper/MainWrapper';
 
 interface Props {
   children: ReactNode;
@@ -9,14 +9,12 @@ interface Props {
 
 export default function ProfileLayout({ children }: Props) {
   return (
-    <div className={css.profileContainer}>
+    <MainWrapper>
       <ProfileInfo />
-      <div className={css.tabsSection}>
-        <ProfileTabs />
-      </div>
-      <main className={css.content}>
-        {children} 
+      {/* <ProfileTabs /> */}
+      <main>
+        {children}
       </main>
-    </div>
+    </MainWrapper>
   );
 }
