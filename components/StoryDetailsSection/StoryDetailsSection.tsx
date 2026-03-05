@@ -88,7 +88,9 @@ export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
       // console.log(
       //   useAuthStore.getState().user?.savedArticles.includes(story?._id)
       // );
-      toast.success(`Істоія "${story?.title}" успішно видалена із збережених!`);
+      toast.success(
+        `Історія "${story?.title}" успішно видалена із збережених!`
+      );
     },
     onError: () => {
       // console.log('Error', error);
