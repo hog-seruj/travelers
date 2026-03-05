@@ -22,11 +22,13 @@ function AuthNavModal({ onClose }: AuthNavModalProps) {
     };
 
     document.addEventListener('keydown', handleKeyDown);
-    document.body.style.overflow = 'hidden';
+    // document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
+      // document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
   }, [onClose]);
 
