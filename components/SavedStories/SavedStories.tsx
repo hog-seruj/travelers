@@ -7,9 +7,6 @@ import type { Story } from '@/types/story';
 import TravellersStories from '../TravellersStories/TravellersStories';
 import css from './SavedStories.module.css';
 
-const DEFAULT_AVATAR =
-  'https://ac.goit.global/fullstack/react/default-avatar.jpg';
-
 export interface SavedStoriesProps {
   initialStories?: Story[];
 }
