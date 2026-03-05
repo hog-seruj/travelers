@@ -13,11 +13,11 @@ export default async function EditStoryPage({ params }: Props) {
 
   return (
     <MainWrapper>
-      <main className={css.main}>
-        <div className={css.container}>
+      <main className="container">
+        <section className={css.main}>
           <h1 className={css.title}>Редагувати історію</h1>
           <AddStoryForm storyId={storyId} />
-        </div>
+        </section>
       </main>
     </MainWrapper>
   );

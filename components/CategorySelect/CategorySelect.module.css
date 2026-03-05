@@ -1,0 +1,99 @@
+.root {
+  position: relative;
+  width: 100%;
+}
+
+.trigger {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 100%;
+  height: 40px;
+  padding: 8px 44px 8px 8px;
+
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+
+  background: transparent;
+  cursor: pointer;
+
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-color);
+}
+
+.value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.placeholder {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.open {
+  border-color: var(--accent);
+}
+
+.invalid {
+  border-color: #d92d20;
+}
+
+.icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+
+  width: 24px;
+  height: 24px;
+  color: var(--text-color);
+}
+
+.iconOpen {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.list {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+
+  border: 1px solid var(--accent-2);
+  border-radius: 8px;
+  background: var(--white);
+  padding: 8px;
+  z-index: 10;
+
+  max-height: 280px;
+  overflow: auto;
+}
+
+.item {
+  width: 100%;
+  text-align: left;
+  padding: 8px;
+  border-radius: 8px;
+
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-color);
+}
+
+.item:hover {
+  background-color: var(--accent-light);
+}
+
+.itemSelected {
+  background-color: var(--accent-light);
+}
