@@ -88,10 +88,6 @@ export default function TravelersStoriesItem({
   const isButtonDisabled =
     mutationAddStory.isPending || mutationRemoveStory.isPending;
 
-  // ✅ ЛОГІКА АВАТАРІВ:
-  // 1. Якщо це моя стаття → беремо аватар з поточного юзера (useAuthStore)
-  // 2. Якщо чужа і API повернув об'єкт з avatarUrl → беремо його
-  // 3. Інакше → дефолтний аватар
   const authorAvatar = isMyStory
     ? user?.avatarUrl && user.avatarUrl.trim() !== ''
       ? user.avatarUrl.trim()

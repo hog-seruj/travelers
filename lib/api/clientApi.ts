@@ -188,7 +188,6 @@ export async function getUserById(
   return data;
 }
 
-// ===== ПРОФІЛЬ: Збережені історії (клієнт) - ВИПРАВЛЕНО =====
 export const getSavedStories = async (userId: string): Promise<Story[]> => {
   try {
     const res = await nextServer.get<UserSavedArticlesResponse>(
@@ -210,11 +209,10 @@ export const getSavedStories = async (userId: string): Promise<Story[]> => {
         const profileRes = await nextServer.get<GetUserResponse>(
           `/users/${userId}`
         );
-        const savedIds = profileRes.data.user.savedArticles; // string[]
+        const savedIds = profileRes.data.user.savedArticles;
 
         if (!savedIds || savedIds.length === 0) return [];
 
-        // Крок 2: завантажуємо повні дані кожної статті (Story[] з ownerId)
         const storiesPromises = savedIds.map((id: string) =>
           nextServer.get<Story>(`/stories/${id}`).then((res) => res.data)
         );

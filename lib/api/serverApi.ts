@@ -96,12 +96,10 @@ export const getStories = async ({
   return res.data;
 };
 
-// ===== ПРОФІЛЬ: Збережені історії (сервер) - ВИПРАВЛЕНО =====
 export const getSavedStoriesServer = async (): Promise<Story[]> => {
   const cookieStore = await cookies();
 
   try {
-    // Спроба 1: прямий endpoint
     const res = await nextServer.get<UserSavedArticlesResponse>(
       '/users/me/saved',
       {
@@ -110,7 +108,6 @@ export const getSavedStoriesServer = async (): Promise<Story[]> => {
     );
     return res.data.data.savedStories as Story[];
   } catch (error: unknown) {
-    // Спроба 2: якщо 404 — беремо ID і завантажуємо повні дані
     if (
       typeof error === 'object' &&
       error !== null &&
@@ -129,7 +126,6 @@ export const getSavedStoriesServer = async (): Promise<Story[]> => {
 
         if (!savedIds || savedIds.length === 0) return [];
 
-        // Завантажуємо повні дані кожної статті (Story[] з ownerId)
         const storiesPromises = savedIds.map((id: string) =>
           nextServer
             .get<Story>(`/stories/${id}`, {
@@ -146,7 +142,6 @@ export const getSavedStoriesServer = async (): Promise<Story[]> => {
   }
 };
 
-// ===== ПРОФІЛЬ: Власні історії (сервер) =====
 export const getOwnStoriesServer = async (
   page = 1,
   perPage = 10

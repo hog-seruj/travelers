@@ -3,16 +3,15 @@
 import { useState, useEffect } from 'react';
 import { useAuthStore } from '@/lib/store/authStore';
 import { getSavedStories } from '@/lib/api/clientApi';
-import type { Story } from '@/types/story'; // ✅ Тільки Story, не SavedStory
+import type { Story } from '@/types/story';
 import TravellersStories from '../TravellersStories/TravellersStories';
 import css from './SavedStories.module.css';
 
-// ✅ Дефолтне зображення аватара
 const DEFAULT_AVATAR =
   'https://ac.goit.global/fullstack/react/default-avatar.jpg';
 
 export interface SavedStoriesProps {
-  initialStories?: Story[]; // ✅ Змінили тип на Story[]
+  initialStories?: Story[];
 }
 
 export default function SavedStories({ initialStories }: SavedStoriesProps) {
