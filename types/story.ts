@@ -2,6 +2,7 @@ export interface Story {
   _id: string;
   img: string;
   title: string;
+  content: string;
   article: string;
   category: Category;
   ownerId: {
@@ -63,3 +64,4 @@ export interface UserSavedArticlesResponse {
     savedStories: SavedStory[];
   };
 }
+
