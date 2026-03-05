@@ -166,6 +166,7 @@
 
   .saveBlock {
     margin-top: 0;
+    max-height: fit-content;
   }
 
   .saveTitle {

@@ -1,15 +1,21 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useState, useEffect } from 'react';
-import { getStory, addStoryToSaved } from '@/lib/api/clientApi';
+import { useState } from 'react';
+import {
+  getStory,
+  addStoryToSaved,
+  removeStoryFromSaved,
+} from '@/lib/api/clientApi';
 import { useAuthStore } from '@/lib/store/authStore';
 import { Story } from '@/types/story';
 import AuthNavModal from '@/components/AuthNavModal/AuthNavModal';
-import toast from 'react-hot-toast';
 import Button from '@/components/Button/Button';
 import Image from 'next/image';
 import css from './StoryDetailsSection.module.css';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
+import Link from 'next/link';
 
 interface StoryDetailsProps {
   storyId: string;
@@ -18,16 +24,11 @@ interface StoryDetailsProps {
 export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const user = useAuthStore((state) => state.user);
+  const updateUser = useAuthStore((state) => state.updateUser);
 
-  const [isSaved, setIsSaved] = useState(
-    user?.savedArticles?.includes(storyId) ?? false
-  );
   const [isModalOpen, setIsModalOpen] = useState(false);
-  useEffect(() => {
-    if (user?.savedArticles?.includes(storyId)) {
-      setIsSaved(true);
-    }
-  }, [user, storyId]);
+
+  const queryClient = useQueryClient();
 
   const {
     data: story,
@@ -39,18 +40,92 @@ export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
     queryFn: () => getStory(storyId),
   });
 
-  const handleSave = async () => {
+  const mutationAddStory = useMutation({
+    mutationFn: addStoryToSaved,
+    onSuccess: (data) => {
+      // console.log(data.savedArticles);
+      updateUser({ savedArticles: data.savedArticles });
+      queryClient.invalidateQueries({
+        queryKey: ['popularStories'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['travelerOwnStories'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['storiesPage'],
+      });
+      // console.log(story?._id);
+      // console.log(user?.savedArticles); показує не оновлені дані
+      // console.log(useAuthStore.getState().user?.savedArticles);
+      //  console.log(
+      //    useAuthStore.getState().user?.savedArticles.includes(story?._id)
+      //  );
+      toast.success(`Історія "${story?.title}" успішно додана до збережених!`);
+    },
+    onError: () => {
+      // console.log('Error', error);
+      toast.error('Виникла помилка, спробуйте ще раз');
+    },
+  });
+
+  const mutationRemoveStory = useMutation({
+    mutationFn: removeStoryFromSaved,
+    onSuccess: (data) => {
+      // console.log(data.stories);
+      updateUser({ savedArticles: data.stories });
+      queryClient.invalidateQueries({
+        queryKey: ['popularStories'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['travelerOwnStories'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['storiesPage'],
+      });
+      // console.log(story?._id);
+      // console.log(user?.savedArticles); показує не оновлені дані
+      // console.log(useAuthStore.getState().user?.savedArticles);
+      // console.log(
+      //   useAuthStore.getState().user?.savedArticles.includes(story?._id)
+      // );
+      toast.success(
+        `Історія "${story?.title}" успішно видалена із збережених!`
+      );
+    },
+    onError: () => {
+      // console.log('Error', error);
+      toast.error('Виникла помилка, спробуйте ще раз');
+    },
+  });
+
+  // loader
+  let isButtonDisabled = false;
+  if (mutationAddStory.isPending || mutationRemoveStory.isPending) {
+    isButtonDisabled = true;
+  }
+  //
+
+  const handleClick = () => {
     if (!isAuthenticated) {
       setIsModalOpen(true);
       return;
     }
 
-    try {
-      await addStoryToSaved(storyId);
-      setIsSaved(true);
-      toast.success('Історію збережено!');
-    } catch {
-      toast.error('Невдалось зберегти історію');
+    // console.log(user);
+
+    if (
+      story &&
+      isAuthenticated &&
+      user &&
+      user.savedArticles?.includes(story._id)
+    ) {
+      // console.log('Історія вже збережена');
+      // робимо запит delete на /stories/:storyId/saved
+      mutationRemoveStory.mutate(story._id);
+    } else {
+      // console.log('Історія ще не збережена');
+      // робимо запит post на /stories/:storyId/save
+      mutationAddStory.mutate(storyId);
     }
   };
 
@@ -71,10 +146,13 @@ export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
       <div className="container">
         <h1 className={css.title}>{story.title}</h1>
         <div className={css.meta}>
-          <p className={css.author}>
+          <Link
+            href={`/travellers/${story.ownerId._id}`}
+            className={css.author}
+          >
             <span className={css.label}>Автор статті </span>
             {story.ownerId.name}
-          </p>
+          </Link>
           <p className={css.date}>
             <span className={css.label}>Опубліковано </span>
             {story.date}
@@ -94,22 +172,38 @@ export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
           <div className={css.description}>
             <p>{story.article}</p>
           </div>
-          {!isSaved && (
-            <div className={css.saveBlock}>
-              <h3 className={css.saveTitle}>Збережіть собі історію</h3>
-              <p className={css.saveText}>
-                Вона буде доступна у вашому профілі у розділі збережене
-              </p>
-              <Button
-                variant="primary"
-                size="large"
-                className={css.saveButton}
-                onClick={handleSave}
-              >
-                Зберегти
-              </Button>
-            </div>
-          )}
+          <div className={css.saveBlock}>
+            <h3 className={css.saveTitle}>
+              {story &&
+              isAuthenticated &&
+              user &&
+              user.savedArticles?.includes(story._id)
+                ? 'Історія вже збрежена'
+                : 'Збережіть собі історію'}
+            </h3>
+            <p className={css.saveText}>
+              {story &&
+              isAuthenticated &&
+              user &&
+              user.savedArticles?.includes(story._id)
+                ? 'Вона доступна у вашому профілі у розділі збережене'
+                : 'Вона буде доступна у вашому профілі у розділі збережене'}
+            </p>
+            <Button
+              variant="primary"
+              size="large"
+              className={css.saveButton}
+              onClick={handleClick}
+              disabled={isButtonDisabled}
+            >
+              {story &&
+              isAuthenticated &&
+              user &&
+              user.savedArticles?.includes(story._id)
+                ? 'Видалити'
+                : 'Зберегти'}
+            </Button>
+          </div>
         </div>
       </div>
       {isModalOpen && <AuthNavModal onClose={() => setIsModalOpen(false)} />}
