@@ -3,6 +3,7 @@ import { api, ApiError } from '../api';
 import { cookies } from 'next/headers';
 import { isAxiosError } from 'axios';
 import { logErrorResponse } from '../_utils/utils';
+import { refreshSession } from '../_utils/refreshSession';
 
 export async function GET(request: NextRequest) {
   const page = request.nextUrl.searchParams.get('page');
@@ -36,9 +37,9 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const cookieStore = await cookies();
+  // forward multipart/form-data body as is
+  const body = await request.formData();
   try {
-    // forward multipart/form-data body as is
-    const body = await request.formData();
     const res = await api.post('/stories', body, {
       headers: {
         Cookie: cookieStore.toString(),
@@ -47,11 +48,27 @@ export async function POST(request: NextRequest) {
     });
     return NextResponse.json(res.data, { status: res.status });
   } catch (error) {
+    //  refresh
+    if (isAxiosError(error) && error.response?.status === 401) {
+      try {
+        const refreshedCookie = await refreshSession();
+
+        // повторюємо оригінальний запит вже з оновленими cookies
+        const retryRes = await api.post('/stories', body, {
+          headers: { Cookie: refreshedCookie },
+        });
+
+        return NextResponse.json(retryRes.data, { status: retryRes.status });
+      } catch {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+    }
+
     if (isAxiosError(error)) {
       logErrorResponse(error.response?.data);
       return NextResponse.json(
         { error: error.message, response: error.response?.data },
-        { status: error.status }
+        { status: error.response?.status ?? 500 }
       );
     }
     logErrorResponse({ message: (error as Error).message });
