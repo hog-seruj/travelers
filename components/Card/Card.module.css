@@ -6,17 +6,10 @@
   gap: 24px;
   border-radius: 16px;
   padding: 24px;
-  min-width: 250px;
-  width: 335px;
   height: 363px;
   background-color: #e8eeff;
 
-  @media screen and (min-width: 768px) {
-    width: 340px;
-  }
-
   @media screen and (min-width: 1440px) {
-    width: 310px;
     height: 383px;
   }
 }
@@ -42,10 +35,8 @@
   font-size: 18px;
   line-height: 1.5;
   font-family: var(--mainFontFamily);
-
-  white-space: nowrap; /* Забороняє перенос на новий рядок */
-  overflow: hidden; /* Ховає те, що не помістилося */
-  text-overflow: ellipsis; /* Додає три крапки */
+  overflow: hidden;
+  text-overflow: ellipsis;
   width: 100%;
 
   @media screen and (min-width: 1440px) {
@@ -55,6 +46,7 @@
 
 .description {
   display: -webkit-box;
+  line-clamp: 3;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -63,12 +55,4 @@
 
 .btn {
   align-self: stretch;
-
-  @media screen and (min-width: 768px) {
-    width: 292px;
-  }
-
-  @media screen and (min-width: 1440px) {
-    width: 262px;
-  }
 }
