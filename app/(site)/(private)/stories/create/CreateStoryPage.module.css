@@ -1,35 +1,35 @@
 .main {
-  width: 100%;
-  padding-top: 32px;
-  padding-bottom: 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
+    width: 100%;
+    padding-top: 32px;
+    padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
 }
 
 .title {
-  width: 100%;
+    width: 100%;
 
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
 }
 
 @media (min-width: 768px) {
-  .title {
-    font-size: 48px;
-  }
+    .title {
+        font-size: 48px;
+    }
 }
 
 @media (min-width: 1440px) {
-  .main {
-    padding-top: 48px;
-    padding-bottom: 48px;
-    gap: 48px;
-  }
+    .main {
+        padding-top: 48px;
+        padding-bottom: 0;
+        gap: 48px;
+    }
 
-  .title {
-    font-size: 56px;
-  }
+    .title {
+        font-size: 56px;
+    }
 }

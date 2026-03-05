@@ -19,13 +19,19 @@
 @media (min-width: 768px) {
   .title {
     font-size: 48px;
+
+  }
+
+  .main {
+
+    padding-bottom: 0;
   }
 }
 
 @media (min-width: 1440px) {
   .main {
     padding-top: 48px;
-    padding-bottom: 48px;
+    padding-bottom: 0;
     gap: 48px;
   }
 

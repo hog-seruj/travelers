@@ -17,244 +17,279 @@ import CategorySelect from '../CategorySelect/CategorySelect';
 import { toast } from 'sonner';
 
 interface AddStoryFormValues {
-  img: File | null;
-  title: string;
-  category: string;
-  article: string;
+    img: File | null;
+    title: string;
+    category: string;
+    article: string;
 }
 
 interface Props {
-  storyId?: string;
+    storyId?: string;
+}
+
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+    return typeof value === 'object' && value !== null;
+}
+
+function isCategory(value: unknown): value is Category {
+    return (
+        isRecord(value) &&
+        typeof value._id === 'string' &&
+        typeof value.name === 'string'
+    );
+}
+
+function isCategoryArray(value: unknown): value is Category[] {
+    return Array.isArray(value) && value.every(isCategory);
+}
+
+function extractCategories(value: unknown): Category[] {
+    // API returned array directly
+    if (isCategoryArray(value)) return value;
+
+    // API returned { data: [...] }
+    if (isRecord(value) && isCategoryArray(value.data)) return value.data;
+
+    // API returned { categories: [...] }
+    if (isRecord(value) && isCategoryArray(value.categories)) return value.categories;
+
+    return [];
 }
 
 export default function AddStoryForm({ storyId }: Props) {
-  const router = useRouter();
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const router = useRouter();
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  // ✅ тільки для візуалу (auto-resize textarea)
-  const articleRef = useRef<HTMLTextAreaElement | null>(null);
+    // ✅ тільки для візуалу (auto-resize textarea)
+    const articleRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const autoResizeArticle = () => {
-    const el = articleRef.current;
-    if (!el) return;
-    el.style.height = 'auto';
-    el.style.height = `${el.scrollHeight}px`;
-  };
-
-  const {
-    data: categories,
-    isLoading: categoriesLoading,
-    isError: categoriesError,
-  } = useQuery<Category[]>({
-    queryKey: ['categories'],
-    queryFn: getCategories,
-  });
-
-  const {
-    data: story,
-    isLoading: storyLoading,
-    isError: storyError,
-  } = useQuery<Story>({
-    queryKey: ['story', storyId],
-    queryFn: () => getStory(storyId!),
-    enabled: Boolean(storyId),
-  });
-
-  useEffect(() => {
-    if (story?.img) {
-      setPreviewUrl(story.img);
-    }
-  }, [story]);
-
-  useEffect(() => {
-    return () => {
-      if (previewUrl && previewUrl.startsWith('blob:')) {
-        URL.revokeObjectURL(previewUrl);
-      }
+    const autoResizeArticle = () => {
+        const el = articleRef.current;
+        if (!el) return;
+        el.style.height = 'auto';
+        el.style.height = `${el.scrollHeight}px`;
     };
-  }, [previewUrl]);
 
-  const initialValues: AddStoryFormValues = {
-    img: null,
-    title: story?.title || '',
-    category: story?.category?._id || '',
-    article: story?.article || '',
-  };
+    const {
+        data: categoriesRaw,
+        isLoading: categoriesLoading,
+        isError: categoriesError,
+    } = useQuery<unknown>({
+        queryKey: ['categories'],
+        queryFn: getCategories,
+    });
 
-  const validationSchema = Yup.object().shape({
-    img: storyId
-      ? Yup.mixed().nullable()
-      : Yup.mixed().required('Обкладинка обов’язкова'),
-    title: Yup.string().required('Заголовок обов’язковий'),
-    category: Yup.string().required('Категорія обов’язкова'),
-    article: Yup.string().required('Текст обов’язковий'),
-  });
+    // ✅ always safe array
+    const categoriesList = extractCategories(categoriesRaw);
 
-  const handleCancel = () => {
-    router.back();
-  };
+    const {
+        data: story,
+        isLoading: storyLoading,
+        isError: storyError,
+    } = useQuery<Story>({
+        queryKey: ['story', storyId],
+        queryFn: () => getStory(storyId!),
+        enabled: Boolean(storyId),
+    });
 
-  const handleSubmit = async (
-    values: AddStoryFormValues,
-    { setSubmitting }: FormikHelpers<AddStoryFormValues>
-  ) => {
-    const formData = new FormData();
+    useEffect(() => {
+        if (story?.img) {
+            setPreviewUrl(story.img);
+        }
+    }, [story]);
 
-    if (values.img) {
-      formData.append('storyImage', values.img);
+    useEffect(() => {
+        return () => {
+            if (previewUrl && previewUrl.startsWith('blob:')) {
+                URL.revokeObjectURL(previewUrl);
+            }
+        };
+    }, [previewUrl]);
+
+    const initialValues: AddStoryFormValues = {
+        img: null,
+        title: story?.title || '',
+        category: story?.category?._id || '',
+        article: story?.article || '',
+    };
+
+    const validationSchema = Yup.object().shape({
+        img: storyId
+            ? Yup.mixed().nullable()
+            : Yup.mixed().required('Обкладинка обов’язкова'),
+        title: Yup.string().required('Заголовок обов’язковий'),
+        category: Yup.string().required('Категорія обов’язкова'),
+        article: Yup.string().required('Текст обов’язковий'),
+    });
+
+    const handleCancel = () => {
+        router.back();
+    };
+
+    const handleSubmit = async (
+        values: AddStoryFormValues,
+        { setSubmitting }: FormikHelpers<AddStoryFormValues>
+    ) => {
+        const formData = new FormData();
+
+        if (values.img) {
+            formData.append('storyImage', values.img);
+        }
+        formData.append('title', values.title);
+        formData.append('category', values.category);
+        formData.append('article', values.article);
+
+        try {
+            const result = storyId
+                ? await updateStory(storyId, formData)
+                : await createStory(formData);
+
+            router.push(`/stories/${result._id}`);
+        } catch (err) {
+            console.error(err);
+            toast.error('Сталася помилка, спробуйте пізніше');
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    if (categoriesLoading || (storyId && storyLoading)) {
+        return <div>Loading...</div>;
     }
-    formData.append('title', values.title);
-    formData.append('category', values.category);
-    formData.append('article', values.article);
 
-    try {
-      const result = storyId
-        ? await updateStory(storyId, formData)
-        : await createStory(formData);
-      router.push(`/stories/${result._id}`);
-    } catch (err) {
-      console.error(err);
-      toast.error('Сталася помилка, спробуйте пізніше');
-    } finally {
-      setSubmitting(false);
+    if (categoriesError || storyError) {
+        return <div>Не вдалося завантажити дані</div>;
     }
-  };
 
-  if (categoriesLoading || (storyId && storyLoading)) {
-    return <div>Loading...</div>;
-  }
+    return (
+        <div className={css.wrapper}>
+            <Formik
+                enableReinitialize
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                validateOnChange={true}
+                validateOnBlur={true}
+                validateOnMount={false}
+                onSubmit={handleSubmit}
+            >
+                {({ isSubmitting, isValid, setFieldValue }) => (
+                    <Form className={css.form}>
+                        <div className={css.fieldGroup}>
+                            <label htmlFor="img">Обкладинка статті</label>
 
-  if (categoriesError || storyError) {
-    return <div>Не вдалося завантажити дані</div>;
-  }
+                            {previewUrl ? (
+                                <img src={previewUrl} alt="preview" className={css.preview} />
+                            ) : (
+                                <div className={css.placeholder}>No image</div>
+                            )}
 
-  return (
-    <div className={css.wrapper}>
-      <Formik
-        enableReinitialize
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        validateOnChange={true}
-        validateOnBlur={true}
-        validateOnMount={false}
-        onSubmit={handleSubmit}
-      >
-        {({ isSubmitting, isValid, setFieldValue }) => (
-          <Form className={css.form}>
-            <div className={css.fieldGroup}>
-              <label htmlFor="img">Обкладинка статті</label>
+                            <label htmlFor="img" className={css.uploadBtn}>
+                                Завантажити фото
+                            </label>
 
-              {previewUrl ? (
-                <img src={previewUrl} alt="preview" className={css.preview} />
-              ) : (
-                <div className={css.placeholder}>No image</div>
-              )}
+                            <input
+                                id="img"
+                                name="img"
+                                type="file"
+                                accept="image/*"
+                                className={css.fileInput}
+                                onChange={(e) => {
+                                    const file =
+                                        e.currentTarget.files && e.currentTarget.files[0]
+                                            ? e.currentTarget.files[0]
+                                            : null;
 
-              <label htmlFor="img" className={css.uploadBtn}>
-                Завантажити фото
-              </label>
+                                    setFieldValue('img', file);
 
-              <input
-                id="img"
-                name="img"
-                type="file"
-                accept="image/*"
-                className={css.fileInput}
-                onChange={(e) => {
-                  const file =
-                    e.currentTarget.files && e.currentTarget.files[0]
-                      ? e.currentTarget.files[0]
-                      : null;
+                                    if (file) {
+                                        const url = URL.createObjectURL(file);
+                                        setPreviewUrl(url);
+                                    }
+                                }}
+                            />
 
-                  setFieldValue('img', file);
+                            <ErrorMessage name="img" component="div" className={css.error} />
+                        </div>
 
-                  if (file) {
-                    const url = URL.createObjectURL(file);
-                    setPreviewUrl(url);
-                  }
-                }}
-              />
+                        <div className={css.fieldGroup}>
+                            <label htmlFor="title">Заголовок</label>
+                            <Field
+                                id="title"
+                                name="title"
+                                placeholder="Введіть заголовок історії"
+                            />
+                            <ErrorMessage
+                                name="title"
+                                component="div"
+                                className={css.error}
+                            />
+                        </div>
 
-              <ErrorMessage name="img" component="div" className={css.error} />
-            </div>
+                        <div className={css.fieldGroup}>
+                            {/* CategorySelect is a custom button-based select -> no htmlFor binding */}
+                            <label>Категорія</label>
 
-            <div className={css.fieldGroup}>
-              <label htmlFor="title">Заголовок</label>
-              <Field
-                id="title"
-                name="title"
-                placeholder="Введіть заголовок історії"
-              />
-              <ErrorMessage
-                name="title"
-                component="div"
-                className={css.error}
-              />
-            </div>
+                            <div className={css.selectWrapper}>
+                                <CategorySelect
+                                    name="category"
+                                    placeholder="Категорія"
+                                    options={categoriesList.map((c) => ({
+                                        value: c._id,
+                                        label: c.name,
+                                    }))}
+                                />
+                            </div>
 
-            <div className={css.fieldGroup}>
-              <label htmlFor="category">Категорія</label>
-              <div className={css.selectWrapper}>
-                <CategorySelect
-                  name="category"
-                  placeholder="Категорія"
-                  options={(categories ?? []).map((c) => ({
-                    value: c._id,
-                    label: c.name,
-                  }))}
-                />
-              </div>
+                            <ErrorMessage
+                                name="category"
+                                component="div"
+                                className={css.error}
+                            />
+                        </div>
 
-              <ErrorMessage
-                name="category"
-                component="div"
-                className={css.error}
-              />
-            </div>
+                        <div className={css.fieldGroup}>
+                            <label htmlFor="article">Текст історії</label>
 
-            <div className={css.fieldGroup}>
-              <label htmlFor="article">Текст історії</label>
+                            <Field
+                                as="textarea"
+                                id="article"
+                                name="article"
+                                rows={1}
+                                placeholder="Ваша історія тут"
+                                innerRef={(node: HTMLTextAreaElement | null) => {
+                                    articleRef.current = node;
+                                    requestAnimationFrame(autoResizeArticle);
+                                }}
+                                onInput={() => {
+                                    autoResizeArticle();
+                                }}
+                            />
 
-              <Field
-                as="textarea"
-                id="article"
-                name="article"
-                rows={1}
-                placeholder="Ваша історія тут"
-                innerRef={(node: HTMLTextAreaElement | null) => {
-                  articleRef.current = node;
-                  // ✅ підлаштувати висоту одразу при маунті/ре-рендері
-                  requestAnimationFrame(autoResizeArticle);
-                }}
-                onInput={() => {
-                  autoResizeArticle();
-                }}
-              />
+                            <ErrorMessage
+                                name="article"
+                                component="div"
+                                className={css.error}
+                            />
+                        </div>
 
-              <ErrorMessage
-                name="article"
-                component="div"
-                className={css.error}
-              />
-            </div>
+                        <div className={css.buttonGroup}>
+                            <Button
+                                type="submit"
+                                disabled={!isValid || isSubmitting}
+                                variant="primary"
+                            >
+                                Зберегти
+                            </Button>
+                            <Button type="button" variant="" onClick={handleCancel}>
+                                Відмінити
+                            </Button>
+                        </div>
 
-            <div className={css.buttonGroup}>
-              <Button
-                type="submit"
-                disabled={!isValid || isSubmitting}
-                variant="primary"
-              >
-                Зберегти
-              </Button>
-              <Button type="button" variant="" onClick={handleCancel}>
-                Відмінити
-              </Button>
-            </div>
-
-            {isSubmitting && <div>Loading...</div>}
-          </Form>
-        )}
-      </Formik>
-    </div>
-  );
+                        {isSubmitting && <div>Loading...</div>}
+                    </Form>
+                )}
+            </Formik>
+        </div>
+    );
 }
