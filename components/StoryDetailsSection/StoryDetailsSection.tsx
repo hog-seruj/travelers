@@ -11,6 +11,7 @@ import { useAuthStore } from '@/lib/store/authStore';
 import { Story } from '@/types/story';
 import AuthNavModal from '@/components/AuthNavModal/AuthNavModal';
 import Button from '@/components/Button/Button';
+import Loader from '@/components/Loader/Loader'; // ⭐ FIX: використовується готовий Loader
 import Image from 'next/image';
 import css from './StoryDetailsSection.module.css';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -43,27 +44,15 @@ export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
   const mutationAddStory = useMutation({
     mutationFn: addStoryToSaved,
     onSuccess: (data) => {
-      // console.log(data.savedArticles);
       updateUser({ savedArticles: data.savedArticles });
-      queryClient.invalidateQueries({
-        queryKey: ['popularStories'],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ['travelerOwnStories'],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ['storiesPage'],
-      });
-      // console.log(story?._id);
-      // console.log(user?.savedArticles); показує не оновлені дані
-      // console.log(useAuthStore.getState().user?.savedArticles);
-      //  console.log(
-      //    useAuthStore.getState().user?.savedArticles.includes(story?._id)
-      //  );
+
+      queryClient.invalidateQueries({ queryKey: ['popularStories'] });
+      queryClient.invalidateQueries({ queryKey: ['travelerOwnStories'] });
+      queryClient.invalidateQueries({ queryKey: ['storiesPage'] });
+
       toast.success(`Історія "${story?.title}" успішно додана до збережених!`);
     },
     onError: () => {
-      // console.log('Error', error);
       toast.error('Виникла помилка, спробуйте ще раз');
     },
   });
@@ -71,39 +60,25 @@ export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
   const mutationRemoveStory = useMutation({
     mutationFn: removeStoryFromSaved,
     onSuccess: (data) => {
-      // console.log(data.stories);
       updateUser({ savedArticles: data.stories });
-      queryClient.invalidateQueries({
-        queryKey: ['popularStories'],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ['travelerOwnStories'],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ['storiesPage'],
-      });
-      // console.log(story?._id);
-      // console.log(user?.savedArticles); показує не оновлені дані
-      // console.log(useAuthStore.getState().user?.savedArticles);
-      // console.log(
-      //   useAuthStore.getState().user?.savedArticles.includes(story?._id)
-      // );
+
+      queryClient.invalidateQueries({ queryKey: ['popularStories'] });
+      queryClient.invalidateQueries({ queryKey: ['travelerOwnStories'] });
+      queryClient.invalidateQueries({ queryKey: ['storiesPage'] });
+
       toast.success(
         `Історія "${story?.title}" успішно видалена із збережених!`
       );
     },
     onError: () => {
-      // console.log('Error', error);
       toast.error('Виникла помилка, спробуйте ще раз');
     },
   });
 
-  // loader
   let isButtonDisabled = false;
   if (mutationAddStory.isPending || mutationRemoveStory.isPending) {
     isButtonDisabled = true;
   }
-  //
 
   const handleClick = () => {
     if (!isAuthenticated) {
@@ -111,40 +86,56 @@ export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
       return;
     }
 
-    // console.log(user);
-
     if (
       story &&
       isAuthenticated &&
       user &&
       user.savedArticles?.includes(story._id)
     ) {
-      // console.log('Історія вже збережена');
-      // робимо запит delete на /stories/:storyId/saved
       mutationRemoveStory.mutate(story._id);
     } else {
-      // console.log('Історія ще не збережена');
-      // робимо запит post на /stories/:storyId/save
       mutationAddStory.mutate(storyId);
     }
   };
 
+  // ⭐ FIX: Loader тепер у правильному layout і буде по центру
   if (isLoading) {
-    return <p className={css.loader}>Завантаження...</p>;
+    return (
+      <section className={css.section}>
+        <div className="container">
+          <div className={css.loaderWrapper}>
+            <Loader />
+          </div>
+        </div>
+      </section>
+    );
   }
 
   if (isError) {
-    return <p className={css.error}>Помилка: {error?.message}</p>;
+    return (
+      <section className={css.section}>
+        <div className="container">
+          <p className={css.error}>Помилка: {error?.message}</p>
+        </div>
+      </section>
+    );
   }
 
   if (!story) {
-    return <p>Історію не знайдено</p>;
+    return (
+      <section className={css.section}>
+        <div className="container">
+          <p>Історію не знайдено</p>
+        </div>
+      </section>
+    );
   }
 
   return (
     <section className={css.section}>
       <div className="container">
         <h1 className={css.title}>{story.title}</h1>
+
         <div className={css.meta}>
           <Link
             href={`/travellers/${story.ownerId._id}`}
@@ -153,12 +144,15 @@ export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
             <span className={css.label}>Автор статті </span>
             {story.ownerId.name}
           </Link>
+
           <p className={css.date}>
             <span className={css.label}>Опубліковано </span>
             {story.date}
           </p>
+
           <p className={css.country}>{story.category.name}</p>
         </div>
+
         <div className={css.imageWrapper}>
           <Image
             src={story.img}
@@ -168,27 +162,31 @@ export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
             className={css.image}
           />
         </div>
+
         <div className={css.content}>
           <div className={css.description}>
             <p>{story.article}</p>
           </div>
+
           <div className={css.saveBlock}>
             <h3 className={css.saveTitle}>
               {story &&
-              isAuthenticated &&
-              user &&
-              user.savedArticles?.includes(story._id)
+                isAuthenticated &&
+                user &&
+                user.savedArticles?.includes(story._id)
                 ? 'Історія вже збрежена'
                 : 'Збережіть собі історію'}
             </h3>
+
             <p className={css.saveText}>
               {story &&
-              isAuthenticated &&
-              user &&
-              user.savedArticles?.includes(story._id)
+                isAuthenticated &&
+                user &&
+                user.savedArticles?.includes(story._id)
                 ? 'Вона доступна у вашому профілі у розділі збережене'
                 : 'Вона буде доступна у вашому профілі у розділі збережене'}
             </p>
+
             <Button
               variant="primary"
               size="large"
@@ -197,15 +195,16 @@ export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
               disabled={isButtonDisabled}
             >
               {story &&
-              isAuthenticated &&
-              user &&
-              user.savedArticles?.includes(story._id)
+                isAuthenticated &&
+                user &&
+                user.savedArticles?.includes(story._id)
                 ? 'Видалити'
                 : 'Зберегти'}
             </Button>
           </div>
         </div>
       </div>
+
       {isModalOpen && <AuthNavModal onClose={() => setIsModalOpen(false)} />}
     </section>
   );
