@@ -8,6 +8,7 @@ import Loader from '@/components/Loader/Loader';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 import MessageNoStories from '@/components/MessageNoStories/MessageNoStories';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
+import css from './myOwnStories.module.css';
 
 export default function MyOwnStoriesPage() {
   const windowWidth = useWindowWidth();
@@ -45,39 +46,37 @@ export default function MyOwnStoriesPage() {
     },
   });
 
-  console.log(data);
+  // console.log(data);
 
   const myStories = data?.myStories ?? [];
   const hasStories = myStories.length > 0;
   const showNoStories = isFetched && !isError && !hasStories;
 
   return (
-    <section>
-      <div className="container">
-        {isLoading && <Loader />}
-        {isError && <ErrorMessage />}
-        {showNoStories && (
-          <MessageNoStories
-            text="Ви ще нічого не публікували, поділіться своєю першою історією!"
-            buttonText="Опублікувати історію"
-            href="/stories/create"
-          />
-        )}
-        {hasStories && <TravellersStories stories={myStories} />}
-        {hasNextPage && (
-          <div>
-            <Button
-              onClick={() => fetchNextPage()}
-              variant="primary"
-              size="large"
-              // className={css.button}
-              disabled={isFetching}
-            >
-              {isFetchingNextPage ? 'Завантаження...' : 'Показати ще'}
-            </Button>
-          </div>
-        )}
-      </div>
-    </section>
+    <div>
+      {isLoading && <Loader />}
+      {isError && <ErrorMessage />}
+      {showNoStories && (
+        <MessageNoStories
+          text="Ви ще нічого не публікували, поділіться своєю першою історією!"
+          buttonText="Опублікувати історію"
+          href="/stories/create"
+        />
+      )}
+      {hasStories && <TravellersStories stories={myStories} />}
+      {hasNextPage && (
+        <div className={css.btn}>
+          <Button
+            onClick={() => fetchNextPage()}
+            variant="primary"
+            size="large"
+            className={css.button}
+            disabled={isFetching}
+          >
+            {isFetchingNextPage ? 'Завантаження...' : 'Показати ще'}
+          </Button>
+        </div>
+      )}
+    </div>
   );
 }

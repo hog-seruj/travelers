@@ -190,7 +190,7 @@ export async function getUserById(
 
 // getOwnStories (private)
 
-interface GetOwnStoriesResponse {
+export interface GetOwnStoriesResponse {
   page: number;
   perPage: number;
   totalStories: number;

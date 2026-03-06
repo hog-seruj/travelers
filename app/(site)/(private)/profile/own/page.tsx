@@ -3,17 +3,20 @@ import {
   HydrationBoundary,
   dehydrate,
 } from '@tanstack/react-query';
-// import { getOwnStories } from '@/lib/api/serverApi';
+import { getServerOwnStories } from '@/lib/api/serverApi';
 import MyOwnStoriesPage from './myOwnStories.Client';
 
-export default function OwnStoriesPage() {
+export default async function OwnStoriesPage() {
   const queryClient = new QueryClient();
 
-  //  префетч + пагінація
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ['myOwnStories', 4],
+    queryFn: () => getServerOwnStories(1, 4),
+    initialPageParam: 1,
+  });
 
   return (
     <>
-      <h1>Мої історії</h1>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <MyOwnStoriesPage />
       </HydrationBoundary>
