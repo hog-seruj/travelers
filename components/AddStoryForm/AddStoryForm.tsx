@@ -5,11 +5,13 @@ import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import Button from '@/components/Button/Button';
+import Loader from '@/components/Loader/Loader';
 import { createStory, updateStory } from '@/lib/api/api';
 import { getStory, getCategories } from '@/lib/api/clientApi';
+import { useAuthStore } from '@/lib/store/authStore';
 import { Category, Story } from '@/types/story';
 
 import css from './AddStoryForm.module.css';
@@ -26,7 +28,6 @@ interface AddStoryFormValues {
 interface Props {
     storyId?: string;
 }
-
 
 function isRecord(value: unknown): value is Record<string, unknown> {
     return typeof value === 'object' && value !== null;
@@ -45,23 +46,27 @@ function isCategoryArray(value: unknown): value is Category[] {
 }
 
 function extractCategories(value: unknown): Category[] {
-    // API returned array directly
     if (isCategoryArray(value)) return value;
 
-    // API returned { data: [...] }
     if (isRecord(value) && isCategoryArray(value.data)) return value.data;
 
-    // API returned { categories: [...] }
-    if (isRecord(value) && isCategoryArray(value.categories)) return value.categories;
+    if (isRecord(value) && isCategoryArray(value.categories)) {
+        return value.categories;
+    }
 
     return [];
 }
 
 export default function AddStoryForm({ storyId }: Props) {
     const router = useRouter();
-    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const queryClient = useQueryClient();
 
-    // ✅ тільки для візуалу (auto-resize textarea)
+    const user = useAuthStore((state) => state.user);
+    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [isOwnerChecked, setIsOwnerChecked] = useState(!storyId);
+
     const articleRef = useRef<HTMLTextAreaElement | null>(null);
 
     const autoResizeArticle = () => {
@@ -80,7 +85,6 @@ export default function AddStoryForm({ storyId }: Props) {
         queryFn: getCategories,
     });
 
-    // ✅ always safe array
     const categoriesList = extractCategories(categoriesRaw);
 
     const {
@@ -98,6 +102,32 @@ export default function AddStoryForm({ storyId }: Props) {
             setPreviewUrl(story.img);
         }
     }, [story]);
+
+    useEffect(() => {
+        if (!storyId) {
+            setIsOwnerChecked(true);
+            return;
+        }
+
+        if (storyLoading) return;
+
+        if (storyError) {
+            setIsOwnerChecked(true);
+            return;
+        }
+
+        if (!story) return;
+
+        if (!isAuthenticated || !user?._id) return;
+
+        if (story.ownerId._id !== user._id) {
+            toast.error('Ви не можете редагувати чужу історію');
+            router.replace('/stories');
+            return;
+        }
+
+        setIsOwnerChecked(true);
+    }, [storyId, story, storyLoading, storyError, user?._id, isAuthenticated, router]);
 
     useEffect(() => {
         return () => {
@@ -136,6 +166,7 @@ export default function AddStoryForm({ storyId }: Props) {
         if (values.img) {
             formData.append('storyImage', values.img);
         }
+
         formData.append('title', values.title);
         formData.append('category', values.category);
         formData.append('article', values.article);
@@ -145,7 +176,14 @@ export default function AddStoryForm({ storyId }: Props) {
                 ? await updateStory(storyId, formData)
                 : await createStory(formData);
 
+            await queryClient.invalidateQueries();
+
+            toast.success(
+                storyId ? 'Історію успішно оновлено' : 'Історію успішно створено'
+            );
+
             router.push(`/stories/${result._id}`);
+            router.refresh();
         } catch (err) {
             console.error(err);
             toast.error('Сталася помилка, спробуйте пізніше');
@@ -155,7 +193,11 @@ export default function AddStoryForm({ storyId }: Props) {
     };
 
     if (categoriesLoading || (storyId && storyLoading)) {
-        return <div>Loading...</div>;
+        return <Loader />;
+    }
+
+    if (storyId && !isOwnerChecked) {
+        return <Loader />;
     }
 
     if (categoriesError || storyError) {
@@ -168,8 +210,8 @@ export default function AddStoryForm({ storyId }: Props) {
                 enableReinitialize
                 initialValues={initialValues}
                 validationSchema={validationSchema}
-                validateOnChange={true}
-                validateOnBlur={true}
+                validateOnChange
+                validateOnBlur
                 validateOnMount={false}
                 onSubmit={handleSubmit}
             >
@@ -202,9 +244,17 @@ export default function AddStoryForm({ storyId }: Props) {
 
                                     setFieldValue('img', file);
 
+                                    if (previewUrl && previewUrl.startsWith('blob:')) {
+                                        URL.revokeObjectURL(previewUrl);
+                                    }
+
                                     if (file) {
                                         const url = URL.createObjectURL(file);
                                         setPreviewUrl(url);
+                                    } else if (story?.img) {
+                                        setPreviewUrl(story.img);
+                                    } else {
+                                        setPreviewUrl(null);
                                     }
                                 }}
                             />
@@ -219,15 +269,10 @@ export default function AddStoryForm({ storyId }: Props) {
                                 name="title"
                                 placeholder="Введіть заголовок історії"
                             />
-                            <ErrorMessage
-                                name="title"
-                                component="div"
-                                className={css.error}
-                            />
+                            <ErrorMessage name="title" component="div" className={css.error} />
                         </div>
 
                         <div className={css.fieldGroup}>
-                            {/* CategorySelect is a custom button-based select -> no htmlFor binding */}
                             <label>Категорія</label>
 
                             <div className={css.selectWrapper}>
@@ -281,12 +326,13 @@ export default function AddStoryForm({ storyId }: Props) {
                             >
                                 Зберегти
                             </Button>
+
                             <Button type="button" variant="" onClick={handleCancel}>
                                 Відмінити
                             </Button>
                         </div>
 
-                        {isSubmitting && <div>Loading...</div>}
+                        {isSubmitting && <Loader />}
                     </Form>
                 )}
             </Formik>
