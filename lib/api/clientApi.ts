@@ -139,6 +139,7 @@ export const fetchSavedStoriesByUserId = async (
 
   return res.data.data.savedStories;
 };
+
 // Add story to saved
 interface addStoryToSavedResponse {
   savedArticles: User['savedArticles'];
@@ -150,7 +151,7 @@ export const addStoryToSaved = async (
   const response = await nextServer.post<addStoryToSavedResponse>(
     `/stories/${storyId}/saved`
   );
-  console.log(response.data);
+  // console.log(response.data);
   return response.data;
 };
 
@@ -165,7 +166,7 @@ export const removeStoryFromSaved = async (
   const response = await nextServer.delete<removeStoryFromSavedResponse>(
     `/stories/${storyId}/saved`
   );
-  console.log(response.data);
+  // console.log(response.data);
   return response.data;
 };
 
@@ -211,7 +212,7 @@ export const getOwnStories = async (page?: number, perPage?: number) => {
       perPage,
     },
   });
-  
+
   return data;
 };
 

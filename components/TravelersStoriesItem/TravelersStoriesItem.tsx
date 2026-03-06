@@ -21,7 +21,8 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
   // const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   // const user = useAuthStore((state) => state.user);
   // const updateUser = useAuthStore((state) => state.updateUser);
-  console.log(user);
+
+  // console.log(user);
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -30,7 +31,7 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
   const mutationAddStory = useMutation({
     mutationFn: addStoryToSaved,
     onSuccess: (data) => {
-      console.log(data.savedArticles);
+      // console.log(data.savedArticles);
       updateUser({ savedArticles: data.savedArticles });
       queryClient.invalidateQueries({
         queryKey: ['popularStories'],
@@ -41,16 +42,22 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
       queryClient.invalidateQueries({
         queryKey: ['storiesPage'],
       });
-      console.log(story._id);
+      queryClient.invalidateQueries({
+        queryKey: ['myOwnStories'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['savedStories'],
+      });
+      // console.log(story._id);
       // console.log(user?.savedArticles); показує не оновлені дані
-      console.log(useAuthStore.getState().user?.savedArticles);
-      console.log(
-        useAuthStore.getState().user?.savedArticles.includes(story._id)
-      );
+      // console.log(useAuthStore.getState().user?.savedArticles);
+      // console.log(
+      //   useAuthStore.getState().user?.savedArticles.includes(story._id)
+      // );
       toast.success(`Історія "${story.title}" успішно додана до збережених!`);
     },
-    onError: (error) => {
-      console.log('Error', error);
+    onError: () => {
+      // console.log('Error', error);
       toast.error('Виникла помилка, спробуйте ще раз');
     },
   });
@@ -58,7 +65,7 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
   const mutationRemoveStory = useMutation({
     mutationFn: removeStoryFromSaved,
     onSuccess: (data) => {
-      console.log(data.stories);
+      // console.log(data.stories);
       updateUser({ savedArticles: data.stories });
       queryClient.invalidateQueries({
         queryKey: ['popularStories'],
@@ -69,16 +76,22 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
       queryClient.invalidateQueries({
         queryKey: ['storiesPage'],
       });
-      console.log(story._id);
+      queryClient.invalidateQueries({
+        queryKey: ['myOwnStories'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['savedStories'],
+      });
+      // console.log(story._id);
       // console.log(user?.savedArticles); показує не оновлені дані
-      console.log(useAuthStore.getState().user?.savedArticles);
-      console.log(
-        useAuthStore.getState().user?.savedArticles.includes(story._id)
-      );
+      // console.log(useAuthStore.getState().user?.savedArticles);
+      // console.log(
+      //   useAuthStore.getState().user?.savedArticles.includes(story._id)
+      // );
       toast.success(`Істоія "${story.title}" успішно видалена із збережених!`);
     },
-    onError: (error) => {
-      console.log('Error', error);
+    onError: () => {
+      // console.log('Error', error);
       toast.error('Виникла помилка, спробуйте ще раз');
     },
   });
@@ -120,14 +133,14 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
       return;
     }
 
-    console.log(user);
+    // console.log(user);
 
     if (isAuthenticated && user && user.savedArticles?.includes(story._id)) {
-      console.log('Історія вже збережена');
+      // console.log('Історія вже збережена');
       // робимо запит delete на /stories/:storyId/saved
       mutationRemoveStory.mutate(story._id);
     } else {
-      console.log('Історія ще не збережена');
+      // console.log('Історія ще не збережена');
       // робимо запит post на /stories/:storyId/save
       mutationAddStory.mutate(story._id);
     }
@@ -135,7 +148,7 @@ function TravelersStoriesItem({ story, className }: TravelersStoriesItemProps) {
 
   // logic for editStory button
   const isMyStory = isAuthenticated && user && user._id === story.ownerId._id;
-  console.log(isMyStory);
+  // console.log(isMyStory);
   //
 
   return (

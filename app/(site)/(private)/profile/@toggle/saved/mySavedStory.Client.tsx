@@ -58,7 +58,7 @@ export default function MySavedStoryPage() {
   const hasSavedStories = savedStories.length > 0;
   const showNoStories = isFetched && !isError && !hasSavedStories;
 
-  console.log('data:', data);
+  // console.log('data:', data);
 
   return (
     <>

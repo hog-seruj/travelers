@@ -125,7 +125,7 @@ export default function Header({ variant }: HeaderProps) {
               </li>
               {user && (
                 <li>
-                  <Link href="/profile" className={css.navigationLink}>
+                  <Link href="/profile/saved" className={css.navigationLink}>
                     Мій Профіль
                   </Link>
                 </li>

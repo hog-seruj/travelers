@@ -18,7 +18,7 @@ function TravelersStoriesSection() {
 
   // perPage depending on screen width
   const perPage: number = windowWidth && windowWidth > 1440 ? 6 : 4;
-  console.log(perPage);
+  // console.log(perPage);
   //
 
   const {
@@ -70,7 +70,7 @@ function TravelersStoriesSection() {
     },
   });
 
-  console.log(data);
+  // console.log(data);
 
   const travelerStories = data?.travelerStories ?? [];
   const hasStories = travelerStories.length > 0;

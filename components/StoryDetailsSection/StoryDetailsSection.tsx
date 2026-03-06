@@ -49,6 +49,8 @@ export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
       queryClient.invalidateQueries({ queryKey: ['popularStories'] });
       queryClient.invalidateQueries({ queryKey: ['travelerOwnStories'] });
       queryClient.invalidateQueries({ queryKey: ['storiesPage'] });
+      queryClient.invalidateQueries({ queryKey: ['myOwnStories'] });
+      queryClient.invalidateQueries({ queryKey: ['savedStories'] });
 
       toast.success(`Історія "${story?.title}" успішно додана до збережених!`);
     },
@@ -65,6 +67,8 @@ export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
       queryClient.invalidateQueries({ queryKey: ['popularStories'] });
       queryClient.invalidateQueries({ queryKey: ['travelerOwnStories'] });
       queryClient.invalidateQueries({ queryKey: ['storiesPage'] });
+      queryClient.invalidateQueries({ queryKey: ['myOwnStories'] });
+      queryClient.invalidateQueries({ queryKey: ['savedStories'] });
 
       toast.success(
         `Історія "${story?.title}" успішно видалена із збережених!`
@@ -171,18 +175,18 @@ export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
           <div className={css.saveBlock}>
             <h3 className={css.saveTitle}>
               {story &&
-                isAuthenticated &&
-                user &&
-                user.savedArticles?.includes(story._id)
+              isAuthenticated &&
+              user &&
+              user.savedArticles?.includes(story._id)
                 ? 'Історія вже збрежена'
                 : 'Збережіть собі історію'}
             </h3>
 
             <p className={css.saveText}>
               {story &&
-                isAuthenticated &&
-                user &&
-                user.savedArticles?.includes(story._id)
+              isAuthenticated &&
+              user &&
+              user.savedArticles?.includes(story._id)
                 ? 'Вона доступна у вашому профілі у розділі збережене'
                 : 'Вона буде доступна у вашому профілі у розділі збережене'}
             </p>
@@ -195,9 +199,9 @@ export default function StoryDetailsSection({ storyId }: StoryDetailsProps) {
               disabled={isButtonDisabled}
             >
               {story &&
-                isAuthenticated &&
-                user &&
-                user.savedArticles?.includes(story._id)
+              isAuthenticated &&
+              user &&
+              user.savedArticles?.includes(story._id)
                 ? 'Видалити'
                 : 'Зберегти'}
             </Button>
