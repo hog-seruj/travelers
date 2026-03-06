@@ -4,7 +4,7 @@ import {
   QueryClient,
 } from '@tanstack/react-query';
 import { getSavedStories } from '@/lib/api/serverApi';
-import MySavedStoryPage from './MySavedStory.client';
+import MySavedStoryPage from './mySavedStory.Client';
 
 export default async function SavedPage() {
   const queryClient = new QueryClient();
