@@ -128,7 +128,7 @@ export default function BurgerMenu({ onCloseAction }: BurgerMenuProps) {
               {isAuthenticated && (
                 <li>
                   <Link
-                    href="/profile"
+                    href="/profile/saved"
                     className={`${css.navigationLink} ${
                       pathname === '/profile' ? css.active : ''
                     }`}
