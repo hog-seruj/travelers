@@ -6,7 +6,11 @@ import {
   GetUsersProps,
   GetUsersResponse,
 } from './clientApi';
-import { CategoriesResponse } from '@/types/story';
+import {
+  CategoriesResponse,
+  GetSavedStoriesProps,
+  SavedStoriesResponse,
+} from '@/types/story';
 import type { StoryListResponse, getStoriesProps } from '@/types/story';
 
 export const checkServerSession = async () => {
@@ -106,4 +110,24 @@ export const getServerOwnStories = async (page?: number, perPage?: number) => {
   });
 
   return data;
+};
+
+// getSavedStories
+
+export const getSavedStories = async ({
+  page = 1,
+  perPage = 6,
+}: GetSavedStoriesProps) => {
+  const cookieStore = await cookies();
+  const res = await nextServer.get<SavedStoriesResponse>('/stories/saved', {
+    params: {
+      page,
+      perPage,
+    },
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  
+  return res.data;
 };
