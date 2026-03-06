@@ -1,6 +1,6 @@
 .toggle {
-  display: inline-flex;
-  gap: 16px;
+  display: flex;
+  gap: 4px;
   flex-wrap: wrap;
   margin-bottom: 26px;
   padding: 4px;
@@ -8,10 +8,14 @@
   background: var(--accent-light);
   border: 1px solid rgba(255, 255, 255, 0);
   border-radius: 10px;
+  max-width: 335px;
 }
 
-.toggle-link {
-  display: block;
+.toggleLink {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-content: center;
   border: 1px solid rgba(255, 255, 255, 0);
   border-radius: 8px;
   padding: 8px 12px;
@@ -21,7 +25,7 @@
   color: #000;
 }
 
-.toggle-link--active {
+.toggleLinkActive {
   background: #f7f9ff;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 8px;
