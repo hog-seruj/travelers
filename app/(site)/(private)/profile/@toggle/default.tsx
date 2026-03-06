@@ -1,16 +1,10 @@
-import Link from 'next/link';
+import PageToggle from '@/components/PageToggle/PageToggle';
 
 export default function TogglePage() {
   return (
-    <div>
-      <ul>
-        <li>
-          <Link href="/profile/saved">Збережені історії</Link>
-        </li>
-        <li>
-          <Link href="/profile/own">Мої історії</Link>
-        </li>
-      </ul>
-    </div>
+    <>
+      <PageToggle />
+      <p>Збережені історії</p>
+    </>
   );
 }

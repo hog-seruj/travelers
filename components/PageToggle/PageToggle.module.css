@@ -1,0 +1,36 @@
+.tabs {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  width: 100%;
+  max-width: 335px;
+  background-color: var(--accent-light);
+  border-radius: 10px;
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 40px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 500;
+  text-decoration: none;
+  transition: 200ms ease;
+  /* font-family: inherit; */
+}
+
+.active {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background-color: #f7f9ff;
+}
+
+@media (min-width: 768px) {
+  .tabs {
+    max-width: 422px;
+  }
+}
