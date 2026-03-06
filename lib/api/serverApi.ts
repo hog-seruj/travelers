@@ -1,8 +1,16 @@
 import { cookies } from 'next/headers';
 import { nextServer } from './api';
 import { User } from '@/types/user';
-import { GetUsersProps, GetUsersResponse } from './clientApi';
-import { CategoriesResponse } from '@/types/story';
+import {
+  GetOwnStoriesResponse,
+  GetUsersProps,
+  GetUsersResponse,
+} from './clientApi';
+import {
+  CategoriesResponse,
+  GetSavedStoriesProps,
+  SavedStoriesResponse,
+} from '@/types/story';
 import type { StoryListResponse, getStoriesProps } from '@/types/story';
 
 export const checkServerSession = async () => {
@@ -83,5 +91,43 @@ export const getStories = async ({
       Cookie: cookieStore.toString(),
     },
   });
+  return res.data;
+};
+
+// getOwnStories (private)
+
+export const getServerOwnStories = async (page?: number, perPage?: number) => {
+  const cookieStore = await cookies();
+
+  const { data } = await nextServer.get<GetOwnStoriesResponse>(`/stories/my`, {
+    params: {
+      page,
+      perPage,
+    },
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+
+  return data;
+};
+
+// getSavedStories
+
+export const getSavedStories = async ({
+  page = 1,
+  perPage = 6,
+}: GetSavedStoriesProps) => {
+  const cookieStore = await cookies();
+  const res = await nextServer.get<SavedStoriesResponse>('/stories/saved', {
+    params: {
+      page,
+      perPage,
+    },
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  
   return res.data;
 };

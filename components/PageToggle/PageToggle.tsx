@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import css from './PageToggle.module.css';
+import css from './Toggle.module.css';
 
 export default function PageToggle() {
   const pathname = usePathname();
@@ -11,17 +11,17 @@ export default function PageToggle() {
   const ownActive = pathname === '/profile/own';
 
   return (
-    <nav className={css.tabs}>
+    <nav className={css.toggle}>
       <Link
         href="/profile/saved"
-        className={`${css.tab} ${savedActive ? css.active : ''}`}
+        className={`${css.toggleLink} ${savedActive ? css.toggleLinkActive : ''}`}
       >
         Збережені історії
       </Link>
 
       <Link
         href="/profile/own"
-        className={`${css.tab} ${ownActive ? css.active : ''}`}
+        className={`${css.toggleLink} ${ownActive ? css.toggleLinkActive : ''}`}
       >
         Мої історії
       </Link>

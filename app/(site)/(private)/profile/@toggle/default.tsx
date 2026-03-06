@@ -1,10 +1,6 @@
-import PageToggle from '@/components/PageToggle/PageToggle';
+import { redirect } from 'next/navigation';
 
 export default function TogglePage() {
-  return (
-    <>
-      <PageToggle />
-      <p>Збережені історії</p>
-    </>
-  );
+  redirect('/profile/own');
+  return null;
 }

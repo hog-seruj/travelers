@@ -6,17 +6,17 @@ import { useHeaderVariant } from '@/hooks/useHeaderVariant';
 
 interface MainWrapperProps {
   children: ReactNode;
+  className?: string;
 }
 
-export default function MainWrapper({ children }: MainWrapperProps) {
+export default function MainWrapper({ children, className }: MainWrapperProps) {
   const headerVariant = useHeaderVariant();
-  console.log(headerVariant);
 
   return (
     <div
       className={`${css.wrapper} ${
         headerVariant === 'transparent' ? css.transparent : ''
-      }`}
+      } ${className || ''}`}
     >
       {children}
     </div>
