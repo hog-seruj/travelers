@@ -18,7 +18,7 @@ export default function Join() {
             {isAuthenticated ? (
               <Button
                 variant="primary"
-                href="/profile"
+                href="/profile/saved"
                 size="large"
                 className={css.join_button}
               >
