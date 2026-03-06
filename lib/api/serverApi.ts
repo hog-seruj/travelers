@@ -2,7 +2,11 @@ import { cookies } from 'next/headers';
 import { nextServer } from './api';
 import { User } from '@/types/user';
 import { GetUsersProps, GetUsersResponse } from './clientApi';
-import { CategoriesResponse } from '@/types/story';
+import {
+  CategoriesResponse,
+  GetSavedStoriesProps,
+  SavedStoriesResponse,
+} from '@/types/story';
 import type { StoryListResponse, getStoriesProps } from '@/types/story';
 
 export const checkServerSession = async () => {
@@ -78,6 +82,25 @@ export const getStories = async ({
       sort,
       category,
       nextPerPage,
+    },
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return res.data;
+};
+
+// getSavedStories
+
+export const getSavedStories = async ({
+  page = 1,
+  perPage = 6,
+}: GetSavedStoriesProps) => {
+  const cookieStore = await cookies();
+  const res = await nextServer.get<SavedStoriesResponse>('/stories/saved', {
+    params: {
+      page,
+      perPage,
     },
     headers: {
       Cookie: cookieStore.toString(),
