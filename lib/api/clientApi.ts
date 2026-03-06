@@ -1,5 +1,11 @@
 import { nextServer } from './api';
-import { Story, SavedStory, UserSavedArticlesResponse } from '@/types/story';
+import {
+  Story,
+  SavedStory,
+  UserSavedArticlesResponse,
+  SavedStoriesResponse,
+  GetSavedStoriesProps,
+} from '@/types/story';
 import { User } from '@/types/user';
 import {
   CategoriesResponse,
@@ -187,3 +193,19 @@ export async function getUserById(
   });
   return data;
 }
+
+export const getSavedStories = async ({
+  page = 1,
+  perPage = 6,
+}: GetSavedStoriesProps) => {
+  const { data } = await nextServer.get<SavedStoriesResponse>(
+    '/stories/saved',
+    {
+      params: {
+        page,
+        perPage,
+      },
+    }
+  );
+  return data;
+};

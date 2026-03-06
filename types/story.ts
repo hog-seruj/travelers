@@ -63,3 +63,16 @@ export interface UserSavedArticlesResponse {
     savedStories: SavedStory[];
   };
 }
+
+export interface GetSavedStoriesProps {
+  page: number;
+  perPage: number;
+}
+
+export interface SavedStoriesResponse {
+  page: number;
+  perPage: number;
+  totalStories: number;
+  totalPages: number;
+  stories: Story[];
+}

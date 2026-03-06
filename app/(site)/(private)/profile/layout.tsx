@@ -16,8 +16,6 @@ export default function ProfileLayout({
 }: ProfileLayoutProps) {
   const user = useAuthStore((state) => state.user);
 
-  console.log('User in ProfileLayout:', user);
-
   return (
     <>
       <MainWrapper className={css['profile-page']}>
