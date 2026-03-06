@@ -19,7 +19,7 @@ export default function UserMenu({
   if (variant === 'modal') {
     return (
       <div className={css.modalUserMenu}>
-        <Link href="/profile" className={css.modalUserInfo}>
+        <Link href="/profile/saved" className={css.modalUserInfo}>
           <div className={css.modalAvatarPlaceholder}>
             <svg className={css.modalAvatarPlaceholderIcon} aria-hidden="true">
               <use href="/sprite.svg#icon-avatar" />
@@ -47,7 +47,7 @@ export default function UserMenu({
   return (
     <div className={`${css.userMenu} ${css[headerVariant]}`}>
       {' '}
-      <Link href="/profile" className={css.userInfo}>
+      <Link href="/profile/saved" className={css.userInfo}>
         <div className={css.avatarPlaceholder}>
           <svg className={css.avatarPlaceholderIcon} aria-hidden="true">
             <use href="/sprite.svg#icon-avatar" />
