@@ -1,7 +1,11 @@
 import { cookies } from 'next/headers';
 import { nextServer } from './api';
 import { User } from '@/types/user';
-import { GetUsersProps, GetUsersResponse } from './clientApi';
+import {
+  GetOwnStoriesResponse,
+  GetUsersProps,
+  GetUsersResponse,
+} from './clientApi';
 import {
   CategoriesResponse,
   GetSavedStoriesProps,
@@ -90,6 +94,24 @@ export const getStories = async ({
   return res.data;
 };
 
+// getOwnStories (private)
+
+export const getServerOwnStories = async (page?: number, perPage?: number) => {
+  const cookieStore = await cookies();
+
+  const { data } = await nextServer.get<GetOwnStoriesResponse>(`/stories/my`, {
+    params: {
+      page,
+      perPage,
+    },
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+
+  return data;
+};
+
 // getSavedStories
 
 export const getSavedStories = async ({
@@ -106,5 +128,6 @@ export const getSavedStories = async ({
       Cookie: cookieStore.toString(),
     },
   });
+  
   return res.data;
 };

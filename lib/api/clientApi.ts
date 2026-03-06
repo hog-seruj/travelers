@@ -194,6 +194,27 @@ export async function getUserById(
   return data;
 }
 
+// getOwnStories (private)
+
+export interface GetOwnStoriesResponse {
+  page: number;
+  perPage: number;
+  totalStories: number;
+  totalPages: number;
+  stories: Story[];
+}
+
+export const getOwnStories = async (page?: number, perPage?: number) => {
+  const { data } = await nextServer.get<GetOwnStoriesResponse>(`/stories/my`, {
+    params: {
+      page,
+      perPage,
+    },
+  });
+  
+  return data;
+};
+
 export const getSavedStories = async ({
   page = 1,
   perPage = 6,
